@@ -63,6 +63,8 @@ public class MeetingInfoServiceImpl implements MeetingInfoService {
 	private MessageHandler messageHandler;
 	@Resource
 	private UserNotificationServiceImpl userNotificationService;
+	@Resource
+	private MeetingInviteMailService meetingInviteMailService;
 
 
 	/**
@@ -716,6 +718,21 @@ public class MeetingInfoServiceImpl implements MeetingInfoService {
 			tokenUserInfo.getUserId(),
 			tokenUserInfo.getNickName()
 		);
+		redisComponent.inviteInfo(meetingId, inviteUserId);
+		MessageSendDto inviteMessage = new MessageSendDto();
+		inviteMessage.setSendUserNickName(tokenUserInfo.getNickName());
+		inviteMessage.setReceiveUserId(inviteUserId);
+		inviteMessage.setMessageType(MessageTypeEnum.INVITE_MEMBER_MEETING.getType());
+		inviteMessage.setMessageSend2Type(MessageSend2TypeEnum.USER.getType());
+		inviteMessage.setMeetingId(meetingId);
+		inviteMessage.setSendTime(new Date().getTime());
+		MeetingInviteDto inviteDto = new MeetingInviteDto();
+		inviteDto.setMeetingName(meetingInfo.getMeetingName());
+		inviteDto.setMeetingId(meetingId);
+		inviteDto.setInviteUserName(tokenUserInfo.getNickName());
+		inviteMessage.setMessageContent(JsonUtils.convertObj2Json(inviteDto));
+		messageHandler.sendMessage(inviteMessage);
+		meetingInviteMailService.sendInviteMail(inviteUser, meetingInfo, tokenUserInfo);
 		
 		log.info("已发送会议邀请通知: meetingId=" + meetingId + ", inviteUserId=" + inviteUserId);
 	}

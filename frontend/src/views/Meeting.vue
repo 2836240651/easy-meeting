@@ -624,6 +624,9 @@
           </button>
         </div>
         <div class="bar-right">
+          <button class="overlay-btn" @click="inviteParticipants" title="邀请联系人">
+            <span class="btn-icon">➕</span>
+          </button>
           <button class="overlay-btn stop-sharing-btn" @click="stopScreenShare">
             <span class="btn-icon">🛑</span>
             <span class="btn-text">结束共享</span>
@@ -754,7 +757,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { meetingService, chatService } from '../api/services'
 import { meetingWsService, MemberType, MemberStatus, MessageType } from '../api/meeting-websocket'
@@ -1430,6 +1433,24 @@ const handleRemoteScreenStreamRemoved = (userId) => {
   }
 }
 
+const clearScreenShareStateForUser = (userId) => {
+  if (!userId || currentScreenSharingUserId.value !== userId) {
+    return
+  }
+
+  console.log('清理共享屏幕状态:', userId)
+  currentScreenSharingUserId.value = null
+  sharingUserName.value = ''
+  sharingUserVideoStream.value = null
+
+  if (remoteScreenShareVideo.value) {
+    remoteScreenShareVideo.value.srcObject = null
+  }
+  if (pipSharingUserVideo.value) {
+    pipSharingUserVideo.value.srcObject = null
+  }
+}
+
 // 添加参与者
 const addParticipant = (memberData) => {
   console.log('添加参与者到列表:', memberData.nickName, 'userId:', memberData.userId)
@@ -1464,6 +1485,8 @@ const addParticipant = (memberData) => {
 // 移除参与者
 const removeParticipant = (userId) => {
   console.log('🗑️ removeParticipant 被调用，userId:', userId)
+
+  clearScreenShareStateForUser(userId)
   
   // 关闭WebRTC连接
   console.log('关闭WebRTC连接...')
@@ -2415,6 +2438,37 @@ const updateViewerVideoStreams = () => {
   }
 }
 
+const syncLocalCameraPreviews = () => {
+  const cameraStream = isVideoOn.value ? localStream.value : null
+
+  if (localVideoOverlay.value) {
+    localVideoOverlay.value.srcObject = cameraStream
+  }
+
+  if (viewerLocalVideo.value) {
+    viewerLocalVideo.value.srcObject = viewerDisplayMode.value === 'self' ? cameraStream : null
+  }
+
+  if (viewerLocalVideoAll.value) {
+    viewerLocalVideoAll.value.srcObject = viewerDisplayMode.value === 'all' ? cameraStream : null
+  }
+}
+
+watch(
+  () => [
+    localStream.value,
+    isVideoOn.value,
+    isScreenSharing.value,
+    videoPanelExpanded.value,
+    viewerPanelExpanded.value,
+    viewerDisplayMode.value
+  ],
+  async () => {
+    await nextTick()
+    syncLocalCameraPreviews()
+  }
+)
+
 // 初始化观看者面板位置
 const initViewerPanelPosition = () => {
   const videoArea = document.querySelector('.video-area')
@@ -2988,7 +3042,8 @@ const handleInviteUser = async (userInfo) => {
   try {
     const response = await meetingService.inviteUserToMeeting(userInfo.userId)
     if (response.data.code === 200) {
-      ElMessage.success(`已向 ${userInfo.nickName} 发送邀请`)
+      showInviteModal.value = false
+      ElMessage.success(`已向 ${userInfo.nickName} 发送会议邀请`)
     } else {
       ElMessage.error(response.data.info || '邀请失败')
     }

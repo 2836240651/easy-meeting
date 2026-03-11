@@ -622,6 +622,22 @@ class WebRTCManager {
         this.onRemoteStreamRemoved(userId)
       }
     }
+
+    const screenShareConnection = this.screenShareConnections.get(userId)
+    if (screenShareConnection) {
+      screenShareConnection.close()
+      this.screenShareConnections.delete(userId)
+    }
+
+    const remoteScreenStream = this.remoteScreenStreams.get(userId)
+    if (remoteScreenStream) {
+      remoteScreenStream.getTracks().forEach(track => track.stop())
+      this.remoteScreenStreams.delete(userId)
+
+      if (this.onRemoteScreenStreamRemoved) {
+        this.onRemoteScreenStreamRemoved(userId)
+      }
+    }
   }
   
   /**

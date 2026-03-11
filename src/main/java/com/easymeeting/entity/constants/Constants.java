@@ -16,6 +16,7 @@ public class Constants {
     public static final String DEFAULT_AVATAR="/user.png";
     public static final String PING="ping";
     public static final Long REDIS_KEY_EXPIRES_ONE_MIN = 60L;
+    public static final Long REDIS_KEY_EXPIRES_WS_HEARTBEAT = 90L;
 
     public static final Long REDIS_KEY_EXPIRES_DAY = REDIS_KEY_EXPIRES_ONE_MIN * 60 * 24;
     private static final String REDIS_KEY_PREFIX= "easymeeting:";

@@ -29,6 +29,35 @@ public void cleanCheckCode(String checkCodeKey){
     redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE + checkCodeKey);
 }
 
+public void refreshUserHeartbeat(String userId) {
+    if (userId == null || userId.trim().isEmpty()) {
+        return;
+    }
+    redisUtils.setEx(
+            Constants.REDIS_KEY_WS_USER_HEART_BEAT + ":" + userId,
+            System.currentTimeMillis(),
+            Constants.REDIS_KEY_EXPIRES_WS_HEARTBEAT
+    );
+}
+
+public boolean hasValidUserHeartbeat(String userId) {
+    if (userId == null || userId.trim().isEmpty()) {
+        return false;
+    }
+    Long heartbeat = (Long) redisUtils.get(Constants.REDIS_KEY_WS_USER_HEART_BEAT + ":" + userId);
+    if (heartbeat == null) {
+        return false;
+    }
+    return System.currentTimeMillis() - heartbeat <= Constants.REDIS_KEY_EXPIRES_WS_HEARTBEAT * 1000;
+}
+
+public void clearUserHeartbeat(String userId) {
+    if (userId == null || userId.trim().isEmpty()) {
+        return;
+    }
+    redisUtils.delete(Constants.REDIS_KEY_WS_USER_HEART_BEAT + ":" + userId);
+}
+
     public void saveTokenUserInfoDto(TokenUserInfoDto tokenUserInfoDto) {
     redisUtils.setEx(Constants.REDIS_KEY_WS_TOKEN+tokenUserInfoDto.getToken(),
     tokenUserInfoDto,Constants.REDIS_KEY_EXPIRES_DAY);

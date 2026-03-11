@@ -119,6 +119,7 @@ const getCaptcha = async () => {
     if (response.data?.code === 200 && response.data?.data) {
       form.value.checkCodeKey = response.data.data.checkCodeKey
       captchaImage.value = `data:image/png;base64,${response.data.data.checkCode}`
+      errorMessage.value = ''
       return
     }
 

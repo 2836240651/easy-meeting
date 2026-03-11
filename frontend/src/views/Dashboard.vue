@@ -472,8 +472,13 @@
                         <span class="detail-value password">{{ parseMeetingInvite(notification.content).password }}</span>
                       </div>
                     </div>
-                    <button class="btn-join-meeting" @click.stop="handleJoinInstantMeeting(notification)">
-                      立即加入
+                    <button
+                      class="btn-join-meeting"
+                      :class="{ disabled: isInstantInviteEnded(notification) }"
+                      :disabled="isInstantInviteEnded(notification)"
+                      @click.stop="handleJoinInstantMeeting(notification)"
+                    >
+                      {{ isInstantInviteEnded(notification) ? '会议已经结束' : '立即加入' }}
                     </button>
                   </div>
                   
@@ -627,11 +632,13 @@
                       {{ parseMeetingInvite(notification.content).inviterName }} 邀请您加入会议「{{ parseMeetingInvite(notification.content).meetingName }}」
                     </div>
                     <div class="notification-actions">
-                      <button 
-                        class="btn-accept" 
+                      <button
+                        class="btn-accept"
+                        :class="{ disabled: isInstantInviteEnded(notification) }"
+                        :disabled="isInstantInviteEnded(notification)"
                         @click="handleJoinInstantMeeting(notification)"
                       >
-                        立即加入
+                        {{ isInstantInviteEnded(notification) ? '会议已经结束' : '立即加入' }}
                       </button>
                     </div>
                   </div>
@@ -676,6 +683,37 @@
       @created="handleMeetingCreated"
     />
 
+    <div v-if="showIncomingMeetingInviteModal" class="modal-overlay">
+      <div class="modal-content incoming-meeting-invite-modal">
+        <div class="modal-header">
+          <h3>会议邀请</h3>
+          <button class="modal-close" @click="closeIncomingMeetingInviteModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="invite-modal-text">
+            {{ currentIncomingInviteInfo.inviterName || '会议主持人' }} 邀请你加入会议
+          </p>
+          <div class="meeting-details compact">
+            <div class="meeting-detail-item">
+              <span class="detail-label">会议名称：</span>
+              <span class="detail-value">{{ currentIncomingInviteInfo.meetingName || '会议' }}</span>
+            </div>
+            <div class="meeting-detail-item">
+              <span class="detail-label">会议号：</span>
+              <span class="detail-value">{{ currentIncomingInviteInfo.meetingNo || '待同步' }}</span>
+            </div>
+            <div v-if="currentIncomingInviteInfo.password" class="meeting-detail-item">
+              <span class="detail-label">会议密码：</span>
+              <span class="detail-value password">{{ currentIncomingInviteInfo.password }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" @click="closeIncomingMeetingInviteModal">稍后处理</button>
+          <button class="btn-primary" @click="confirmIncomingMeetingInvite">立即加入</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 编辑个人信息模态框 -->
     <div v-if="showEditProfileModal" class="modal-overlay">
@@ -1025,6 +1063,8 @@ const showMobileMenu = ref(false)
 const showJoinMeetingModal = ref(false)
 const showQuickMeetingModal = ref(false)
 const showScheduleMeetingModal = ref(false)
+const showIncomingMeetingInviteModal = ref(false)
+const incomingMeetingInviteNotification = ref(null)
 const showEditProfileModal = ref(false)
 const showAllMeetingsModal = ref(false)
 const activeMeetingTab = ref('history') // 'history' 或 'upcoming'
@@ -1071,6 +1111,7 @@ const notificationList = ref([])  // 通知列表
 const pendingNotificationList = ref([])  // 待办通知列表
 const unreadNotificationCount = ref(0)  // 未读通知数量
 const selectedCategory = ref('all')  // 选中的消息类别：all/contact/meeting/system
+const instantInviteMeetingStatusMap = ref({})
 
 // 通知类型映射
 const notificationTypeMap = {
@@ -1103,7 +1144,7 @@ const searchContactError = ref(false)
 
 // 联系人列表轮询相关
 const contactPollingInterval = ref(null)
-const CONTACT_POLLING_INTERVAL = 60000 // 1分钟 = 60000毫秒
+const CONTACT_POLLING_INTERVAL = 20000 // 20秒轻量刷新一次联系人状态
 
 // 会议状态轮询相关
 const meetingPollingInterval = ref(null)
@@ -1122,6 +1163,18 @@ const connectionStateInterval = ref(null)
 
 // 头像版本号，用于强制刷新头像缓存
 const avatarVersion = ref(Date.now())
+
+const currentIncomingInviteInfo = computed(() => {
+  if (!incomingMeetingInviteNotification.value) {
+    return {}
+  }
+  return parseMeetingInvite(incomingMeetingInviteNotification.value.content)
+})
+
+const isInstantInviteEnded = (notification) => {
+  const meetingId = parseMeetingInvite(notification.content).meetingId
+  return instantInviteMeetingStatusMap.value[meetingId] === true
+}
 
 // 计算属性
 const userAvatar = computed(() => {
@@ -1210,13 +1263,11 @@ const ensureFocus = async () => {
 
 // 判断联系人是否在线
 const isContactOnline = (contact) => {
-  // 如果没有登录时间，肯定是离线
-  if (!contact.lastLoginTime) return false
-  
-  // 如果没有离线时间，说明从未离线过，如果有登录时间就是在线
-  if (!contact.lastOffTime) return true
-  
-  // 比较最后登录时间和最后离线时间
+  if (typeof contact?.onlineStatus === 'number') {
+    return contact.onlineStatus === 1
+  }
+  if (!contact?.lastLoginTime) return false
+  if (!contact?.lastOffTime) return true
   return contact.lastLoginTime > contact.lastOffTime
 }
 
@@ -1756,6 +1807,7 @@ const loadNotificationsByCategory = async (category = 'all') => {
     const response = await notificationService.loadNotificationsByCategory(category, 1, 50)
     if (response.data.code === 200) {
       notificationList.value = response.data.data.list || []
+      await refreshInstantInviteMeetingStatuses(notificationList.value)
       console.log('通知列表加载成功:', notificationList.value.length, '条')
     } else {
       console.error('加载通知列表失败:', response.data.info)
@@ -1771,6 +1823,7 @@ const loadPendingNotifications = async () => {
     const response = await notificationService.loadPendingActions()
     if (response.data.code === 200) {
       pendingNotificationList.value = response.data.data || []
+      await refreshInstantInviteMeetingStatuses(pendingNotificationList.value)
       console.log('待办消息加载成功:', pendingNotificationList.value.length, '条')
     } else {
       console.error('加载待办消息失败:', response.data.info)
@@ -1795,6 +1848,35 @@ const loadUnreadNotificationCount = async () => {
 }
 
 // 标记通知为已读
+const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+  const meetingIds = [...new Set(
+    notifications
+      .filter(notification => notification.notificationType === 10)
+      .map(notification => parseMeetingInvite(notification.content).meetingId)
+      .filter(Boolean)
+  )]
+
+  if (meetingIds.length === 0) {
+    instantInviteMeetingStatusMap.value = {}
+    return
+  }
+
+  const statusEntries = await Promise.all(
+    meetingIds.map(async (meetingId) => {
+      try {
+        const response = await meetingService.getMeetingStatus(meetingId)
+        const ended = response?.data?.code === 200 ? !!response.data.data?.ended : true
+        return [meetingId, ended]
+      } catch (error) {
+        console.error('获取即时会议状态失败:', meetingId, error)
+        return [meetingId, true]
+      }
+    })
+  )
+
+  instantInviteMeetingStatusMap.value = Object.fromEntries(statusEntries)
+}
+
 const markNotificationAsRead = async (notificationId) => {
   try {
     await notificationService.markAsRead(notificationId)
@@ -1856,6 +1938,11 @@ const handleJoinInstantMeeting = async (notification) => {
     
     const meetingInfo = parseMeetingInvite(notification.content)
     console.log('解析的会议信息:', meetingInfo)
+
+    if (isInstantInviteEnded(notification)) {
+      ElMessage.warning('该会议已经结束，无法加入')
+      return
+    }
     
     // 更新通知的 actionStatus 为已处理（1）
     // 这样通知会从"待办消息"移到"全部消息"
@@ -2776,6 +2863,78 @@ const handleContactApplyMessage = (message) => {
   settingsManager.playNotificationSound()
 }
 
+const handleMeetingInviteMessage = async (message) => {
+  console.log('收到会议邀请消息:', message)
+
+  let inviteContent = message.messageContent
+  if (typeof inviteContent === 'string') {
+    try {
+      inviteContent = JSON.parse(inviteContent)
+    } catch (error) {
+      console.error('解析会议邀请消息失败:', error)
+    }
+  }
+
+  const inviterName = message.sendUserNickName || inviteContent?.inviteUserName || '会议主持人'
+  const meetingName = inviteContent?.meetingName || '会议'
+
+  settingsManager.showDesktopNotification('新的会议邀请', {
+    body: `${inviterName} 邀请你加入「${meetingName}」`,
+    tag: 'meeting-invite',
+    requireInteraction: true
+  })
+  settingsManager.playNotificationSound()
+
+  await loadUnreadNotificationCount()
+  if (inboxActiveTab.value === 'all') {
+    await loadNotificationsByCategory(selectedCategory.value)
+  } else {
+    await loadPendingNotifications()
+  }
+
+  const targetMeetingId = inviteContent?.meetingId
+  const matchedNotification =
+    pendingNotificationList.value.find(n => n.notificationType === 10 && parseMeetingInvite(n.content).meetingId === targetMeetingId) ||
+    notificationList.value.find(n => n.notificationType === 10 && parseMeetingInvite(n.content).meetingId === targetMeetingId)
+
+  incomingMeetingInviteNotification.value = matchedNotification || {
+    notificationId: null,
+    actionStatus: 1,
+    status: 0,
+    content: JSON.stringify(inviteContent || {}),
+    relatedUserName: inviterName
+  }
+  showIncomingMeetingInviteModal.value = true
+}
+
+const closeIncomingMeetingInviteModal = () => {
+  showIncomingMeetingInviteModal.value = false
+  incomingMeetingInviteNotification.value = null
+}
+
+const confirmIncomingMeetingInvite = async () => {
+  if (!incomingMeetingInviteNotification.value) {
+    return
+  }
+
+  const notification = incomingMeetingInviteNotification.value
+  closeIncomingMeetingInviteModal()
+
+  if (notification.notificationId) {
+    await handleJoinInstantMeeting(notification)
+    return
+  }
+
+  const meetingInfo = parseMeetingInvite(notification.content)
+  router.push({
+    path: '/meeting',
+    query: {
+      meetingNo: meetingInfo.meetingNo,
+      password: meetingInfo.password || ''
+    }
+  })
+}
+
 // 处理用户在线状态变更消息
 const handleUserOnlineStatusChange = (message) => {
   console.log('收到用户在线状态变更消息:', message)
@@ -2801,6 +2960,7 @@ const handleUserOnlineStatusChange = (message) => {
       if (lastOffTime) {
         contact.lastOffTime = lastOffTime
       }
+      contact.onlineStatus = onlineStatus
       
       // 触发响应式更新
       contactList.value[contactIndex] = { ...contact }
@@ -2946,6 +3106,7 @@ onMounted(async () => {
     console.log('初始化WebSocket连接，用户ID:', userInfo.value.userId)
     wsService.connect(token, userInfo.value.userId)
     wsService.onMessage(MessageType.USER_CONTACT_APPLY, handleContactApplyMessage)
+    wsService.onMessage(MessageType.INVITE_MEMBER_MEETING, handleMeetingInviteMessage)
     wsService.onMessage(MessageType.USER_ONLINE_STATUS_CHANGE, handleUserOnlineStatusChange)
     wsService.onMessage(MessageType.USER_CONTACT_DELETE, handleContactDeleteMessage)
     
@@ -3001,6 +3162,7 @@ onUnmounted(() => {
   stopConnectionStateMonitor()
   
   wsService.offMessage(MessageType.USER_CONTACT_APPLY, handleContactApplyMessage)
+  wsService.offMessage(MessageType.INVITE_MEMBER_MEETING, handleMeetingInviteMessage)
   wsService.offMessage(MessageType.USER_ONLINE_STATUS_CHANGE, handleUserOnlineStatusChange)
   wsService.offMessage(MessageType.USER_CONTACT_DELETE, handleContactDeleteMessage)
   wsService.disconnect()
@@ -4393,6 +4555,21 @@ onUnmounted(() => {
   z-index: 2000;
 }
 
+.incoming-meeting-invite-modal {
+  width: min(420px, calc(100vw - 32px));
+}
+
+.invite-modal-text {
+  margin: 0 0 16px;
+  color: #e2e8f0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.meeting-details.compact {
+  gap: 10px;
+}
+
 .modal-content {
   background: #363636;
   border-radius: var(--border-radius-xl);
@@ -5559,6 +5736,14 @@ onUnmounted(() => {
   background: #aaaaaa;
 }
 
+.btn-join-meeting.disabled,
+.btn-accept.disabled {
+  background: #64748b !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  opacity: 0.78;
+}
+
 .unread-badge {
   width: 8px;
   height: 8px;
@@ -5820,4 +6005,35 @@ onUnmounted(() => {
     font-size: 26px !important;
   }
 }
+
+/* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+  const meetingIds = [...new Set(
+    notifications
+      .filter(notification => notification.notificationType === 10)
+      .map(notification => parseMeetingInvite(notification.content).meetingId)
+      .filter(Boolean)
+  )]
+
+  if (meetingIds.length === 0) {
+    return
+  }
+
+  const statusEntries = await Promise.all(
+    meetingIds.map(async (meetingId) => {
+      try {
+        const response = await meetingService.getMeetingStatus(meetingId)
+        const ended = response?.data?.code === 200 ? !!response.data.data?.ended : true
+        return [meetingId, ended]
+      } catch (error) {
+        console.error('获取即时会议状态失败:', meetingId, error)
+        return [meetingId, true]
+      }
+    })
+  )
+
+  instantInviteMeetingStatusMap.value = {
+    ...instantInviteMeetingStatusMap.value,
+    ...Object.fromEntries(statusEntries)
+  }
+} */
 </style>

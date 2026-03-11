@@ -75,11 +75,19 @@ public class HandlerWebSocket extends SimpleChannelInboundHandler<TextWebSocketF
         String text = textWebSocketFrame.text();
         if (Constants.PING.equals(text)){
             // 响应心跳
+            String userId = channelContextUtils.getUserIdByChannel(channelHandlerContext.channel());
+            if (userId != null) {
+                redisComponent.refreshUserHeartbeat(userId);
+            }
             channelHandlerContext.writeAndFlush(new TextWebSocketFrame("pong"));
             return;
         }
         
         try {
+            String userId = channelContextUtils.getUserIdByChannel(channelHandlerContext.channel());
+            if (userId != null) {
+                redisComponent.refreshUserHeartbeat(userId);
+            }
             // 尝试解析为MessageSendDto（新格式，用于WebRTC Offer/Answer/ICE）
             MessageSendDto messageSendDto = JsonUtils.convertJson2Obj(text, MessageSendDto.class);
             

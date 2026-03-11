@@ -3,6 +3,7 @@ package com.easymeeting.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.HashMap;
 
 import com.easymeeting.annotation.globalInterceptor;
 import com.easymeeting.entity.dto.TokenUserInfoDto;
@@ -224,6 +225,22 @@ public class MeetingInfoController extends ABaseController{
 			meetingInfo.getCreateUserNickName());
 		
 		return getSuccessResponseVO(meetingInfo);
+	}
+
+	@globalInterceptor(checkLogin = true)
+	@RequestMapping("/getMeetingStatus")
+	public ResponseVO getMeetingStatus(@NotEmpty String meetingId) {
+		MeetingInfo meetingInfo = this.meetingInfoService.getMeetingInfoByMeetingId(meetingId);
+		Map<String, Object> result = new HashMap<>();
+		result.put("meetingId", meetingId);
+		if (meetingInfo == null) {
+			result.put("status", MeetingStatusEnum.FINISHED.getStatus());
+			result.put("ended", true);
+			return getSuccessResponseVO(result);
+		}
+		result.put("status", meetingInfo.getStatus());
+		result.put("ended", MeetingStatusEnum.FINISHED.getStatus() == meetingInfo.getStatus());
+		return getSuccessResponseVO(result);
 	}
 
 

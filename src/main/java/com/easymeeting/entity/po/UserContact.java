@@ -42,14 +42,24 @@ public class UserContact implements Serializable {
 
 	private Long lastLoginTime;
 	private Long lastOffTime;
-	private Integer onLineType;
+	private Integer onlineStatus;
 	private String avatar;
-	private Integer getOnLineType(){
-		if (lastLoginTime!=null&&lastLoginTime>lastOffTime){
-			return Constants.ONE;
-		}else {
-			return	Constants.ZERO;
+
+	public Integer getOnlineStatus() {
+		if (onlineStatus != null) {
+			return onlineStatus;
 		}
+		if (lastLoginTime == null) {
+			return Constants.ZERO;
+		}
+		if (lastOffTime == null) {
+			return Constants.ONE;
+		}
+		return lastLoginTime > lastOffTime ? Constants.ONE : Constants.ZERO;
+	}
+
+	public void setOnlineStatus(Integer onlineStatus) {
+		this.onlineStatus = onlineStatus;
 	}
 
 	public Long getLastLoginTime() {

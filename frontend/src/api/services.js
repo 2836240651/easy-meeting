@@ -37,6 +37,8 @@ export const meetingService = {
   getCurrentMeeting: () => api.get('/meetingInfo/getCurrentMeeting'),
   getMeetingInfoByMeetingId: (meetingId) =>
     api.get('/meetingInfo/getMeetingInfoByMeetingId', { params: { meetingId } }),
+  getMeetingStatus: (meetingId) =>
+    api.get('/meetingInfo/getMeetingStatus', { params: { meetingId } }),
   loadMeeting: (pageNo, status = null) => {
     const params = { pageNo }
     if (status !== null) params.status = status

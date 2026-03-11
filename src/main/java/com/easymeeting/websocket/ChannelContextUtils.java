@@ -64,6 +64,7 @@ public class ChannelContextUtils {
             }
             
             USER_CONTEXT_MAP.put(userId, channel);
+            redisComponent.refreshUserHeartbeat(userId);
             log.info("🟢🟢🟢 用户 {} 已添加到 USER_CONTEXT_MAP，当前在线用户数: {}", userId, USER_CONTEXT_MAP.size());
             
             UserInfo userInfo = new UserInfo();
@@ -260,6 +261,7 @@ public class ChannelContextUtils {
             Long offTime = System.currentTimeMillis();
             userInfo.setLasgOffTime(offTime);
             userInfoMapper.updateByUserId(userInfo, userId);
+            redisComponent.clearUserHeartbeat(userId);
             
             // 广播离线状态变更给所有联系人
             broadcastOnlineStatusChange(userId, 0, null, offTime);
@@ -392,6 +394,16 @@ public class ChannelContextUtils {
         if (channel != null) {
             log.info("用户 {} 已从 USER_CONTEXT_MAP 中移除，当前在线用户数: {}", userId, USER_CONTEXT_MAP.size());
         }
+    }
+    public boolean isUserOnlineRealtime(String userId) {
+        if (StringTools.isEmpty(userId)) {
+            return false;
+        }
+        Channel channel = USER_CONTEXT_MAP.get(userId);
+        return channel != null
+                && channel.isActive()
+                && channel.isOpen()
+                && redisComponent.hasValidUserHeartbeat(userId);
     }
 }
 

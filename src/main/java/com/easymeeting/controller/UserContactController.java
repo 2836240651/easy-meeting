@@ -14,6 +14,7 @@ import com.easymeeting.entity.vo.ResponseVO;
 import com.easymeeting.entity.vo.UserInfoVo4Search;
 import com.easymeeting.service.UserContactApplyService;
 import com.easymeeting.service.UserContactService;
+import com.easymeeting.websocket.ChannelContextUtils;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,8 @@ public class UserContactController extends ABaseController{
 	private UserContactService userContactService;
 	@Resource
 	private UserContactApplyService userContactApplyService;
+	@Resource
+	private ChannelContextUtils channelContextUtils;
 
 	@RequestMapping("/searchContact")
 	@globalInterceptor
@@ -78,6 +81,10 @@ public class UserContactController extends ABaseController{
 		userContactQuery.setQueryUserInfo(true);
 		userContactQuery.setOrderBy("last_update_time desc");
 		List<UserContact> listByParam = this.userContactService.findListByParam(userContactQuery);
+		for (UserContact contact : listByParam) {
+			boolean online = channelContextUtils.isUserOnlineRealtime(contact.getContactId());
+			contact.setOnlineStatus(online ? 1 : 0);
+		}
 		return getSuccessResponseVO(listByParam);
 	}
 

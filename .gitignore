@@ -1,0 +1,40 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.iml
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Node / frontend build
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/dist_electron/
+
+# Logs
+logs/
+runtime-logs/
+log.path_IS_UNDEFINED/
+scripts/openclaw/openclaw-logs/
+*.log
+hs_err_pid*.log
+replay_pid*.log
+
+# Temp / local work files
+tmp/
+tmp_*.py
+tmp*.py
+*.tmp
+
+# Environment / local config
+.env
+.env.*
+*.local
