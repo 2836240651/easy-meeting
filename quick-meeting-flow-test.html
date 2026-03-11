@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速会议流程测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>快速会议流程测试</h1>
+    
+    <!-- 登录 -->
+    <div class="test-section">
+        <h2>1. 登录</h2>
+        <div class="form-group">
+            <label>邮箱:</label>
+            <input type="email" id="loginEmail" value="test@qq.com">
+        </div>
+        <div class="form-group">
+            <label>密码:</label>
+            <input type="password" id="loginPassword" value="123456">
+        </div>
+        <button onclick="testLogin()">登录</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <!-- 快速会议创建 -->
+    <div class="test-section">
+        <h2>2. 创建快速会议</h2>
+        <div class="form-group">
+            <label>会议名称（可选）:</label>
+            <input type="text" id="meetingName" placeholder="输入会议名称">
+        </div>
+        <div class="form-group">
+            <label>会议号类型:</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="meetingNoType" value="0" checked>
+                    <span>使用个人会议号</span>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="meetingNoType" value="1">
+                    <span>随机生成会议号</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>会议密码:</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="joinType" value="0" checked>
+                    <span>无密码</span>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="joinType" value="1">
+                    <span>设置密码</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="passwordGroup" style="display: none;">
+            <label>会议密码:</label>
+            <input type="password" id="joinPassword" placeholder="请输入会议密码（最多5位）" maxlength="5">
+        </div>
+        <button onclick="createQuickMeeting()">创建快速会议</button>
+        <div id="createResult" class="result"></div>
+    </div>
+
+    <!-- 会议信息显示 -->
+    <div class="test-section">
+        <h2>3. 会议信息</h2>
+        <div id="meetingInfo" class="result info">暂无会议信息</div>
+        <button onclick="openMeetingPage()" id="openMeetingBtn" style="display: none;">打开会议页面</button>
+    </div>
+
+    <script>
+        let currentToken = '';
+        let createdMeetingId = '';
+
+        // 监听密码类型变化
+        document.querySelectorAll('input[name="joinType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const passwordGroup = document.getElementById('passwordGroup');
+                if (this.value === '1') {
+                    passwordGroup.style.display = 'block';
+                } else {
+                    passwordGroup.style.display = 'none';
+                }
+            });
+        });
+
+        // 登录测试
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            resultDiv.innerHTML = '正在登录...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const response = await fetch('/api/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&checkCode=1234`
+                });
+                
+                const result = await response.json();
+                console.log('登录响应:', result);
+                
+                if (result.code === 200) {
+                    currentToken = result.data.token;
+                    resultDiv.innerHTML = `✅ 登录成功！\n用户: ${result.data.nickName}\nToken: ${currentToken.substring(0, 30)}...`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 登录失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('登录错误:', error);
+                resultDiv.innerHTML = `❌ 登录错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 创建快速会议
+        async function createQuickMeeting() {
+            const resultDiv = document.getElementById('createResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            // 获取表单数据
+            const meetingName = document.getElementById('meetingName').value || '快速会议';
+            const meetingNoType = parseInt(document.querySelector('input[name="meetingNoType"]:checked').value);
+            const joinType = parseInt(document.querySelector('input[name="joinType"]:checked').value);
+            const joinPassword = joinType === 1 ? document.getElementById('joinPassword').value : '';
+            
+            // 验证密码
+            if (joinType === 1 && !joinPassword) {
+                resultDiv.innerHTML = '❌ 请输入会议密码';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            if (joinPassword && joinPassword.length > 5) {
+                resultDiv.innerHTML = '❌ 会议密码最多5位';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = '🚀 正在创建快速会议...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const requestData = {
+                    meetingNoType: meetingNoType,
+                    MeetingName: meetingName,
+                    joinType: joinType,
+                    joinPassword: joinPassword || null
+                };
+                
+                console.log('发送请求数据:', requestData);
+                
+                const params = new URLSearchParams();
+                Object.keys(requestData).forEach(key => {
+                    if (requestData[key] !== null) {
+                        params.append(key, requestData[key]);
+                    }
+                });
+                
+                const response = await fetch('/api/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    },
+                    body: params
+                });
+                
+                const result = await response.json();
+                console.log('快速会议创建响应:', result);
+                
+                if (result.code === 200) {
+                    createdMeetingId = result.data;
+                    resultDiv.innerHTML = `✅ 快速会议创建成功！\n` +
+                        `会议ID: ${createdMeetingId}\n` +
+                        `会议名称: ${meetingName}\n` +
+                        `会议号类型: ${meetingNoType === 0 ? '个人会议号' : '随机生成'}\n` +
+                        `密码设置: ${joinType === 0 ? '无密码' : '有密码'}\n` +
+                        `${joinType === 1 ? '密码: ' + joinPassword : ''}`;
+                    resultDiv.className = 'result success';
+                    
+                    // 显示会议信息
+                    updateMeetingInfo();
+                    
+                    // 显示打开会议页面按钮
+                    document.getElementById('openMeetingBtn').style.display = 'inline-block';
+                } else {
+                    resultDiv.innerHTML = `❌ 创建会议失败: ${result.info}\n\n完整响应:\n${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('创建快速会议错误:', error);
+                resultDiv.innerHTML = `❌ 创建会议错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 更新会议信息显示
+        function updateMeetingInfo() {
+            const infoDiv = document.getElementById('meetingInfo');
+            if (createdMeetingId) {
+                infoDiv.innerHTML = `📋 已创建会议信息:\n` +
+                    `会议ID: ${createdMeetingId}\n` +
+                    `会议页面URL: /meeting/${createdMeetingId}\n` +
+                    `状态: 已创建，可以进入`;
+                infoDiv.className = 'result success';
+            }
+        }
+
+        // 打开会议页面
+        function openMeetingPage() {
+            if (createdMeetingId) {
+                const meetingUrl = `/meeting/${createdMeetingId}`;
+                console.log('打开会议页面:', meetingUrl);
+                
+                // 在新窗口中打开会议页面
+                window.open(meetingUrl, '_blank');
+                
+                // 也可以在当前窗口中打开
+                // window.location.href = meetingUrl;
+            } else {
+                alert('没有可用的会议ID');
+            }
+        }
+
+        // 页面加载时的提示
+        window.onload = function() {
+            console.log('快速会议流程测试页面已加载');
+            console.log('测试流程:');
+            console.log('1. 登录获取Token');
+            console.log('2. 创建快速会议');
+            console.log('3. 自动跳转到会议页面');
+        };
+    </script>
+</body>
+</html>

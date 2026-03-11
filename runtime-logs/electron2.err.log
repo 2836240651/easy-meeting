@@ -1,0 +1,11 @@
+[52268:0311/095301.948:ERROR:net\disk_cache\cache_util_win.cc:25] Unable to move the cache: 拒绝访问。 (0x5)
+[52268:0311/095301.948:ERROR:net\disk_cache\cache_util_win.cc:25] Unable to move the cache: 拒绝访问。 (0x5)
+[52268:0311/095301.949:ERROR:net\disk_cache\cache_util_win.cc:25] Unable to move the cache: 拒绝访问。 (0x5)
+[52268:0311/095301.953:ERROR:net\disk_cache\disk_cache.cc:236] Unable to create cache
+[52268:0311/095301.962:ERROR:gpu\ipc\host\gpu_disk_cache.cc:724] Gpu Cache Creation failed: -2
+[52268:0311/095301.965:ERROR:net\disk_cache\disk_cache.cc:236] Unable to create cache
+[52268:0311/095301.968:ERROR:gpu\ipc\host\gpu_disk_cache.cc:724] Gpu Cache Creation failed: -2
+[52268:0311/095301.970:ERROR:net\disk_cache\disk_cache.cc:236] Unable to create cache
+[52268:0311/095301.970:ERROR:gpu\ipc\host\gpu_disk_cache.cc:724] Gpu Cache Creation failed: -2
+[52268:0311/095308.878:ERROR:CONSOLE:1] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[52268:0311/095308.879:ERROR:CONSOLE:1] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)

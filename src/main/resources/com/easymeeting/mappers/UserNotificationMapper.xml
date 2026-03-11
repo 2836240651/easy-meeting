@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easymeeting.mappers.UserNotificationMapper">
+
+    <resultMap id="base_result_map" type="com.easymeeting.entity.po.UserNotification">
+        <id column="notification_id" property="notificationId"/>
+        <result column="user_id" property="userId"/>
+        <result column="notification_type" property="notificationType"/>
+        <result column="related_user_id" property="relatedUserId"/>
+        <result column="related_user_name" property="relatedUserName"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="action_required" property="actionRequired"/>
+        <result column="action_status" property="actionStatus"/>
+        <result column="reference_id" property="referenceId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        notification_id, user_id, notification_type, related_user_id, related_user_name,
+        title, content, status, action_required, action_status, reference_id,
+        create_time, update_time
+    </sql>
+
+    <sql id="base_query_condition">
+        <if test="query.notificationId != null">
+            AND notification_id = #{query.notificationId}
+        </if>
+        <if test="query.userId != null and query.userId != ''">
+            AND user_id = #{query.userId}
+        </if>
+        <if test="query.notificationType != null">
+            AND notification_type = #{query.notificationType}
+        </if>
+        <if test="query.notificationTypeList != null and query.notificationTypeList.size() > 0">
+            AND notification_type IN
+            <foreach collection="query.notificationTypeList" item="type" open="(" separator="," close=")">
+                #{type}
+            </foreach>
+        </if>
+        <if test="query.relatedUserId != null and query.relatedUserId != ''">
+            AND related_user_id = #{query.relatedUserId}
+        </if>
+        <if test="query.status != null">
+            AND status = #{query.status}
+        </if>
+        <if test="query.actionRequired != null">
+            AND action_required = #{query.actionRequired}
+        </if>
+        <if test="query.actionStatus != null">
+            AND action_status = #{query.actionStatus}
+        </if>
+        <if test="query.referenceId != null and query.referenceId != ''">
+            AND reference_id = #{query.referenceId}
+        </if>
+    </sql>
+
+    <!-- 查询列表 -->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM user_notification
+        <where>
+            <include refid="base_query_condition"/>
+        </where>
+        ORDER BY create_time DESC
+        <if test="query.simplePage != null">
+            LIMIT #{query.simplePage.start}, #{query.simplePage.end}
+        </if>
+    </select>
+
+    <!-- 查询数量 -->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM user_notification
+        <where>
+            <include refid="base_query_condition"/>
+        </where>
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.easymeeting.entity.po.UserNotification" useGeneratedKeys="true" keyProperty="bean.notificationId">
+        INSERT INTO user_notification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bean.userId != null and bean.userId != ''">
+                user_id,
+            </if>
+            <if test="bean.notificationType != null">
+                notification_type,
+            </if>
+            <if test="bean.relatedUserId != null and bean.relatedUserId != ''">
+                related_user_id,
+            </if>
+            <if test="bean.relatedUserName != null and bean.relatedUserName != ''">
+                related_user_name,
+            </if>
+            <if test="bean.title != null and bean.title != ''">
+                title,
+            </if>
+            <if test="bean.content != null and bean.content != ''">
+                content,
+            </if>
+            <if test="bean.status != null">
+                status,
+            </if>
+            <if test="bean.actionRequired != null">
+                action_required,
+            </if>
+            <if test="bean.actionStatus != null">
+                action_status,
+            </if>
+            <if test="bean.referenceId != null and bean.referenceId != ''">
+                reference_id,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="bean.userId != null and bean.userId != ''">
+                #{bean.userId},
+            </if>
+            <if test="bean.notificationType != null">
+                #{bean.notificationType},
+            </if>
+            <if test="bean.relatedUserId != null and bean.relatedUserId != ''">
+                #{bean.relatedUserId},
+            </if>
+            <if test="bean.relatedUserName != null and bean.relatedUserName != ''">
+                #{bean.relatedUserName},
+            </if>
+            <if test="bean.title != null and bean.title != ''">
+                #{bean.title},
+            </if>
+            <if test="bean.content != null and bean.content != ''">
+                #{bean.content},
+            </if>
+            <if test="bean.status != null">
+                #{bean.status},
+            </if>
+            <if test="bean.actionRequired != null">
+                #{bean.actionRequired},
+            </if>
+            <if test="bean.actionStatus != null">
+                #{bean.actionStatus},
+            </if>
+            <if test="bean.referenceId != null and bean.referenceId != ''">
+                #{bean.referenceId},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据通知ID查询 -->
+    <select id="selectByNotificationId" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM user_notification
+        WHERE notification_id = #{notificationId}
+    </select>
+
+    <!-- 根据通知ID更新 -->
+    <update id="updateByNotificationId" parameterType="com.easymeeting.entity.po.UserNotification">
+        UPDATE user_notification
+        <set>
+            <if test="bean.status != null">
+                status = #{bean.status},
+            </if>
+            <if test="bean.actionStatus != null">
+                action_status = #{bean.actionStatus},
+            </if>
+        </set>
+        WHERE notification_id = #{notificationId}
+    </update>
+
+    <!-- 根据通知ID删除 -->
+    <delete id="deleteByNotificationId">
+        DELETE FROM user_notification
+        WHERE notification_id = #{notificationId}
+    </delete>
+
+    <!-- 获取未读通知数量 -->
+    <select id="selectUnreadCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM user_notification
+        WHERE user_id = #{userId} AND status = 0
+    </select>
+
+    <!-- 标记为已读 -->
+    <update id="markAsRead">
+        UPDATE user_notification
+        SET status = 1
+        WHERE notification_id = #{notificationId} AND user_id = #{userId}
+    </update>
+
+    <!-- 全部标记为已读 -->
+    <update id="markAllAsRead">
+        UPDATE user_notification
+        SET status = 1
+        WHERE user_id = #{userId} AND status = 0
+    </update>
+
+    <!-- 更新操作状态 -->
+    <update id="updateActionStatus">
+        UPDATE user_notification
+        SET action_status = #{actionStatus}, status = 1
+        WHERE user_id = #{userId} AND reference_id = #{referenceId}
+    </update>
+
+    <!-- 通过通知ID更新操作状态 -->
+    <update id="updateActionStatusByNotificationId">
+        UPDATE user_notification
+        SET action_status = #{actionStatus}, update_time = NOW()
+        WHERE notification_id = #{notificationId}
+    </update>
+
+</mapper>

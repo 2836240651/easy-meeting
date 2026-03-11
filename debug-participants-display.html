@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调试参与者显示问题</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .test-button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .info {
+            color: #17a2b8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+        .checklist li::before {
+            content: "☐ ";
+            margin-right: 8px;
+        }
+        .checklist li.checked::before {
+            content: "✓ ";
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 调试参与者显示问题</h1>
+
+    <div class="section">
+        <h2>问题描述</h2>
+        <p>会议页面只显示自己的头像，不显示其他成员的头像。</p>
+    </div>
+
+    <div class="section">
+        <h2>可能的原因</h2>
+        <ol>
+            <li><strong>participants 数组为空</strong> - 没有加载到其他成员数据</li>
+            <li><strong>过滤逻辑错误</strong> - 把所有成员都过滤掉了</li>
+            <li><strong>currentUserId 未设置</strong> - 导致无法正确过滤</li>
+            <li><strong>API返回数据问题</strong> - 后端只返回了当前用户</li>
+            <li><strong>WebSocket未连接</strong> - 没有收到其他成员加入的消息</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>调试步骤</h2>
+        <ul class="checklist">
+            <li>打开浏览器开发者工具（F12）</li>
+            <li>切换到 Console 标签页</li>
+            <li>加入或创建一个会议</li>
+            <li>查看控制台输出的日志</li>
+            <li>检查以下关键信息</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>关键日志检查</h2>
+        <h3>1. 检查 currentUserId</h3>
+        <div class="result">
+在 Console 中输入：
+<span class="info">localStorage.getItem('userInfo')</span>
+
+应该看到包含 userId 的 JSON 数据
+        </div>
+
+        <h3>2. 检查 participants 数组</h3>
+        <div class="result">
+查找控制台日志：
+<span class="info">"更新参与者列表，当前人数（不包括自己）: X"</span>
+
+如果 X = 0，说明没有其他成员
+如果 X > 0，说明有其他成员但没有显示
+        </div>
+
+        <h3>3. 检查 API 响应</h3>
+        <div class="result">
+在 Network 标签页中查找：
+<span class="info">loadMeetingMembers</span>
+
+查看响应数据中有多少个成员
+        </div>
+
+        <h3>4. 检查过滤逻辑</h3>
+        <div class="result">
+查找控制台日志：
+<span class="info">"成员状态检查: XXX status: X userId: XXX currentUserId: XXX"</span>
+
+检查：
+- status 是否等于 1 (MemberStatus.NORMAL)
+- userId 是否与 currentUserId 不同
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>测试API</h2>
+        <p>输入会议ID测试API是否返回正确数据：</p>
+        <input type="text" id="meetingId" placeholder="输入会议ID" style="width: 300px; padding: 8px;">
+        <button class="test-button" onclick="testAPI()">测试 loadMeetingMembers API</button>
+        <div id="apiResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="section">
+        <h2>解决方案</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>问题</th>
+                    <th>解决方案</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>participants 数组为空</td>
+                    <td>
+                        1. 确保调用了 loadParticipants()<br>
+                        2. 检查 API 是否返回数据<br>
+                        3. 检查 meetingId 是否正确
+                    </td>
+                </tr>
+                <tr>
+                    <td>过滤逻辑把所有成员都过滤掉了</td>
+                    <td>
+                        1. 检查 member.status 的值<br>
+                        2. 检查 MemberStatus.NORMAL 的值<br>
+                        3. 确保 currentUserId 已设置
+                    </td>
+                </tr>
+                <tr>
+                    <td>只有一个人在会议中</td>
+                    <td>
+                        1. 使用另一个账号加入会议<br>
+                        2. 检查 WebSocket 是否连接<br>
+                        3. 查看是否收到 memberJoined 消息
+                    </td>
+                </tr>
+                <tr>
+                    <td>currentUserId 未设置</td>
+                    <td>
+                        1. 检查 localStorage 中的 userInfo<br>
+                        2. 确保登录成功<br>
+                        3. 刷新页面重新登录
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>代码检查清单</h2>
+        <h3>Meeting.vue 中需要检查的地方：</h3>
+        <pre class="result">
+1. updateParticipantsList 函数：
+   - 是否正确过滤：member.status === MemberStatus.NORMAL && member.userId !== currentUserId.value
+   - 是否正确映射：participants.value = filteredMembers.map(...)
+
+2. loadParticipants 函数：
+   - 是否被调用
+   - meetingId 是否有值
+   - API 响应是否正确
+
+3. joinMeeting 函数：
+   - 是否调用了 loadParticipants()
+   - 调用顺序是否正确
+
+4. HTML 模板：
+   - v-for="participant in participants" 是否正确
+   - 是否排除了当前用户（已单独显示）
+
+5. currentUserId：
+   - 是否在 loadUserInfo() 中正确设置
+   - 值是否与后端返回的 userId 一致
+        </pre>
+    </div>
+
+    <div class="section">
+        <h2>快速修复建议</h2>
+        <div class="result">
+<span class="success">已修改的代码：</span>
+
+updateParticipantsList 函数现在会：
+1. 过滤状态为 NORMAL 的成员
+2. <span class="success">排除当前用户（避免重复显示）</span>
+3. 格式化成员数据
+4. 更新 participants 数组
+
+<span class="warning">如果还是只显示自己：</span>
+
+1. 打开浏览器控制台
+2. 查找日志："过滤后成员数量（排除自己）: X"
+3. 如果 X = 0：
+   - 检查是否有其他人加入会议
+   - 检查 API 返回的数据
+4. 如果 X > 0 但不显示：
+   - 检查 HTML 模板中的 v-for
+   - 检查 CSS 样式是否隐藏了元素
+        </div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const meetingId = document.getElementById('meetingId').value.trim();
+            const resultDiv = document.getElementById('apiResult');
+            
+            if (!meetingId) {
+                alert('请输入会议ID');
+                return;
+            }
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = '<span class="error">错误：未找到登录token，请先登录</span>';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:6099/api/meetingInfo/loadMeetingMembers?meetingId=${meetingId}`, {
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                resultDiv.style.display = 'block';
+                
+                if (data.code === 200) {
+                    const members = data.data || [];
+                    let html = `<span class="success">✓ API调用成功</span>\n\n`;
+                    html += `<span class="info">返回成员数量: ${members.length}</span>\n\n`;
+                    html += `成员列表：\n`;
+                    
+                    members.forEach((member, index) => {
+                        html += `\n${index + 1}. ${member.nickName || '未知'}`;
+                        html += `\n   - userId: ${member.userId}`;
+                        html += `\n   - status: ${member.status} ${member.status === 1 ? '(NORMAL)' : '(非NORMAL)'}`;
+                        html += `\n   - memberType: ${member.memberType} ${member.memberType === 0 ? '(HOST)' : '(MEMBER)'}`;
+                        html += `\n   - avatar: ${member.avatar || '无'}`;
+                        html += `\n   - sex: ${member.sex !== undefined ? member.sex : '无'}`;
+                        html += `\n`;
+                    });
+                    
+                    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+                    const currentUserId = userInfo.userId;
+                    html += `\n<span class="info">当前用户ID: ${currentUserId}</span>`;
+                    
+                    const otherMembers = members.filter(m => m.status === 1 && m.userId !== currentUserId);
+                    html += `\n<span class="success">过滤后的其他成员数量: ${otherMembers.length}</span>`;
+                    
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">✗ API调用失败</span>\n\n错误信息: ${data.info || '未知错误'}`;
+                }
+            } catch (error) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `<span class="error">✗ 请求失败</span>\n\n错误: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

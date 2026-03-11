@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试后端 API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #409EFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #66b1ff;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .error {
+            background: #fef0f0;
+            color: #f56c6c;
+        }
+        .success {
+            background: #f0f9ff;
+            color: #67c23a;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试后端 API</h1>
+    
+    <div class="test-section">
+        <h2>1. 测试即将开始的会议 API</h2>
+        <input type="text" id="token1" placeholder="输入 token" style="width: 400px;">
+        <button onclick="testUpcomingMeetings()">测试 getUpcomingMeetings</button>
+        <div id="result1" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 测试加载联系人 API</h2>
+        <input type="text" id="token2" placeholder="输入 token" style="width: 400px;">
+        <button onclick="testLoadContactUser()">测试 loadContactUser</button>
+        <div id="result2" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 测试加载申请数量 API</h2>
+        <input type="text" id="token3" placeholder="输入 token" style="width: 400px;">
+        <button onclick="testLoadApplyCount()">测试 loadContactApplyDealWithCount</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:6099';
+
+        async function testUpcomingMeetings() {
+            const token = document.getElementById('token1').value;
+            const resultDiv = document.getElementById('result1');
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                const response = await fetch(`${BASE_URL}/api/meetingReserve/getUpcomingMeetings`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ 成功\n' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ 失败 (HTTP ' + response.status + ')\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+
+        async function testLoadContactUser() {
+            const token = document.getElementById('token2').value;
+            const resultDiv = document.getElementById('result2');
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                const response = await fetch(`${BASE_URL}/api/userContact/loadContactUser`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ 成功\n' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ 失败 (HTTP ' + response.status + ')\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+
+        async function testLoadApplyCount() {
+            const token = document.getElementById('token3').value;
+            const resultDiv = document.getElementById('result3');
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                const response = await fetch(`${BASE_URL}/api/userContact/loadContactApplyDealWithCount`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ 成功\n' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ 失败 (HTTP ' + response.status + ')\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

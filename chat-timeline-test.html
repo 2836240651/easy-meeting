@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天时间线选择器测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        input, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .timeline-selector { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>聊天时间线选择器测试</h1>
+    
+    <div class="container">
+        <h3>1. 用户登录</h3>
+        <input type="email" id="emailInput" placeholder="邮箱" value="2836240651@qq.com">
+        <input type="password" id="passwordInput" placeholder="密码" value="123456">
+        <button onclick="login()">登录</button>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>2. 时间线选择器测试</h3>
+        <div class="timeline-selector">
+            <label>查看消息时间范围：</label>
+            <select id="timeRangeSelect">
+                <option value="all">所有消息</option>
+                <option value="5m">最近5分钟</option>
+                <option value="15m">最近15分钟</option>
+                <option value="30m">最近30分钟</option>
+                <option value="1h">最近1小时</option>
+                <option value="2h">最近2小时</option>
+                <option value="6h">最近6小时</option>
+                <option value="12h">最近12小时</option>
+                <option value="24h">最近24小时</option>
+            </select>
+            <button onclick="loadMessagesWithTimeRange()">加载消息</button>
+        </div>
+        <div id="timelineResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>3. 发送测试消息</h3>
+        <input type="text" id="messageInput" placeholder="输入测试消息" value="时间线测试消息">
+        <button onclick="sendTestMessage()">发送消息</button>
+        <div id="sendResult" class="result">等待发送...</div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let currentToken = null;
+        let currentUser = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // 计算时间戳（根据选择的时间范围）
+        function calculateMaxMessageId(timeRange) {
+            if (timeRange === 'all') {
+                return null; // 不传maxMessageId，获取所有消息
+            }
+            
+            const now = Date.now();
+            let minutesAgo = 0;
+            
+            switch (timeRange) {
+                case '5m':
+                    minutesAgo = 5;
+                    break;
+                case '15m':
+                    minutesAgo = 15;
+                    break;
+                case '30m':
+                    minutesAgo = 30;
+                    break;
+                case '1h':
+                    minutesAgo = 60;
+                    break;
+                case '2h':
+                    minutesAgo = 120;
+                    break;
+                case '6h':
+                    minutesAgo = 360;
+                    break;
+                case '12h':
+                    minutesAgo = 720;
+                    break;
+                case '24h':
+                    minutesAgo = 1440;
+                    break;
+                default:
+                    return null;
+            }
+            
+            // 计算指定时间前的时间戳
+            const targetTime = now - (minutesAgo * 60 * 1000);
+            log(`时间范围: ${timeRange}, 目标时间: ${new Date(targetTime).toLocaleString()}, 时间戳: ${targetTime}`);
+            return targetTime;
+        }
+
+        async function login() {
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                log(`登录响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    currentToken = result.data.token;
+                    currentUser = result.data.userInfo;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + currentUser.nickName;
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败';
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败';
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }

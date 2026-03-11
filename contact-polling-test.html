@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系人列表轮询测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        button.success { background: #28a745; }
+        button.danger { background: #dc3545; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 200px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        
+        .contact-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
+        .contact-item { 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            transition: box-shadow 0.2s;
+        }
+        .contact-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        
+        .avatar { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            background: #e9ecef; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 20px; 
+            color: #6c757d;
+            overflow: hidden;
+            position: relative;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .status-indicator { 
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            border: 2px solid white;
+        }
+        .status-indicator.online { background: #28a745; }
+        .status-indicator.offline { background: #dc3545; }
+        
+        .contact-info { flex: 1; }
+        .contact-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+        .contact-id { color: #6c757d; font-size: 12px; margin-bottom: 5px; }
+        .contact-status { font-size: 14px; margin-bottom: 3px; }
+        .contact-time { font-size: 12px; color: #6c757d; }
+        
+        .status-online { color: #28a745; }
+        .status-offline { color: #dc3545; }
+        
+        .login-section { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .polling-status { 
+            padding: 10px; 
+            border-radius: 4px; 
+            margin: 10px 0; 
+            font-weight: bold;
+        }
+        .polling-active { background: #d4edda; color: #155724; }
+        .polling-inactive { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>联系人列表轮询测试</h1>
+    <p>测试联系人列表每分钟自动轮询更新功能</p>
+    
+    <div class="container">
+        <h3>👤 用户登录</h3>
+        <div class="login-section">
+            <input type="email" id="email" placeholder="邮箱" value="2836240651@qq.com">
+            <input type="password" id="password" placeholder="密码" value="123456">
+            <input type="text" id="checkCode" placeholder="验证码" style="width: 100px;">
+            <button onclick="getCheckCode()">获取验证码</button>
+            <button onclick="loginUser()">登录</button>
+        </div>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>⏰ 轮询控制</h3>
+        <button class="success" onclick="startPolling()">启动轮询</button>
+        <button class="danger" onclick="stopPolling()">停止轮询</button>
+        <button onclick="loadContactsOnce()">手动加载一次</button>
+        <div id="pollingStatus" class="polling-status polling-inactive">轮询状态: 未启动</div>
+        <p>轮询间隔: <span id="pollingInterval">60</span> 秒</p>
+        <p>下次轮询倒计时: <span id="countdown">--</span> 秒</p>
+    </div>
+
+    <div class="container">
+        <h3>📋 联系人列表</h3>
+        <div id="contactResult" class="result">等待加载...</div>
+    </div>
+
+    <div class="container">
+        <h3>🔍 调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let userToken = null;
+        let userInfo = null;
+        let checkCodeKey = null;
+        let pollingInterval = null;
+        let countdownInterval = null;
+        let nextPollTime = null;
+        
+        const POLLING_INTERVAL = 60000; // 60秒
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function getCheckCode() {
+            try {
+                log('获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    checkCodeKey = result.data.checkCodeKey;
+                    const checkCodeImage = result.data.checkCode;
+                    
+                    log('✅ 验证码获取成功');
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + checkCodeImage;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImage';
+                    
+                    const oldImg = document.getElementById('checkCodeImage');
+                    if (oldImg) oldImg.remove();
+                    
+                    document.getElementById('checkCode').parentNode.appendChild(imgElement);
+                    
+                } else {
+                    log('❌ 验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`🚨 验证码获取失败: ${error.message}`);
+            }
+        }
+
+        async function loginUser() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const checkCode = document.getElementById('checkCode').value.trim();
+            
+            if (!checkCode || !checkCodeKey) {
+                alert('请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKey
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    userToken = result.data.token;
+                    userInfo = result.data;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + userInfo.nickName + ' (ID: ' + userInfo.userId + ')';
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败: ' + error.message;
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }
+
+        // 在线状态判断函数
+        function isContactOnline(contact) {
+            if (!contact.lastLoginTime) return false
+            if (!contact.lastOffTime) return true
+            return contact.lastLoginTime > contact.lastOffTime
+        }
+
+        // 格式化时间戳
+        function formatTime(timestamp) {
+            if (!timestamp) return '未知'
+            const date = new Date(timestamp)
+            const now = new Date()
+            const diff = now - date
+            
+            if (diff < 60000) {
+                return '刚刚'
+            } else if (diff < 3600000) {
+                return `${Math.floor(diff / 60000)}分钟前`
+            } else if (diff < 86400000) {
+                return `${Math.floor(diff / 3600000)}小时前`
+            } else {
+                return date.toLocaleDateString('zh-CN')
+            }
+        }
+
+        // 获取头像占位符
+        function getAvatarPlaceholder(nickName) {
+            const firstChar = nickName ? nickName.charAt(0).toUpperCase() : '?';
+            return firstChar;
+        }
+
+        // 获取默认头像
+        function getDefaultAvatar(sex) {
+            return sex === 1 ? '/svg/男头像.svg' : '/svg/女头像.svg';
+        }
+
+        async function loadContactsOnce() {
+            if (!userToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('手动加载联系人列表...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactUser', {
+                    method: 'GET',
+                    headers: { 'token': userToken }
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('contactResult');
+                
+                if (result.status === 'success') {
+                    const contacts = result.data || [];
+                    log(`✅ 联系人列表加载成功: ${contacts.length} 个联系人`);
+                    
+                    let html = `
+                        <h4>📋 联系人列表 (${contacts.length}) - 更新时间: ${new Date().toLocaleTimeString()}</h4>
+                        <div class="contact-list">
+                    `;
+                    
+                    if (contacts.length > 0) {
+                        contacts.forEach((contact, index) => {
+                            const isOnline = isContactOnline(contact);
+                            const onlineStatus = isOnline ? 'online' : 'offline';
+                            const onlineText = isOnline ? '在线' : '离线';
+                            
+                            const avatarUrl = contact.avatar || getDefaultAvatar(contact.sex);
+                            
+                            const lastActiveTime = isOnline ? 
+                                (contact.lastLoginTime ? formatTime(contact.lastLoginTime) : '') :
+                                (contact.lastOffTime ? formatTime(contact.lastOffTime) : '');
+                            
+                            html += `
+                                <div class="contact-item">
+                                    <div class="avatar">
+                                        <img src="${avatarUrl}" alt="头像" 
+                                             onerror="this.style.display='none'; this.parentNode.innerHTML='${getAvatarPlaceholder(contact.nickName)}';">
+                                        <div class="status-indicator ${onlineStatus}"></div>
+                                    </div>
+                                    <div class="contact-info">
+                                        <div class="contact-name">${contact.nickName || '未知用户'}</div>
+                                        <div class="contact-id">ID: ${contact.contactId}</div>
+                                        <div class="contact-status status-${onlineStatus}">${onlineText}</div>
+                                        ${lastActiveTime ? `<div class="contact-time">${lastActiveTime}</div>` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html += '<div style="text-align: center; padding: 40px; color: #6c757d;">暂无联系人</div>';
+                    }
+                    
+                    html += '</div>';
+                    
+                    resultDiv.innerHTML = html;
+                    resultDiv.className = 'result success';
+                    
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载联系人列表失败: ${error.message}`);
+                const resultDiv = document.getElementById('contactResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        function startPolling() {
+            if (pollingInterval) {
+                log('⚠️ 轮询已经在运行中');
+                return;
+            }
+
+            if (!userToken) {
+                alert('请先登录');
+                return;
+            }
+
+            log(`🚀 启动联系人列表轮询，间隔: ${POLLING_INTERVAL / 1000} 秒`);
+            
+            // 立即执行一次
+            loadContactsOnce();
+            
+            // 设置轮询
+            pollingInterval = setInterval(() => {
+                log('⏰ 轮询更新联系人列表...');
+                loadContactsOnce();
+            }, POLLING_INTERVAL);
+            
+            // 更新状态显示
+            updatePollingStatus(true);
+            
+            // 启动倒计时
+            startCountdown();
+        }
+
+        function stopPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+                log('⏹️ 停止联系人列表轮询');
+            }
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            
+            updatePollingStatus(false);
+        }
+
+        function updatePollingStatus(isActive) {
+            const statusDiv = document.getElementById('pollingStatus');
+            if (isActive) {
+                statusDiv.textContent = '轮询状态: 运行中';
+                statusDiv.className = 'polling-status polling-active';
+            } else {
+                statusDiv.textContent = '轮询状态: 已停止';
+                statusDiv.className = 'polling-status polling-inactive';
+                document.getElementById('countdown').textContent = '--';
+            }
+        }
+
+        function startCountdown() {
+            nextPollTime = Date.now() + POLLING_INTERVAL;
+            
+            countdownInterval = setInterval(() => {
+                const remaining = Math.max(0, Math.ceil((nextPollTime - Date.now()) / 1000));
+                document.getElementById('countdown').textContent = remaining;
+                
+                if (remaining === 0) {
+                    nextPollTime = Date.now() + POLLING_INTERVAL;
+                }
+            }, 1000);
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('联系人列表轮询测试工具已加载');
+            log('使用步骤：');
+            log('1. 获取验证码并登录');
+            log('2. 点击"启动轮询"开始自动轮询');
+            log('3. 观察联系人列表每分钟自动更新');
+            log('4. 可以点击"停止轮询"停止自动更新');
+        };
+
+        // 页面卸载时清理
+        window.onbeforeunload = function() {
+            stopPolling();
+        };
+    </script>
+</body>
+</html>

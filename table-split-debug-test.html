@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分表逻辑调试测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px;
+            width: 300px;
+        }
+        .test-result {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .same-table {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .different-table {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>分表逻辑调试测试</h1>
+    
+    <div class="container">
+        <h3>1. 测试同一会议ID的分表一致性</h3>
+        <input type="text" id="meetingIdInput" placeholder="输入会议ID" value="test-meeting-123">
+        <button onclick="testSameMeetingId()">测试同一会议ID</button>
+        <div id="sameMeetingResult" class="test-result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>2. 测试不同会议ID的分表分布</h3>
+        <button onclick="testDifferentMeetingIds()">测试多个会议ID</button>
+        <div id="differentMeetingResult" class="test-result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>3. 分表分布统计</h3>
+        <button onclick="testTableDistribution()">测试分表分布</button>
+        <div id="distributionResult" class="test-result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // JavaScript版本的MurmurHash实现（与Java版本对应）
+        function murmurHash(key) {
+            const data = new TextEncoder().encode(key);
+            const length = data.length;
+            const seed = 0x9747b28c;
+            const m = 0x5bd1e995;
+            const r = 24;
+
+            let h = seed ^ length;
+            const len_4 = length >> 2;
+
+            for (let i = 0; i < len_4; i++) {
+                const i_4 = i << 2;
+                let k = data[i_4 + 3];
+                k = k << 8;
+                k = k | (data[i_4 + 2] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 1] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 0] & 0xff);
+                k = Math.imul(k, m);
+                k ^= k >>> r;
+                k = Math.imul(k, m);
+                h = Math.imul(h, m);
+                h ^= k;
+            }
+
+            const len_m = len_4 << 2;
+            const left = length - len_m;
+
+            if (left !== 0) {
+                if (left >= 3) h ^= (data[length - 3] & 0xff) << 16;
+                if (left >= 2) h ^= (data[length - 2] & 0xff) << 8;
+                if (left >= 1) h ^= (data[length - 1] & 0xff);
+                h = Math.imul(h, m);
+            }
+
+            h ^= h >>> 13;
+            h = Math.imul(h, m);
+            h ^= h >>> 15;
+
+            return h;
+        }
+
+        // 获取表名的函数（与Java版本对应）
+        function getMeetingChatMessageTable(meetingId) {
+            const SPLIT_TABLE_MEETING_CHAT_MESSAGE = "meeting_chat_message";
+            const SPLIT_TABLE_COUNT = 32;
+            
+            const hashCode = Math.abs(murmurHash(meetingId));
+            const tableNum = hashCode % SPLIT_TABLE_COUNT + 1;
+            const tableNumLength = String(SPLIT_TABLE_COUNT).length;
+            const paddedTableNum = String(tableNum).padStart(tableNumLength, '0');
+            
+            return `${SPLIT_TABLE_MEETING_CHAT_MESSAGE}_${paddedTableNum}`;
+        }
+
+        function testSameMeetingId() {
+            const meetingId = document.getElementById('meetingIdInput').value.trim();
+            if (!meetingId) {
+                alert('请输入会议ID');
+                return;
+            }
+
+            log(`测试会议ID: ${meetingId}`);
+            
+            // 测试多次调用是否返回相同的表名
+            const results = [];
+            for (let i = 0; i < 10; i++) {
+                const tableName = getMeetingChatMessageTable(meetingId);
+                results.push(tableName);
+                log(`第${i+1}次调用: ${tableName}`);
+            }
+
+            // 检查是否所有结果都相同
+            const uniqueTables = [...new Set(results)];
+            const resultDiv = document.getElementById('sameMeetingResult');
+            
+            if (uniqueTables.length === 1) {
+                resultDiv.innerHTML = `✅ 测试通过：同一会议ID始终映射到同一个表<br>表名: <strong>${uniqueTables[0]}</strong>`;
+                resultDiv.className = 'test-result same-table';
+                log('✅ 同一会议ID分表一致性测试通过');
+            } else {
+                resultDiv.innerHTML = `❌ 测试失败：同一会议ID映射到了不同的表<br>表名: ${uniqueTables.join(', ')}`;
+                resultDiv.className = 'test-result different-table';
+                log('❌ 同一会议ID分表一致性测试失败');
+            }
+        }
+
+        function testDifferentMeetingIds() {
+            const testMeetingIds = [
+                'meeting-001',
+                'meeting-002', 
+                'meeting-003',
+                'test-meeting-123',
+                'quick-meeting-456',
+                'scheduled-meeting-789',
+                'abcdef123456',
+                '123456789',
+                'meeting-with-long-name-test'
+            ];
+
+            log('测试不同会议ID的分表分布:');
+            const tableMapping = {};
+            
+            testMeetingIds.forEach(meetingId => {
+                const tableName = getMeetingChatMessageTable(meetingId);
+                if (!tableMapping[tableName]) {
+                    tableMapping[tableName] = [];
+                }
+                tableMapping[tableName].push(meetingId);
+                log(`${meetingId} -> ${tableName}`);
+            });
+
+            let resultHtml = '<h4>分表映射结果:</h4>';
+            Object.keys(tableMapping).sort().forEach(tableName => {
+                const meetingIds = tableMapping[tableName];
+                resultHtml += `<div><strong>${tableName}</strong>: ${meetingIds.join(', ')}</div>`;
+            });
+
+            resultHtml += `<br><strong>总计使用了 ${Object.keys(tableMapping).length} 个表</strong>`;
+            
+            document.getElementById('differentMeetingResult').innerHTML = resultHtml;
+            log(`不同会议ID分布到 ${Object.keys(tableMapping).length} 个不同的表中`);
+        }
+
+        function testTableDistribution() {
+            log('测试分表分布统计 (生成1000个随机会议ID):');
+            
+            const tableCount = {};
+            const totalTests = 1000;
+            
+            for (let i = 0; i < totalTests; i++) {
+                const meetingId = `meeting-${Math.random().toString(36).substr(2, 9)}`;
+                const tableName = getMeetingChatMessageTable(meetingId);
+                
+                if (!tableCount[tableName]) {
+                    tableCount[tableName] = 0;
+                }
+                tableCount[tableName]++;
+            }
+
+            const sortedTables = Object.keys(tableCount).sort();
+            let resultHtml = '<h4>分表分布统计:</h4>';
+            let minCount = Infinity;
+            let maxCount = 0;
+            
+            sortedTables.forEach(tableName => {
+                const count = tableCount[tableName];
+                minCount = Math.min(minCount, count);
+                maxCount = Math.max(maxCount, count);
+                resultHtml += `<div>${tableName}: ${count} 个会议</div>`;
+                log(`${tableName}: ${count} 个会议`);
+            });
+
+            const usedTables = sortedTables.length;
+            const avgCount = totalTests / usedTables;
+            
+            resultHtml += `<br><strong>统计信息:</strong><br>`;
+            resultHtml += `使用的表数量: ${usedTables}/32<br>`;
+            resultHtml += `平均每表: ${avgCount.toFixed(2)} 个会议<br>`;
+            resultHtml += `最少: ${minCount} 个会议<br>`;
+            resultHtml += `最多: ${maxCount} 个会议<br>`;
+            resultHtml += `分布均匀度: ${((maxCount - minCount) / avgCount * 100).toFixed(2)}%`;
+
+            document.getElementById('distributionResult').innerHTML = resultHtml;
+            log(`分表分布统计完成: 使用了 ${usedTables}/32 个表`);
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('分表逻辑调试测试页面已加载');
+            log('当前分表策略: 基于meetingId的MurmurHash，32个分表');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试搜索联系人 API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #40a9ff;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #e8e8e8;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .error {
+            color: #ff4d4f;
+            background: #fff2f0;
+            border: 1px solid #ffccc7;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .success {
+            color: #52c41a;
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+        }
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #1890ff;
+        }
+        .user-details {
+            flex: 1;
+        }
+        .user-details p {
+            margin: 8px 0;
+            color: #666;
+        }
+        .user-details strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 测试搜索联系人 API</h1>
+        
+        <div class="form-group">
+            <label>Token (从 localStorage 获取):</label>
+            <input type="text" id="token" placeholder="自动从 localStorage 读取">
+        </div>
+
+        <div class="form-group">
+            <label>搜索方式:</label>
+            <select id="searchType" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                <option value="userId">用户ID</option>
+                <option value="email">邮箱</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>搜索内容:</label>
+            <input type="text" id="searchInput" placeholder="输入用户ID或邮箱">
+        </div>
+        
+        <button onclick="testSearchContact()">🔍 搜索联系人</button>
+        <button onclick="clearResult()">🗑️ 清空结果</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // 从 localStorage 读取 token
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                document.getElementById('token').value = token;
+                console.log('✅ 已从 localStorage 读取 token');
+            } else {
+                console.warn('⚠️ localStorage 中没有找到 token');
+            }
+        };
+
+        async function testSearchContact() {
+            const resultDiv = document.getElementById('result');
+            const token = document.getElementById('token').value;
+            const searchType = document.getElementById('searchType').value;
+            const searchInput = document.getElementById('searchInput').value.trim();
+            
+            if (!token) {
+                resultDiv.innerHTML = '<div class="error">❌ 请提供 Token</div>';
+                return;
+            }
+
+            if (!searchInput) {
+                resultDiv.innerHTML = '<div class="error">❌ 请输入搜索内容</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div class="success">⏳ 正在搜索...</div>';
+            
+            try {
+                // 构建查询参数
+                const params = new URLSearchParams();
+                if (searchType === 'userId') {
+                    params.append('userId', searchInput);
+                } else {
+                    params.append('email', searchInput);
+                }
+
+                const url = `http://localhost:6099/userContact/searchContact?${params.toString()}`;
+                
+                console.log('📤 请求 URL:', url);
+                console.log('📤 Token:', token);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                console.log('📥 响应数据:', data);
+                
+                let html = '<div class="result"><h3>📊 API 响应</h3>';
+                html += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                if (data.code === 200 && data.data) {
+                    const user = data.data;
+                    html += '<div class="user-info">';
+                    
+                    // 显示头像
+                    if (user.avatar) {
+                        html += `<img src="${user.avatar}" alt="Avatar" class="user-avatar" onerror="this.src='/svg/${user.sex === 1 ? '男' : '女'}头像.svg'">`;
+                    } else {
+                        html += `<img src="/svg/${user.sex === 1 ? '男' : '女'}头像.svg" alt="Default Avatar" class="user-avatar">`;
+                    }
+                    
+                    html += '<div class="user-details">';
+                    html += `<p><strong>用户ID:</strong> ${user.userId || '未知'}</p>`;
+                    html += `<p><strong>昵称:</strong> ${user.nickName || '未知'}</p>`;
+                    html += `<p><strong>邮箱:</strong> ${user.email || '未提供'}</p>`;
+                    html += `<p><strong>性别:</strong> ${user.sex === 1 ? '男' : user.sex === 0 ? '女' : '保密'}</p>`;
+                    html += `<p><strong>头像URL:</strong> ${user.avatar || '无'}</p>`;
+                    html += `<p><strong>状态:</strong> ${getStatusText(user.status)}</p>`;
+                    html += '</div>';
+                    html += '</div>';
+                    
+                    // 检查缺失的字段
+                    const missingFields = [];
+                    if (!user.email) missingFields.push('email');
+                    if (user.sex === undefined || user.sex === null) missingFields.push('sex');
+                    if (!user.avatar) missingFields.push('avatar');
+                    
+                    if (missingFields.length > 0) {
+                        html += '<div class="error">⚠️ 缺失字段: ' + missingFields.join(', ') + '</div>';
+                        html += '<div class="error">💡 提示：请确保后端已重新编译并重启</div>';
+                    } else {
+                        html += '<div class="success">✅ 所有字段都已返回</div>';
+                    }
+                } else if (data.code === 200 && !data.data) {
+                    html += '<div class="error">❌ 未找到该用户</div>';
+                } else {
+                    html += '<div class="error">❌ ' + (data.info || '搜索失败') + '</div>';
+                }
+                
+                html += '</div>';
+                resultDiv.innerHTML = html;
+                
+            } catch (error) {
+                console.error('❌ 请求失败:', error);
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h3>❌ 请求失败</h3>
+                        <div class="error">${error.message}</div>
+                        <pre>${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        function getStatusText(status) {
+            if (status === null) return '可以添加';
+            if (status === -1) return '自己';
+            if (status === 0) return '已发送申请';
+            if (status === 1) return '已是好友';
+            if (status === 2) return '已拉黑';
+            return '未知';
+        }
+
+        function clearResult() {
+            document.getElementById('result').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索联系人API测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        button.success { background: #28a745; }
+        button.danger { background: #dc3545; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 200px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        
+        .login-section { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .search-section { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 4px; background: white; }
+        .search-input-group { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .status-badge { 
+            display: inline-block; 
+            padding: 4px 8px; 
+            border-radius: 12px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            margin-left: 10px; 
+        }
+        .status-friend { background-color: #28a745; color: white; }
+        .status-pending { background-color: #ffc107; color: black; }
+        .status-blacklist { background-color: #dc3545; color: white; }
+        .status-self { background-color: #6c757d; color: white; }
+        .status-none { background-color: #17a2b8; color: white; }
+    </style>
+</head>
+<body>
+    <h1>搜索联系人API测试</h1>
+    <p>测试searchContact API支持userId和email参数的功能</p>
+    
+    <div class="container">
+        <h3>👤 用户登录</h3>
+        <div class="login-section">
+            <input type="email" id="email" placeholder="邮箱" value="13377571475@qq.com">
+            <input type="password" id="password" placeholder="密码" value="123456">
+            <input type="text" id="checkCode" placeholder="验证码" style="width: 100px;">
+            <button type="button" onclick="getCheckCode()">获取验证码</button>
+            <button type="button" onclick="loginUser()">登录</button>
+        </div>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>🔍 搜索联系人测试</h3>
+        
+        <div class="search-section">
+            <h4>通过用户ID搜索</h4>
+            <div class="search-input-group">
+                <input type="text" id="searchUserId" placeholder="输入要搜索的用户ID" value="a0JMrGXON3HP">
+                <button type="button" onclick="searchByUserId()">搜索</button>
+            </div>
+            <div id="userIdResult" class="result">等待搜索...</div>
+        </div>
+
+        <div class="search-section">
+            <h4>通过邮箱搜索</h4>
+            <div class="search-input-group">
+                <input type="email" id="searchEmail" placeholder="输入要搜索的邮箱" value="2836240651@qq.com">
+                <button type="button" onclick="searchByEmail()">搜索</button>
+            </div>
+            <div id="emailResult" class="result">等待搜索...</div>
+        </div>
+
+        <div class="search-section">
+            <h4>参数验证测试</h4>
+            <div class="search-input-group">
+                <button type="button" onclick="searchWithoutParams()">测试无参数调用</button>
+                <button type="button" onclick="searchWithEmptyParams()">测试空参数调用</button>
+            </div>
+            <div id="validationResult" class="result">等待测试...</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>🔍 调试日志</h3>
+        <button type="button" onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let userToken = null;
+        let userInfo = null;
+        let checkCodeKey = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        async function getCheckCode() {
+            try {
+                log('获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    checkCodeKey = result.data.checkCodeKey;
+                    const checkCodeImage = result.data.checkCode;
+                    
+                    log('✅ 验证码获取成功');
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + checkCodeImage;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImage';
+                    
+                    const oldImg = document.getElementById('checkCodeImage');
+                    if (oldImg) oldImg.remove();
+                    
+                    document.getElementById('checkCode').parentNode.appendChild(imgElement);
+                    
+                } else {
+                    log('❌ 验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`🚨 验证码获取失败: ${error.message}`);
+            }
+        }
+
+        async function loginUser() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const checkCode = document.getElementById('checkCode').value.trim();
+            
+            if (!checkCode || !checkCodeKey) {
+                alert('请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKey
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    userToken = result.data.token;
+                    userInfo = result.data;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + userInfo.nickName + ' (ID: ' + userInfo.userId + ')';
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败: ' + error.message;
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }
+
+        // 通过用户ID搜索
+        async function searchByUserId() {
+            const userId = document.getElementById('searchUserId').value.trim();
+            
+            if (!userId) {
+                showResult('userIdResult', '❌ 请输入用户ID', 'error');
+                log('❌ 搜索失败: 用户ID为空');
+                return;
+            }
+
+            if (!userToken) {
+                showResult('userIdResult', '❌ 请先登录', 'error');
+                log('❌ 搜索失败: 未登录');
+                return;
+            }
+
+            log(`通过用户ID搜索: ${userId}`);
+            try {
+                const response = await fetch(`http://localhost:6099/api/userContact/searchContact?userId=${encodeURIComponent(userId)}`, {
+                    method: 'GET',
+                    headers: {
+                        'token': userToken
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const statusText = getStatusText(result.data?.status);
+                    const statusBadge = getStatusBadge(result.data?.status);
+                    showResult('userIdResult', 
+                        `<h4>✅ 搜索成功</h4>
+                         <p><strong>用户名:</strong> ${result.data?.nickName || 'N/A'}</p>
+                         <p><strong>用户ID:</strong> ${result.data?.userId || 'N/A'}</p>
+                         <p><strong>关系状态:</strong> ${statusText} ${statusBadge}</p>
+                         <details>
+                             <summary>完整响应数据</summary>
+                             <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                         </details>`, 
+                        'success');
+                    log(`✅ 用户ID搜索成功: ${result.data?.nickName || 'N/A'} (${statusText})`);
+                } else {
+                    showResult('userIdResult', `<h4>❌ 搜索失败</h4><p>${result.info}</p>`, 'error');
+                    log(`❌ 用户ID搜索失败: ${result.info}`);
+                }
+            } catch (error) {
+                showResult('userIdResult', `<h4>❌ 搜索失败</h4><p>${error.message}</p>`, 'error');
+                log(`❌ 用户ID搜索失败: ${error.message}`);
+            }
+        }
+
+        // 通过邮箱搜索
+        async function searchByEmail() {
+            const email = document.getElementById('searchEmail').value.trim();
+            
+            if (!email) {
+                showResult('emailResult', '❌ 请输入邮箱', 'error');
+                log('❌ 搜索失败: 邮箱为空');
+                return;
+            }
+
+            if (!userToken) {
+                showResult('emailResult', '❌ 请先登录', 'error');
+                log('❌ 搜索失败: 未登录');
+                return;
+            }
+
+            log(`通过邮箱搜索: ${email}`);
+            try {
+                const response = await fetch(`http://localhost:6099/api/userContact/searchContact?email=${encodeURIComponent(email)}`, {
+                    method: 'GET',
+                    headers: {
+                        'token': userToken
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const statusText = getStatusText(result.data?.status);
+                    const statusBadge = getStatusBadge(result.data?.status);
+                    showResult('emailResult', 
+                        `<h4>✅ 搜索成功</h4>
+                         <p><strong>用户名:</strong> ${result.data?.nickName || 'N/A'}</p>
+                         <p><strong>用户ID:</strong> ${result.data?.userId || 'N/A'}</p>
+                         <p><strong>关系状态:</strong> ${statusText} ${statusBadge}</p>
+                         <details>
+                             <summary>完整响应数据</summary>
+                             <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                         </details>`, 
+                        'success');
+                    log(`✅ 邮箱搜索成功: ${result.data?.nickName || 'N/A'} (${statusText})`);
+                } else {
+                    showResult('emailResult', `<h4>❌ 搜索失败</h4><p>${result.info}</p>`, 'error');
+                    log(`❌ 邮箱搜索失败: ${result.info}`);
+                }
+            } catch (error) {
+                showResult('emailResult', `<h4>❌ 搜索失败</h4><p>${error.message}</p>`, 'error');
+                log(`❌ 邮箱搜索失败: ${error.message}`);
+            }
+        }
+
+        // 测试无参数调用
+        async function searchWithoutParams() {
+            if (!userToken) {
+                showResult('validationResult', '❌ 请先登录', 'error');
+                log('❌ 参数验证测试失败: 未登录');
+                return;
+            }
+
+            log('测试无参数调用...');
+            try {
+                const response = await fetch(`http://localhost:6099/api/userContact/searchContact`, {
+                    method: 'GET',
+                    headers: {
+                        'token': userToken
+                    }
+                });
+
+                const result = await response.json();
+                showResult('validationResult', 
+                    `<h4>📋 无参数测试结果</h4>
+                     <p><strong>状态:</strong> ${result.status}</p>
+                     <p><strong>信息:</strong> ${result.info || 'N/A'}</p>
+                     <details>
+                         <summary>完整响应</summary>
+                         <pre>${JSON.stringify(result, null, 2)}</pre>
+                     </details>`, 
+                    result.status === 'success' ? 'success' : 'error');
+                log(`📋 无参数测试: ${result.status} - ${result.info || 'N/A'}`);
+            } catch (error) {
+                showResult('validationResult', `<h4>❌ 无参数测试失败</h4><p>${error.message}</p>`, 'error');
+                log(`❌ 无参数测试失败: ${error.message}`);
+            }
+        }
+
+        // 测试空参数调用
+        async function searchWithEmptyParams() {
+            if (!userToken) {
+                showResult('validationResult', '❌ 请先登录', 'error');
+                log('❌ 参数验证测试失败: 未登录');
+                return;
+            }
+
+            log('测试空参数调用...');
+            try {
+                const response = await fetch(`http://localhost:6099/api/userContact/searchContact?userId=&email=`, {
+                    method: 'GET',
+                    headers: {
+                        'token': userToken
+                    }
+                });
+
+                const result = await response.json();
+                showResult('validationResult', 
+                    `<h4>📋 空参数测试结果</h4>
+                     <p><strong>状态:</strong> ${result.status}</p>
+                     <p><strong>信息:</strong> ${result.info || 'N/A'}</p>
+                     <details>
+                         <summary>完整响应</summary>
+                         <pre>${JSON.stringify(result, null, 2)}</pre>
+                     </details>`, 
+                    result.status === 'success' ? 'success' : 'error');
+                log(`📋 空参数测试: ${result.status} - ${result.info || 'N/A'}`);
+            } catch (error) {
+                showResult('validationResult', `<h4>❌ 空参数测试失败</h4><p>${error.message}</p>`, 'error');
+                log(`❌ 空参数测试失败: ${error.message}`);
+            }
+        }
+
+        // 获取状态文本
+        function getStatusText(status) {
+            switch(status) {
+                case -1: return '自己';
+                case 0: return '已是好友';
+                case 1: return '申请待处理';
+                case 2: return '已拉黑';
+                case null: return '可发送申请';
+                default: return `未知状态(${status})`;
+            }
+        }
+
+        // 获取状态徽章
+        function getStatusBadge(status) {
+            const className = {
+                '-1': 'status-self',
+                '0': 'status-friend',
+                '1': 'status-pending',
+                '2': 'status-blacklist',
+                'null': 'status-none'
+            }[String(status)] || 'status-none';
+            
+            return `<span class="status-badge ${className}">${getStatusText(status)}</span>`;
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = `result ${type}`;
+        }
+
+        // 页面加载时自动获取验证码
+        window.onload = function() {
+            log('搜索联系人API测试页面已加载');
+            log('使用说明：');
+            log('1. 点击"获取验证码"按钮获取图片验证码');
+            log('2. 查看验证码图片并输入验证码');
+            log('3. 登录用户账号');
+            log('4. 测试通过用户ID或邮箱搜索联系人');
+            log('5. 测试参数验证功能');
+            
+            getCheckCode();
+        };
+    </script>
+</body>
+</html>

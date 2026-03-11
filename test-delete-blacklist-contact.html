@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试删除和拉黑好友功能</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .delete-btn {
+            background-color: #ff9800;
+        }
+        .delete-btn:hover {
+            background-color: #f57c00;
+        }
+        .blacklist-btn {
+            background-color: #f44336;
+        }
+        .blacklist-btn:hover {
+            background-color: #d32f2f;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .error {
+            border-left-color: #f44336;
+            background-color: #ffebee;
+        }
+        .contact-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .contact-info {
+            flex: 1;
+        }
+        .contact-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        .contact-info p {
+            margin: 3px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .info {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>测试删除和拉黑好友功能</h2>
+        
+        <div class="info">
+            <p><strong>功能说明：</strong></p>
+            <ul>
+                <li>删除好友（status=2）：双向删除，对方会收到 WebSocket 通知</li>
+                <li>拉黑好友（status=3）：双向拉黑，对方不会收到通知</li>
+            </ul>
+            <p><strong>Token:</strong> <span id="tokenDisplay">未设置</span></p>
+        </div>
+
+        <div class="test-section">
+            <h3>1. 加载联系人列表</h3>
+            <button onclick="loadContacts()">加载联系人列表</button>
+            <div id="contactsResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. 删除好友</h3>
+            <input type="text" id="deleteContactId" placeholder="输入要删除的联系人ID">
+            <button class="delete-btn" onclick="deleteContact()">删除好友</button>
+            <div id="deleteResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. 拉黑好友</h3>
+            <input type="text" id="blacklistContactId" placeholder="输入要拉黑的联系人ID">
+            <button class="blacklist-btn" onclick="blacklistContact()">拉黑好友</button>
+            <div id="blacklistResult" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:6099';
+        const token = localStorage.getItem('token') || '';
+
+        // 显示 token
+        document.getElementById('tokenDisplay').textContent = token ? token.substring(0, 20) + '...' : '未设置';
+
+        async function loadContacts() {
+            const resultDiv = document.getElementById('contactsResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>正在加载联系人列表...</p>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/userContact/loadContactUser`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                console.log('联系人列表响应:', data);
+
+                if (data.code === 200) {
+                    let html = '<h4>✅ 联系人列表加载成功</h4>';
+                    html += `<p>共 ${data.data ? data.data.length : 0} 个联系人</p>`;
+                    
+                    if (data.data && data.data.length > 0) {
+                        html += '<div>';
+                        data.data.forEach(contact => {
+                            html += `
+                                <div class="contact-item">
+                                    <img src="${contact.avatar || '/svg/男头像.svg'}" class="contact-avatar" alt="Avatar">
+                                    <div class="contact-info">
+                                        <h4>${contact.nickName || contact.contactId}</h4>
+                                        <p><strong>联系人ID:</strong> ${contact.contactId}</p>
+                                        <p><strong>状态:</strong> ${getContactStatus(contact.status)}</p>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                    } else {
+                        html += '<p>暂无联系人</p>';
+                    }
+                    
+                    html += '<h4>原始数据:</h4>';
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${data.info}</p>`;
+                }
+            } catch (error) {
+                console.error('加载联系人列表失败:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+            }
+        }
+
+        async function deleteContact() {
+            const contactId = document.getElementById('deleteContactId').value.trim();
+            const resultDiv = document.getElementById('deleteResult');
+            
+            if (!contactId) {
+                alert('请输入联系人ID');
+                return;
+            }
+
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>正在删除好友...</p>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/userContact/delContact?contactId=${encodeURIComponent(contactId)}&status=2`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                console.log('删除好友响应:', data);
+
+                if (data.code === 200) {
+                    resultDiv.innerHTML = `
+                        <h4>✅ 删除好友成功</h4>
+                        <p>已删除联系人: ${contactId}</p>
+                        <p>对方会收到 WebSocket 通知</p>
+                        <h4>响应数据:</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    // 重新加载联系人列表
+                    setTimeout(() => loadContacts(), 1000);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h4>❌ 删除失败</h4><p>${data.info}</p>`;
+                }
+            } catch (error) {
+                console.error('删除好友失败:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+            }
+        }
+
+        async function blacklistContact() {
+            const contactId = document.getElementById('blacklistContactId').value.trim();
+            const resultDiv = document.getElementById('blacklistResult');
+            
+            if (!contactId) {
+                alert('请输入联系人ID');
+                return;
+            }
+
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<p>正在拉黑好友...</p>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/userContact/delContact?contactId=${encodeURIComponent(contactId)}&status=3`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                console.log('拉黑好友响应:', data);
+
+                if (data.code === 200) {
+                    resultDiv.innerHTML = `
+                        <h4>✅ 拉黑成功</h4>
+                        <p>已拉黑联系人: ${contactId}</p>
+                        <p>对方不会收到通知</p>
+                        <h4>响应数据:</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    // 重新加载联系人列表
+                    setTimeout(() => loadContacts(), 1000);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h4>❌ 拉黑失败</h4><p>${data.info}</p>`;
+                }
+            } catch (error) {
+                console.error('拉黑失败:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+            }
+        }
+
+        function getContactStatus(status) {
+            switch(status) {
+                case 1: return '好友';
+                case 2: return '已删除';
+                case 3: return '已拉黑';
+                default: return '未知';
+            }
+        }
+
+        // 页面加载时检查token
+        window.onload = function() {
+            if (!token) {
+                alert('请先登录！将跳转到登录页面...');
+                window.location.href = 'login.html';
+            }
+        };
+    </script>
+</body>
+</html>
+""

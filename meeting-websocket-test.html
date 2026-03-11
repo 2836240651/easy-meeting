@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议WebSocket测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #363636;
+            color: #dfdfdf;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #434343;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #555555;
+            border-radius: 6px;
+            background-color: #3a3a3a;
+        }
+        .test-title {
+            color: #dfdfdf;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .button {
+            background-color: #999999;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .button:hover {
+            background-color: #b3b3b3;
+        }
+        .button:disabled {
+            background-color: #666666;
+            cursor: not-allowed;
+        }
+        .input {
+            background-color: #555555;
+            border: 1px solid #666666;
+            color: #dfdfdf;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px;
+            width: 200px;
+        }
+        .input:focus {
+            outline: none;
+            border-color: #999999;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+        .error {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+        .info {
+            background-color: rgba(33, 150, 243, 0.2);
+            color: #2196f3;
+            border: 1px solid #2196f3;
+        }
+        .warning {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+            border: 1px solid #ff9800;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-connected {
+            background-color: #4caf50;
+        }
+        .status-disconnected {
+            background-color: #f44336;
+        }
+        .status-connecting {
+            background-color: #ff9800;
+        }
+        .message-log {
+            background-color: #2a2a2a;
+            border: 1px solid #555555;
+            border-radius: 4px;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .flex-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>会议WebSocket连接测试</h1>
+        
+        <!-- 连接状态 -->
+        <div class="test-section">
+            <div class="test-title">🔗 连接状态</div>
+            <div class="flex-row">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="statusText">未连接</span>
+                <button class="button" id="connectBtn" onclick="connectWebSocket()">连接</button>
+                <button class="button" id="disconnectBtn" onclick="disconnectWebSocket()" disabled>断开</button>
+            </div>
+            
+            <div class="flex-row">
+                <input type="text" id="tokenInput" placeholder="输入Token" class="input">
+                <input type="text" id="userIdInput" placeholder="输入用户ID" class="input">
+                <input type="text" id="meetingIdInput" placeholder="输入会议ID" class="input">
+            </div>
+            
+            <div id="connectionResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- 消息发送测试 -->
+        <div class="test-section">
+            <div class="test-title">💬 消息发送测试</div>
+            
+            <div class="flex-col">
+                <div class="flex-row">
+                    <input type="text" id="chatMessageInput" placeholder="输入聊天消息" class="input">
+                    <button class="button" onclick="sendChatMessage()">发送聊天消息</button>
+                </div>
+                
+                <div class="flex-row">
+                    <button class="button" onclick="sendVideoStatusChange(true)">开启视频</button>
+                    <button class="button" onclick="sendVideoStatusChange(false)">关闭视频</button>
+                    <button class="button" onclick="sendExitMeeting()">离开会议</button>
+                    <button class="button" onclick="sendFinishMeeting()">结束会议</button>
+                </div>
+            </div>
+            
+            <div id="sendResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- 消息接收日志 -->
+        <div class="test-section">
+            <div class="test-title">📨 消息接收日志</div>
+            <button class="button" onclick="clearMessageLog()">清空日志</button>
+            <div id="messageLog" class="message-log"></div>
+        </div>
+
+        <!-- API测试 -->
+        <div class="test-section">
+            <div class="test-title">🔧 API测试</div>
+            <div class="flex-row">
+                <button class="button" onclick="testJoinMeetingAPI()">测试加入会议API</button>
+                <button class="button" onclick="testGetMeetingMembers()">测试获取会议成员</button>
+                <button class="button" onclick="testGetCurrentMeeting()">测试获取当前会议</button>
+            </div>
+            
+            <div id="apiResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- 调试信息 -->
+        <div class="test-section">
+            <div class="test-title">🔍 调试信息</div>
+            <button class="button" onclick="showDebugInfo()">显示调试信息</button>
+            <div id="debugResult" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // WebSocket连接
+        let ws = null;
+        let isConnected = false;
+        let currentToken = null;
+        let currentUserId = null;
+        let currentMeetingId = null;
+
+        // 消息类型枚举
+        const MessageType = {
+            INIT: 0,
+            ADD_MEETING_ROOM: 1,
+            PEER: 2,
+            EXIT_MEETING_ROOM: 3,
+            FINISH_MEETING: 4,
+            CHAT_TEXT_MESSAGE: 5,
+            CHAT_MEDIA_MESSAGE: 6,
+            CHAT_MEDIA_MESSAGE_UPDATE: 7,
+            USER_CONTACT_APPLY: 8,
+            INVITE_MEMBER_MEETING: 9,
+            FORCE_OFF_LINE: 10,
+            MEETING_USER_VIDEO_CHANGE: 11,
+            USER_CONTACT_DEAL_WITH: 12
+        };
+
+        // 消息发送类型枚举
+        const MessageSend2Type = {
+            USER: 1,    // 发送给特定用户
+            GROUP: 2    // 发送给群组（会议房间）
+        };
+
+        // 更新连接状态
+        function updateConnectionStatus(status, message) {
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const connectBtn = document.getElementById('connectBtn');
+            const disconnectBtn = document.getElementById('disconnectBtn');
+
+            switch (status) {
+                case 'connected':
+                    indicator.className = 'status-indicator status-connected';
+                    statusText.textContent = '已连接';
+                    connectBtn.disabled = true;
+                    disconnectBtn.disabled = false;
+                    isConnected = true;
+                    break;
+                case 'connecting':
+                    indicator.className = 'status-indicator status-connecting';
+                    statusText.textContent = '连接中...';
+                    connectBtn.disabled = true;
+                    disconnectBtn.disabled = true;
+                    break;
+                case 'disconnected':
+                    indicator.className = 'status-indicator status-disconnected';
+                    statusText.textContent = '未连接';
+                    connectBtn.disabled = false;
+                    disconnectBtn.disabled = true;
+                    isConnected = false;
+                    break;
+            }
+
+            if (message) {
+                showResult('connectionResult', message, status === 'connected' ? 'success' : 'error');
+            }
+        }
+
+        // 连接WebSocket
+        function connectWebSocket() {
+            const token = document.getElementById('tokenInput').value || localStorage.getItem('token');
+            const userId = document.getElementById('userIdInput').value || 'test-user';
+            const meetingId = document.getElementById('meetingIdInput').value || 'test-meeting';
+
+            if (!token) {
+                showResult('connectionResult', '❌ 请输入Token或先登录', 'error');
+                return;
+            }
+
+            currentToken = token;
+            currentUserId = userId;
+            currentMeetingId = meetingId;
+
+            updateConnectionStatus('connecting');
+            logMessage('🔗 开始连接WebSocket...');
+
+            try {
+                ws = new WebSocket(`ws://localhost:6098/ws?token=${encodeURIComponent(token)}`);
+
+                ws.onopen = () => {
+                    updateConnectionStatus('connected', '✅ WebSocket连接成功');
+                    logMessage('✅ WebSocket连接成功');
+                    startHeartbeat();
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        if (event.data === 'pong') {
+                            logMessage('💓 收到心跳响应');
+                            return;
+                        }
+
+                        const message = JSON.parse(event.data);
+                        logMessage(`📨 收到消息: ${JSON.stringify(message, null, 2)}`);
+                        handleMessage(message);
+                    } catch (error) {
+                        logMessage(`❌ 解析消息失败: ${error.message}`);
+                    }
+                };
+
+                ws.onclose = (event) => {
+                    updateConnectionStatus('disconnected', `❌ 连接关闭: ${event.code} - ${event.reason}`);
+                    logMessage(`❌ 连接关闭: ${event.code} - ${event.reason}`);
+                    stopHeartbeat();
+                };
+
+                ws.onerror = (error) => {
+                    updateConnectionStatus('disconnected', `❌ 连接错误: ${error.message}`);
+                    logMessage(`❌ 连接错误: ${error}`);
+                };
+
+            } catch (error) {
+                updateConnectionStatus('disconnected', `❌ 连接失败: ${error.message}`);
+                logMessage(`❌ 连接失败: ${error.message}`);
+            }
+        }
+
+        // 断开WebSocket
+        function disconnectWebSocket() {
+            if (ws) {
+                ws.close(1000, '用户主动断开');
+                ws = null;
+            }
+            stopHeartbeat();
+            updateConnectionStatus('disconnected', '✅ 已断开连接');
+            logMessage('✅ 已断开连接');
+        }
+
+        // 心跳机制
+        let heartbeatInterval = null;
+
+        function startHeartbeat() {
+            stopHeartbeat();
+            heartbeatInterval = setInterval(() => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send('ping');
+                    logMessage('💓 发送心跳');
+                } else {
+                    stopHeartbeat();
+                }
+            }, 30000);
+        }
+
+        function stopHeartbeat() {
+            if (heartbeatInterval) {
+                clearInterval(heartbeatInterval);
+                heartbeatInterval = null;
+            }
+        }
+
+        // 发送消息
+        function sendMessage(message) {
+            if (!isConnected || !ws) {
+                showResult('sendResult', '❌ WebSocket未连接', 'error');
+                return false;
+            }
+
+            try {
+                ws.send(JSON.stringify(message));
+                logMessage(`📤 发送消息: ${JSON.stringify(message, null, 2)}`);
+                return true;
+            } catch (error) {
+                showResult('sendResult', `❌ 发送消息失败: ${error.message}`, 'error');
+                logMessage(`❌ 发送消息失败: ${error.message}`);
+                return false;
+            }
+        }
+
+        // 发送聊天消息
+        function sendChatMessage() {
+            const content = document.getElementById('chatMessageInput').value.trim();
+            if (!content) {
+                showResult('sendResult', '❌ 请输入聊天消息', 'error');
+                return;
+            }
+
+            const message = {
+                messageType: MessageType.CHAT_TEXT_MESSAGE,
+                messageSend2Type: MessageSend2Type.GROUP,
+                meetingId: currentMeetingId,
+                sendUserId: currentUserId,
+                sendUserNickName: '测试用户',
+                messageContent: content,
+                sendTime: Date.now()
+            };
+
+            if (sendMessage(message)) {
+                showResult('sendResult', '✅ 聊天消息发送成功', 'success');
+                document.getElementById('chatMessageInput').value = '';
+            }
+        }
+
+        // 发送视频状态改变消息
+        function sendVideoStatusChange(videoOpen) {
+            const message = {
+                messageType: MessageType.MEETING_USER_VIDEO_CHANGE,
+                messageSend2Type: MessageSend2Type.GROUP,
+                meetingId: currentMeetingId,
+                sendUserId: currentUserId,
+                sendUserNickName: '测试用户',
+                messageContent: {
+                    userId: currentUserId,
+                    videoOpen: videoOpen
+                },
+                sendTime: Date.now()
+            };
+
+            if (sendMessage(message)) {
+                showResult('sendResult', `✅ 视频状态改变消息发送成功: ${videoOpen ? '开启' : '关闭'}`, 'success');
+            }
+        }
+
+        // 发送离开会议消息
+        function sendExitMeeting() {
+            const message = {
+                messageType: MessageType.EXIT_MEETING_ROOM,
+                messageSend2Type: MessageSend2Type.GROUP,
+                meetingId: currentMeetingId,
+                sendUserId: currentUserId,
+                sendUserNickName: '测试用户',
+                messageContent: {
+                    exitUserId: currentUserId,
+                    exitUserNickName: '测试用户'
+                },
+                sendTime: Date.now()
+            };
+
+            if (sendMessage(message)) {
+                showResult('sendResult', '✅ 离开会议消息发送成功', 'success');
+            }
+        }
+
+        // 发送结束会议消息
+        function sendFinishMeeting() {
+            const message = {
+                messageType: MessageType.FINISH_MEETING,
+                messageSend2Type: MessageSend2Type.GROUP,
+                meetingId: currentMeetingId,
+                sendUserId: currentUserId,
+                sendUserNickName: '测试用户',
+                messageContent: {
+                    finishUserId: currentUserId,
+                    finishUserNickName: '测试用户'
+                },
+                sendTime: Date.now()
+            };
+
+            if (sendMessage(message)) {
+                showResult('sendResult', '✅ 结束会议消息发送成功', 'success');
+            }
+        }
+
+        // 处理接收到的消息
+        function handleMessage(message) {
+            const messageTypeName = Object.keys(MessageType).find(key => MessageType[key] === message.messageType) || 'UNKNOWN';
+            
+            switch (message.messageType) {
+                case MessageType.ADD_MEETING_ROOM:
+                    logMessage(`👥 有新成员加入会议: ${JSON.stringify(message.messageContent)}`);
+                    break;
+                case MessageType.EXIT_MEETING_ROOM:
+                    logMessage(`👋 有成员离开会议: ${JSON.stringify(message.messageContent)}`);
+                    break;
+                case MessageType.FINISH_MEETING:
+                    logMessage(`🛑 会议已结束: ${JSON.stringify(message.messageContent)}`);
+                    break;
+                case MessageType.CHAT_TEXT_MESSAGE:
+                    logMessage(`💬 收到聊天消息: ${message.sendUserNickName}: ${message.messageContent}`);
+                    break;
+                case MessageType.MEETING_USER_VIDEO_CHANGE:
+                    logMessage(`📹 用户视频状态改变: ${JSON.stringify(message.messageContent)}`);
+                    break;
+                default:
+                    logMessage(`📨 收到${messageTypeName}消息: ${JSON.stringify(message.messageContent)}`);
+            }
+        }
+
+        // 记录消息日志
+        function logMessage(message) {
+            const log = document.getElementById('messageLog');
+            const timestamp = new Date().toLocaleTimeString();
+            log.textContent += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // 清空消息日志
+        function clearMessageLog() {
+            document.getElementById('messageLog').textContent = '';
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type = 'info') {
+            const resultDiv = document.getElementById(elementId);
+            resultDiv.style.display = 'block';
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message;
+        }
+
+        // API测试函数
+        async function testJoinMeetingAPI() {
+            const token = currentToken || localStorage.getItem('token');
+            if (!token) {
+                showResult('apiResult', '❌ 没有Token，请先连接WebSocket', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:6099/api/meetingInfo/joinMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({ videoOpen: true })
+                });
+
+                const data = await response.json();
+                showResult('apiResult', `✅ 加入会议API测试成功\n响应: ${JSON.stringify(data, null, 2)}`, 'success');
+            } catch (error) {
+                showResult('apiResult', `❌ 加入会议API测试失败: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetMeetingMembers() {
+            const token = currentToken || localStorage.getItem('token');
+            const meetingId = currentMeetingId || 'test-meeting';
+
+            if (!token) {
+                showResult('apiResult', '❌ 没有Token，请先连接WebSocket', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:6099/api/meetingInfo/loadMeetingMembers?meetingId=${meetingId}`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                showResult('apiResult', `✅ 获取会议成员API测试成功\n响应: ${JSON.stringify(data, null, 2)}`, 'success');
+            } catch (error) {
+                showResult('apiResult', `❌ 获取会议成员API测试失败: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetCurrentMeeting() {
+            const token = currentToken || localStorage.getItem('token');
+
+            if (!token) {
+                showResult('apiResult', '❌ 没有Token，请先连接WebSocket', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:6099/api/meetingInfo/getCurrentMeeting', {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                showResult('apiResult', `✅ 获取当前会议API测试成功\n响应: ${JSON.stringify(data, null, 2)}`, 'success');
+            } catch (error) {
+                showResult('apiResult', `❌ 获取当前会议API测试失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 显示调试信息
+        function showDebugInfo() {
+            const debugInfo = `
+🔍 调试信息:
+- WebSocket地址: ws://localhost:6098/ws
+- 后端API地址: http://localhost:6099/api
+- 连接状态: ${isConnected ? '已连接' : '未连接'}
+- 当前Token: ${currentToken ? '存在' : '不存在'}
+- 当前用户ID: ${currentUserId || '未设置'}
+- 当前会议ID: ${currentMeetingId || '未设置'}
+- 浏览器: ${navigator.userAgent}
+- 当前时间: ${new Date().toLocaleString()}
+
+📋 消息类型:
+${Object.entries(MessageType).map(([key, value]) => `- ${key}: ${value}`).join('\n')}
+
+🔧 测试步骤:
+1. 先在前端登录获取Token
+2. 输入Token、用户ID、会议ID
+3. 点击连接WebSocket
+4. 测试发送各种消息
+5. 观察消息接收日志
+            `;
+            
+            showResult('debugResult', debugInfo, 'info');
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('会议WebSocket测试页面已加载');
+            updateConnectionStatus('disconnected');
+            
+            // 自动填充Token
+            const token = localStorage.getItem('token');
+            if (token) {
+                document.getElementById('tokenInput').value = token;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议聊天分表诊断</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px;
+            width: 300px;
+        }
+        .diagnosis-result {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .problem {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .normal {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>会议聊天分表诊断工具</h1>
+    
+    <div class="container">
+        <h3>1. 用户登录</h3>
+        <input type="email" id="emailInput" placeholder="邮箱" value="2836240651@qq.com">
+        <input type="password" id="passwordInput" placeholder="密码" value="123456">
+        <button onclick="login()">登录</button>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>2. 分表一致性测试</h3>
+        <input type="text" id="meetingIdInput" placeholder="输入会议ID进行测试" value="">
+        <button onclick="testTableConsistency()">测试分表一致性</button>
+        <div id="consistencyResult" class="diagnosis-result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>3. 会议消息分表分析</h3>
+        <button onclick="analyzeCurrentMeeting()">分析当前会议</button>
+        <button onclick="sendTestMessages()">发送测试消息</button>
+        <button onclick="loadMessages()">加载消息</button>
+        <div id="analysisResult" class="diagnosis-result">等待分析...</div>
+    </div>
+
+    <div class="container">
+        <h3>4. 分表分布统计</h3>
+        <button onclick="generateTableDistribution()">生成分表分布统计</button>
+        <div id="distributionResult" class="diagnosis-result">等待统计...</div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let currentToken = null;
+        let currentUser = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // JavaScript版本的MurmurHash实现
+        function murmurHash(key) {
+            const data = new TextEncoder().encode(key);
+            const length = data.length;
+            const seed = 0x9747b28c;
+            const m = 0x5bd1e995;
+            const r = 24;
+
+            let h = seed ^ length;
+            const len_4 = length >> 2;
+
+            for (let i = 0; i < len_4; i++) {
+                const i_4 = i << 2;
+                let k = data[i_4 + 3];
+                k = k << 8;
+                k = k | (data[i_4 + 2] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 1] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 0] & 0xff);
+                k = Math.imul(k, m);
+                k ^= k >>> r;
+                k = Math.imul(k, m);
+                h = Math.imul(h, m);
+                h ^= k;
+            }
+
+            const len_m = len_4 << 2;
+            const left = length - len_m;
+
+            if (left !== 0) {
+                if (left >= 3) h ^= (data[length - 3] & 0xff) << 16;
+                if (left >= 2) h ^= (data[length - 2] & 0xff) << 8;
+                if (left >= 1) h ^= (data[length - 1] & 0xff);
+                h = Math.imul(h, m);
+            }
+
+            h ^= h >>> 13;
+            h = Math.imul(h, m);
+            h ^= h >>> 15;
+
+            return h;
+        }
+
+        function getMeetingChatMessageTable(meetingId) {
+            const SPLIT_TABLE_MEETING_CHAT_MESSAGE = "meeting_chat_message";
+            const SPLIT_TABLE_COUNT = 32;
+            
+            const hashCode = Math.abs(murmurHash(meetingId));
+            const tableNum = hashCode % SPLIT_TABLE_COUNT + 1;
+            const tableNumLength = String(SPLIT_TABLE_COUNT).length;
+            const paddedTableNum = String(tableNum).padStart(tableNumLength, '0');
+            
+            return `${SPLIT_TABLE_MEETING_CHAT_MESSAGE}_${paddedTableNum}`;
+        }
+
+        async function login() {
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                log(`登录响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    currentToken = result.data.token;
+                    currentUser = result.data.userInfo;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + currentUser.nickName;
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败';
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败';
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }
+
+        function testTableConsistency() {
+            const meetingId = document.getElementById('meetingIdInput').value.trim();
+            if (!meetingId) {
+                alert('请输入会议ID');
+                return;
+            }
+
+            log(`测试会议ID: ${meetingId} 的分表一致性`);
+            
+            // 测试多次调用是否返回相同的表名
+            const results = [];
+            for (let i = 0; i < 100; i++) {
+                const tableName = getMeetingChatMessageTable(meetingId);
+                results.push(tableName);
+            }
+
+            const uniqueTables = [...new Set(results)];
+            const resultDiv = document.getElementById('consistencyResult');
+            
+            if (uniqueTables.length === 1) {
+                resultDiv.innerHTML = `
+                    <h4>✅ 分表一致性测试通过</h4>
+                    <p><strong>会议ID:</strong> ${meetingId}</p>
+                    <p><strong>分配的表:</strong> ${uniqueTables[0]}</p>
+                    <p><strong>测试次数:</strong> 100次，结果完全一致</p>
+                `;
+                resultDiv.className = 'diagnosis-result normal';
+                log(`✅ 会议 ${meetingId} 分表一致性测试通过，表名: ${uniqueTables[0]}`);
+            } else {
+                resultDiv.innerHTML = `
+                    <h4>❌ 分表一致性测试失败</h4>
+                    <p><strong>会议ID:</strong> ${meetingId}</p>
+                    <p><strong>发现的表:</strong> ${uniqueTables.join(', ')}</p>
+                    <p><strong>问题:</strong> 同一会议ID映射到了多个不同的表！</p>
+                `;
+                resultDiv.className = 'diagnosis-result problem';
+                log(`❌ 会议 ${meetingId} 分表一致性测试失败`);
+            }
+        }
+
+        async function analyzeCurrentMeeting() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('获取当前会议信息...');
+                const response = await fetch('http://localhost:6099/meetingInfo/getCurrentMeeting', {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`当前会议响应: ${JSON.stringify(result)}`);
+
+                const resultDiv = document.getElementById('analysisResult');
+                
+                if (result.status === 'success' && result.data) {
+                    const meetingInfo = result.data;
+                    const meetingId = meetingInfo.meetingId;
+                    const tableName = getMeetingChatMessageTable(meetingId);
+                    
+                    // 设置会议ID到输入框
+                    document.getElementById('meetingIdInput').value = meetingId;
+                    
+                    resultDiv.innerHTML = `
+                        <h4>📊 当前会议分析结果</h4>
+                        <table>
+                            <tr><th>属性</th><th>值</th></tr>
+                            <tr><td>会议ID</td><td>${meetingId}</td></tr>
+                            <tr><td>会议名称</td><td>${meetingInfo.meetingName || '未知'}</td></tr>
+                            <tr><td>会议号</td><td>${meetingInfo.meetingNo || '未知'}</td></tr>
+                            <tr><td>分配的消息表</td><td><strong>${tableName}</strong></td></tr>
+                            <tr><td>创建者</td><td>${meetingInfo.createUserNickName || '未知'}</td></tr>
+                        </table>
+                        <p><strong>结论:</strong> 该会议的所有聊天消息都应该存储在表 <code>${tableName}</code> 中</p>
+                    `;
+                    resultDiv.className = 'diagnosis-result normal';
+                    log(`✅ 当前会议 ${meetingId} 应使用表: ${tableName}`);
+                } else {
+                    resultDiv.innerHTML = `
+                        <h4>⚠️ 当前没有进行中的会议</h4>
+                        <p>请先创建或加入一个会议，然后再进行分析</p>
+                    `;
+                    resultDiv.className = 'diagnosis-result warning';
+                    log('⚠️ 当前没有进行中的会议');
+                }
+            } catch (error) {
+                log(`🚨 获取会议信息失败: ${error.message}`);
+                const resultDiv = document.getElementById('analysisResult');
+                resultDiv.innerHTML = `<h4>❌ 分析失败</h4><p>错误: ${error.message}</p>`;
+                resultDiv.className = 'diagnosis-result problem';
+            }
+        }
+
+        async function sendTestMessages() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('发送测试消息...');
+                const messages = [
+                    '测试消息1 - 分表诊断',
+                    '测试消息2 - 验证分表一致性',
+                    '测试消息3 - 检查消息存储'
+                ];
+
+                for (let i = 0; i < messages.length; i++) {
+                    const response = await fetch('http://localhost:6099/chat/sendMessage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'token': currentToken
+                        },
+                        body: new URLSearchParams({
+                            message: messages[i],
+                            messageType: '0',
+                            receiveUserId: '0'
+                        })
+                    });
+
+                    const result = await response.json();
+                    log(`发送消息 ${i+1} 响应: ${JSON.stringify(result)}`);
+                    
+                    // 等待一秒再发送下一条
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+
+                log('✅ 测试消息发送完成');
+            } catch (error) {
+                log(`🚨 发送测试消息失败: ${error.message}`);
+            }
+        }
+
+        async function loadMessages() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('加载会议消息...');
+                const response = await fetch('http://localhost:6099/chat/loadMeesage?pageNo=1', {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`加载消息响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success' && result.data && result.data.list) {
+                    const messages = result.data.list;
+                    log(`✅ 成功加载 ${messages.length} 条消息`);
+                    
+                    // 分析消息的meetingId一致性
+                    const meetingIds = messages.map(msg => msg.meetingId);
+                    const uniqueMeetingIds = [...new Set(meetingIds)];
+                    
+                    if (uniqueMeetingIds.length === 1) {
+                        log(`✅ 所有消息的meetingId一致: ${uniqueMeetingIds[0]}`);
+                        const tableName = getMeetingChatMessageTable(uniqueMeetingIds[0]);
+                        log(`✅ 这些消息应该都存储在表: ${tableName}`);
+                    } else {
+                        log(`⚠️ 发现不同的meetingId: ${uniqueMeetingIds.join(', ')}`);
+                        log(`⚠️ 这可能导致消息分散在不同的表中！`);
+                    }
+                } else {
+                    log('⚠️ 没有找到消息或加载失败');
+                }
+            } catch (error) {
+                log(`🚨 加载消息失败: ${error.message}`);
+            }
+        }
+
+        function generateTableDistribution() {
+            log('生成分表分布统计...');
+            
+            const testMeetingIds = [];
+            // 生成一些测试会议ID
+            for (let i = 1; i <= 100; i++) {
+                testMeetingIds.push(`meeting-${i.toString().padStart(3, '0')}`);
+                testMeetingIds.push(`quick-meeting-${Math.random().toString(36).substr(2, 8)}`);
+                testMeetingIds.push(`scheduled-${Date.now()}-${i}`);
+            }
+
+            const tableDistribution = {};
+            testMeetingIds.forEach(meetingId => {
+                const tableName = getMeetingChatMessageTable(meetingId);
+                if (!tableDistribution[tableName]) {
+                    tableDistribution[tableName] = [];
+                }
+                tableDistribution[tableName].push(meetingId);
+            });
+
+            const sortedTables = Object.keys(tableDistribution).sort();
+            let resultHtml = '<h4>📊 分表分布统计</h4>';
+            resultHtml += `<p><strong>测试会议数量:</strong> ${testMeetingIds.length}</p>`;
+            resultHtml += `<p><strong>使用的表数量:</strong> ${sortedTables.length}/32</p>`;
+            
+            resultHtml += '<table>';
+            resultHtml += '<tr><th>表名</th><th>会议数量</th><th>示例会议ID</th></tr>';
+            
+            sortedTables.forEach(tableName => {
+                const meetings = tableDistribution[tableName];
+                const exampleMeetings = meetings.slice(0, 3).join(', ');
+                resultHtml += `<tr><td>${tableName}</td><td>${meetings.length}</td><td>${exampleMeetings}${meetings.length > 3 ? '...' : ''}</td></tr>`;
+            });
+            
+            resultHtml += '</table>';
+
+            document.getElementById('distributionResult').innerHTML = resultHtml;
+            document.getElementById('distributionResult').className = 'diagnosis-result normal';
+            
+            log(`✅ 分表分布统计完成: ${testMeetingIds.length} 个会议分布到 ${sortedTables.length} 个表中`);
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('会议聊天分表诊断工具已加载');
+            log('请先登录，然后进行各项诊断测试');
+        };
+    </script>
+</body>
+</html>

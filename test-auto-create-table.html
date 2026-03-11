@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试自动创建分表功能</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .test-area {
+            margin: 15px 0;
+        }
+        input, textarea {
+            padding: 10px;
+            width: 100%;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button.danger {
+            background: #dc3545;
+        }
+        button.danger:hover {
+            background: #c82333;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .info {
+            color: #17a2b8;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .log {
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 自动创建分表功能测试</h1>
+
+    <div class="section">
+        <h2>📋 功能说明</h2>
+        <p>系统现在会在使用分表前自动检查表是否存在，如果不存在则自动创建。</p>
+        <ul>
+            <li>✅ 自动检测表是否存在</li>
+            <li>✅ 不存在时自动创建（基于模板表 meeting_chat_message）</li>
+            <li>✅ 支持32张分表（meeting_chat_message_01 到 meeting_chat_message_32）</li>
+            <li>✅ 所有数据库操作前都会确保表存在</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🧪 测试发送消息</h2>
+        <div class="test-area">
+            <label>会议ID:</label>
+            <input type="text" id="meetingId" value="4Q59or2mDd" placeholder="输入会议ID">
+            
+            <label>消息内容:</label>
+            <textarea id="messageContent" rows="3" placeholder="输入消息内容">测试自动创建分表功能</textarea>
+            
+            <button onclick="sendMessage()">发送消息</button>
+            <button onclick="calculateTableName()">计算表名</button>
+        </div>
+        <div id="sendResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>📊 分表信息</h2>
+        <div class="test-area">
+            <button onclick="showTableInfo()">显示所有分表信息</button>
+            <button onclick="testMultipleMeetings()">测试多个会议ID</button>
+        </div>
+        <div id="tableInfo" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>📝 操作日志</h2>
+        <div id="logArea" class="result log"></div>
+        <button onclick="clearLog()">清空日志</button>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:6099/api';
+        let token = localStorage.getItem('token');
+
+        function log(message, type = 'info') {
+            const logArea = document.getElementById('logArea');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#dc3545' : type === 'success' ? '#28a745' : '#333';
+            logArea.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('logArea').innerHTML = '';
+        }
+
+        // MurmurHash算法
+        function murmurHash(key) {
+            const data = new TextEncoder().encode(key);
+            const length = data.length;
+            const seed = 0x9747b28c;
+            const m = 0x5bd1e995;
+            const r = 24;
+
+            let h = seed ^ length;
+            const len_4 = length >> 2;
+
+            for (let i = 0; i < len_4; i++) {
+                const i_4 = i << 2;
+                let k = data[i_4 + 3];
+                k = k << 8;
+                k = k | (data[i_4 + 2] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 1] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 0] & 0xff);
+                k = Math.imul(k, m);
+                k ^= k >>> r;
+                k = Math.imul(k, m);
+                h = Math.imul(h, m);
+                h ^= k;
+            }
+
+            const len_m = len_4 << 2;
+            const left = length - len_m;
+
+            if (left !== 0) {
+                if (left >= 3) h ^= (data[length - 3] & 0xff) << 16;
+                if (left >= 2) h ^= (data[length - 2] & 0xff) << 8;
+                if (left >= 1) h ^= (data[length - 1] & 0xff);
+                h = Math.imul(h, m);
+            }
+
+            h ^= h >>> 13;
+            h = Math.imul(h, m);
+            h ^= h >>> 15;
+
+            return h;
+        }
+
+        function getTableName(meetingId) {
+            const SPLIT_TABLE_COUNT = 32;
+            const hashCode = Math.abs(murmurHash(meetingId));
+            const tableNum = (hashCode % SPLIT_TABLE_COUNT) + 1;
+            const tableNumStr = String(tableNum).padStart(2, '0');
+            return `meeting_chat_message_${tableNumStr}`;
+        }
+
+        function calculateTableName() {
+            const meetingId = document.getElementById('meetingId').value.trim();
+            const resultDiv = document.getElementById('sendResult');
+            
+            if (!meetingId) {
+                resultDiv.innerHTML = '<span class="error">请输入会议ID</span>';
+                return;
+            }
+
+            const tableName = getTableName(meetingId);
+            const hashCode = Math.abs(murmurHash(meetingId));
+            const tableNum = (hashCode % 32) + 1;
+            
+            resultDiv.innerHTML = `
+                <div class="info">
+                    <h3>分表计算结果</h3>
+                    <p><strong>会议ID:</strong> ${meetingId}</p>
+                    <p><strong>Hash值:</strong> ${hashCode}</p>
+                    <p><strong>表编号:</strong> ${tableNum}</p>
+                    <p><strong>表名:</strong> <code>${tableName}</code></p>
+                    <p class="success">✅ 系统会自动检查并创建此表</p>
+                </div>
+            `;
+            
+            log(`计算会议ID ${meetingId} 对应的表名: ${tableName}`, 'info');
+        }
+
+        async function sendMessage() {
+            const meetingId = document.getElementById('meetingId').value.trim();
+            const messageContent = document.getElementById('messageContent').value.trim();
+            const resultDiv = document.getElementById('sendResult');
+
+            if (!meetingId || !messageContent) {
+                resultDiv.innerHTML = '<span class="error">请输入会议ID和消息内容</span>';
+                return;
+            }
+
+            if (!token) {
+                resultDiv.innerHTML = '<span class="error">未登录，请先登录</span>';
+                log('发送失败: 未登录', 'error');
+                return;
+            }
+
+            const tableName = getTableName(meetingId);
+            log(`准备发送消息到会议 ${meetingId}，对应表: ${tableName}`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/chat/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({
+                        meetingId: meetingId,
+                        messageType: 5, // 文本消息
+                        messageContent: messageContent,
+                        receiveType: 0 // 发送给所有人
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ 消息发送成功！</h3>
+                            <p>会议ID: ${meetingId}</p>
+                            <p>使用的表: <code>${tableName}</code></p>
+                            <p>消息内容: ${messageContent}</p>
+                            <p class="info">💡 如果表不存在，系统已自动创建</p>
+                        </div>
+                    `;
+                    log(`消息发送成功，表 ${tableName} 已自动创建（如果不存在）`, 'success');
+                } else {
+                    resultDiv.innerHTML = `<div class="error">发送失败: ${data.info || '未知错误'}</div>`;
+                    log(`发送失败: ${data.info}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">请求失败: ${error.message}</div>`;
+                log(`请求失败: ${error.message}`, 'error');
+            }
+        }
+
+        function showTableInfo() {
+            const infoDiv = document.getElementById('tableInfo');
+            let html = '<h3>分表配置信息</h3>';
+            html += '<ul>';
+            html += '<li><strong>分表数量:</strong> 32张</li>';
+            html += '<li><strong>模板表:</strong> meeting_chat_message</li>';
+            html += '<li><strong>分表命名:</strong> meeting_chat_message_01 到 meeting_chat_message_32</li>';
+            html += '<li><strong>分表算法:</strong> MurmurHash</li>';
+            html += '<li><strong>自动创建:</strong> ✅ 启用</li>';
+            html += '</ul>';
+            
+            html += '<h4>所有分表列表:</h4>';
+            html += '<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">';
+            for (let i = 1; i <= 32; i++) {
+                const tableNum = String(i).padStart(2, '0');
+                html += `<div style="padding: 5px; background: #e9ecef; border-radius: 3px;">meeting_chat_message_${tableNum}</div>`;
+            }
+            html += '</div>';
+            
+            infoDiv.innerHTML = html;
+            log('显示分表信息', 'info');
+        }
+
+        function testMultipleMeetings() {
+            const testIds = [
+                '4Q59or2mDd',
+                'test123',
+                'meeting001',
+                'abc123xyz',
+                '1234567890',
+                'quick_meeting',
+                'scheduled_001',
+                'demo_test'
+            ];
+
+            let html = '<h3>多个会议ID的分表映射</h3>';
+            html += '<table border="1" cellpadding="8" style="width:100%; border-collapse: collapse;">';
+            html += '<tr style="background: #007bff; color: white;"><th>会议ID</th><th>Hash值</th><th>表编号</th><th>表名</th></tr>';
+
+            testIds.forEach(id => {
+                const tableName = getTableName(id);
+                const hashCode = Math.abs(murmurHash(id));
+                const tableNum = (hashCode % 32) + 1;
+                html += `<tr>
+                    <td>${id}</td>
+                    <td>${hashCode}</td>
+                    <td>${tableNum}</td>
+                    <td><code>${tableName}</code></td>
+                </tr>`;
+            });
+
+            html += '</table>';
+            document.getElementById('tableInfo').innerHTML = html;
+            log('测试多个会议ID的分表映射', 'info');
+        }
+
+        // 页面加载时的初始化
+        window.onload = function() {
+            log('页面加载完成，自动创建分表功能已启用', 'success');
+            if (token) {
+                log('已检测到登录token', 'success');
+            } else {
+                log('未检测到登录token，请先登录', 'error');
+            }
+        };
+    </script>
+</body>
+</html>

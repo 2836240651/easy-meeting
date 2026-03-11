@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试AI代理配置</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI代理配置测试</h1>
+    
+    <div class="test-section">
+        <h3>1. 测试AI测试端点</h3>
+        <button onclick="testAIEndpoint()">测试 /api/ai/test</button>
+        <div id="test-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. 测试AI对话</h3>
+        <input type="text" id="meetingId" placeholder="会议ID" value="ujKLkiykaQ" style="width: 200px; padding: 8px;">
+        <input type="text" id="message" placeholder="消息内容" value="你好" style="width: 300px; padding: 8px;">
+        <button onclick="testAIChat()">发送消息</button>
+        <div id="chat-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. 测试会议总结</h3>
+        <input type="text" id="summaryMeetingId" placeholder="会议ID" value="ujKLkiykaQ" style="width: 200px; padding: 8px;">
+        <button onclick="testAISummary()">生成总结</button>
+        <div id="summary-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        const token = localStorage.getItem('token') || 'test-token';
+
+        async function testAIEndpoint() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.textContent = '测试中...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch(`${API_BASE}/ai/test`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = `状态: ${response.status}\n响应: ${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+            } catch (error) {
+                resultDiv.textContent = `错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testAIChat() {
+            const resultDiv = document.getElementById('chat-result');
+            const meetingId = document.getElementById('meetingId').value;
+            const message = document.getElementById('message').value;
+            
+            resultDiv.textContent = '发送中...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch(`${API_BASE}/ai/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({ meetingId, message })
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = `状态: ${response.status}\n响应: ${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+            } catch (error) {
+                resultDiv.textContent = `错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testAISummary() {
+            const resultDiv = document.getElementById('summary-result');
+            const meetingId = document.getElementById('summaryMeetingId').value;
+            
+            resultDiv.textContent = '生成中...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch(`${API_BASE}/ai/summary`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({ meetingId })
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = `状态: ${response.status}\n响应: ${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+            } catch (error) {
+                resultDiv.textContent = `错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 页面加载时显示当前配置
+        window.onload = function() {
+            console.log('API Base URL:', API_BASE);
+            console.log('Token:', token);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单URL测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-item {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-img {
+            max-width: 200px;
+            max-height: 200px;
+            border: 2px solid #ddd;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .loading { background-color: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>URL图片加载测试</h1>
+    
+    <div id="testResults"></div>
+
+    <script>
+        const testUrls = [
+            {
+                name: '原始URL',
+                url: 'https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg'
+            },
+            {
+                name: 'Dicebear头像',
+                url: 'https://api.dicebear.com/9.x/avataaars/png?seed=test'
+            },
+            {
+                name: 'Picsum随机图片',
+                url: 'https://picsum.photos/200/200?random=1'
+            },
+            {
+                name: 'Placeholder图片',
+                url: 'https://via.placeholder.com/200x200.jpg'
+            },
+            {
+                name: 'GitHub头像',
+                url: 'https://avatars.githubusercontent.com/u/1?v=4'
+            }
+        ];
+
+        function testUrl(urlObj, container) {
+            const div = document.createElement('div');
+            div.className = 'test-item';
+            div.innerHTML = `
+                <h3>${urlObj.name}</h3>
+                <p><strong>URL:</strong> ${urlObj.url}</p>
+                <div class="status loading">正在加载...</div>
+                <img class="test-img" style="display: none;">
+            `;
+            container.appendChild(div);
+
+            const statusDiv = div.querySelector('.status');
+            const img = div.querySelector('.test-img');
+
+            const testImg = new Image();
+            testImg.crossOrigin = 'anonymous';
+            
+            const startTime = Date.now();
+            
+            testImg.onload = function() {
+                const loadTime = Date.now() - startTime;
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `✅ 加载成功 (${loadTime}ms) - ${testImg.naturalWidth}x${testImg.naturalHeight}`;
+                img.src = urlObj.url;
+                img.style.display = 'block';
+            };
+            
+            testImg.onerror = function() {
+                const loadTime = Date.now() - startTime;
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ 加载失败 (${loadTime}ms) - 可能是CORS、防盗链或URL无效`;
+                
+                // 尝试不使用crossOrigin
+                const testImg2 = new Image();
+                testImg2.onload = function() {
+                    statusDiv.innerHTML += `<br>🔄 不使用crossOrigin可以加载`;
+                    img.src = urlObj.url;
+                    img.style.display = 'block';
+                };
+                testImg2.onerror = function() {
+                    statusDiv.innerHTML += `<br>🚫 完全无法加载`;
+                };
+                testImg2.src = urlObj.url;
+            };
+            
+            testImg.src = urlObj.url;
+        }
+
+        // 开始测试
+        const container = document.getElementById('testResults');
+        testUrls.forEach(urlObj => {
+            testUrl(urlObj, container);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron焦点管理测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        button.active { background: #28a745; }
+        input, textarea { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 300px; }
+        textarea { height: 100px; resize: vertical; }
+        .page { display: none; padding: 20px; border: 2px solid #ddd; border-radius: 8px; margin: 10px 0; }
+        .page.active { display: block; border-color: #007bff; }
+        .focus-indicator { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 4px; 
+            background: #e9ecef;
+            font-weight: bold;
+        }
+        .focus-indicator.focused { background: #d4edda; color: #155724; }
+        .focus-indicator.unfocused { background: #f8d7da; color: #721c24; }
+        .nav-buttons { margin-bottom: 20px; }
+        .test-section { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Electron焦点管理测试</h1>
+    <p>测试Electron应用在页面切换后的键盘输入识别问题</p>
+    
+    <div class="container">
+        <h3>📋 页面导航</h3>
+        <div class="nav-buttons">
+            <button id="nav-page1" class="active" onclick="switchPage('page1')">页面1</button>
+            <button id="nav-page2" onclick="switchPage('page2')">页面2</button>
+            <button id="nav-page3" onclick="switchPage('page3')">页面3</button>
+        </div>
+        <div id="focusStatus" class="focus-indicator unfocused">焦点状态: 未知</div>
+    </div>
+
+    <!-- 页面1 -->
+    <div id="page1" class="page active">
+        <div class="container">
+            <h3>📝 页面1 - 文本输入测试</h3>
+            <div class="test-section">
+                <label>文本输入框:</label><br>
+                <input type="text" id="input1" placeholder="请输入文本测试键盘输入">
+            </div>
+            <div class="test-section">
+                <label>密码输入框:</label><br>
+                <input type="password" id="password1" placeholder="请输入密码测试">
+            </div>
+            <div class="test-section">
+                <label>文本域:</label><br>
+                <textarea id="textarea1" placeholder="请输入多行文本测试"></textarea>
+            </div>
+            <div class="test-section">
+                <button onclick="testFocus('page1')">测试焦点</button>
+                <button onclick="clearInputs('page1')">清空输入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面2 -->
+    <div id="page2" class="page">
+        <div class="container">
+            <h3>🔢 页面2 - 数字和选择测试</h3>
+            <div class="test-section">
+                <label>数字输入框:</label><br>
+                <input type="number" id="number2" placeholder="请输入数字">
+            </div>
+            <div class="test-section">
+                <label>邮箱输入框:</label><br>
+                <input type="email" id="email2" placeholder="请输入邮箱地址">
+            </div>
+            <div class="test-section">
+                <label>选择框:</label><br>
+                <select id="select2">
+                    <option value="">请选择选项</option>
+                    <option value="option1">选项1</option>
+                    <option value="option2">选项2</option>
+                    <option value="option3">选项3</option>
+                </select>
+            </div>
+            <div class="test-section">
+                <button onclick="testFocus('page2')">测试焦点</button>
+                <button onclick="clearInputs('page2')">清空输入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面3 -->
+    <div id="page3" class="page">
+        <div class="container">
+            <h3>📅 页面3 - 日期和文件测试</h3>
+            <div class="test-section">
+                <label>日期输入框:</label><br>
+                <input type="date" id="date3">
+            </div>
+            <div class="test-section">
+                <label>时间输入框:</label><br>
+                <input type="time" id="time3">
+            </div>
+            <div class="test-section">
+                <label>搜索框:</label><br>
+                <input type="search" id="search3" placeholder="请输入搜索内容">
+            </div>
+            <div class="test-section">
+                <button onclick="testFocus('page3')">测试焦点</button>
+                <button onclick="clearInputs('page3')">清空输入</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>🔍 调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <button onclick="testElectronAPI()">测试Electron API</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let currentPage = 'page1';
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function switchPage(pageId) {
+            log(`切换到页面: ${pageId}`);
+            
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 移除所有导航按钮的active状态
+            document.querySelectorAll('.nav-buttons button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 显示目标页面
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById(`nav-${pageId}`).classList.add('active');
+            
+            currentPage = pageId;
+            
+            // 页面切换后尝试聚焦
+            setTimeout(() => {
+                ensureFocus();
+            }, 100);
+        }
+
+        function ensureFocus() {
+            log('尝试确保页面焦点...');
+            
+            // 在Electron环境中，调用焦点API
+            if (window.electron && window.electron.focusWindow) {
+                window.electron.focusWindow();
+                log('调用Electron焦点API');
+            }
+            
+            // 尝试聚焦到当前页面的第一个输入元素
+            const currentPageElement = document.getElementById(currentPage);
+            const focusableElements = currentPageElement.querySelectorAll(
+                'input:not([disabled]), textarea:not([disabled]), select:not([disabled]), button:not([disabled])'
+            );
+            
+            if (focusableElements.length > 0) {
+                focusableElements[0].focus();
+                log(`聚焦到第一个可聚焦元素: ${focusableElements[0].tagName} ${focusableElements[0].type || ''}`);
+            } else {
+                document.body.focus();
+                log('聚焦到body元素');
+            }
+            
+            updateFocusStatus();
+        }
+
+        function testFocus(pageId) {
+            log(`测试页面 ${pageId} 的焦点状态`);
+            
+            const pageElement = document.getElementById(pageId);
+            const inputs = pageElement.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach((input, index) => {
+                const isFocused = document.activeElement === input;
+                log(`输入元素 ${index + 1} (${input.tagName} ${input.type || ''}): ${isFocused ? '有焦点' : '无焦点'}`);
+            });
+            
+            updateFocusStatus();
+        }
+
+        function clearInputs(pageId) {
+            log(`清空页面 ${pageId} 的所有输入`);
+            
+            const pageElement = document.getElementById(pageId);
+            const inputs = pageElement.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach(input => {
+                if (input.tagName === 'SELECT') {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = '';
+                }
+            });
+        }
+
+        function updateFocusStatus() {
+            const focusStatusDiv = document.getElementById('focusStatus');
+            const activeElement = document.activeElement;
+            
+            if (activeElement && activeElement !== document.body) {
+                focusStatusDiv.textContent = `焦点状态: ${activeElement.tagName} ${activeElement.type || ''} 有焦点`;
+                focusStatusDiv.className = 'focus-indicator focused';
+            } else {
+                focusStatusDiv.textContent = '焦点状态: 无焦点或在body上';
+                focusStatusDiv.className = 'focus-indicator unfocused';
+            }
+        }
+
+        function testElectronAPI() {
+            log('测试Electron API...');
+            
+            if (window.electron) {
+                log('✅ Electron API 可用');
+                log(`Electron版本: ${window.electron.getAppVersion()}`);
+                
+                if (window.electron.focusWindow) {
+                    log('✅ focusWindow API 可用');
+                    window.electron.focusWindow();
+                } else {
+                    log('❌ focusWindow API 不可用');
+                }
+            } else {
+                log('❌ Electron API 不可用 (可能在浏览器中运行)');
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // 监听键盘事件
+        document.addEventListener('keydown', (e) => {
+            log(`键盘按下: ${e.key} (${e.code}) - 目标: ${e.target.tagName} ${e.target.type || ''}`);
+        });
+
+        document.addEventListener('keyup', (e) => {
+            log(`键盘释放: ${e.key} (${e.code}) - 目标: ${e.target.tagName} ${e.target.type || ''}`);
+        });
+
+        // 监听焦点变化
+        document.addEventListener('focusin', (e) => {
+            log(`元素获得焦点: ${e.target.tagName} ${e.target.type || ''}`);
+            updateFocusStatus();
+        });
+
+        document.addEventListener('focusout', (e) => {
+            log(`元素失去焦点: ${e.target.tagName} ${e.target.type || ''}`);
+            updateFocusStatus();
+        });
+
+        // 页面加载完成后初始化
+        window.onload = function() {
+            log('Electron焦点管理测试页面已加载');
+            log('使用说明：');
+            log('1. 点击不同的页面标签切换页面');
+            log('2. 在输入框中输入内容测试键盘识别');
+            log('3. 观察焦点状态指示器');
+            log('4. 查看调试日志了解焦点变化');
+            
+            // 初始化焦点状态
+            updateFocusStatus();
+            
+            // 测试Electron API
+            testElectronAPI();
+        };
+    </script>
+</body>
+</html>

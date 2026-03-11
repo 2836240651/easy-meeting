@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试联系人申请邮箱显示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .error {
+            border-left-color: #f44336;
+            background-color: #ffebee;
+        }
+        .apply-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .apply-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .apply-info {
+            flex: 1;
+        }
+        .apply-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        .apply-info p {
+            margin: 3px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .pending-badge {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .accepted-badge {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .rejected-badge {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>测试联系人申请邮箱显示</h2>
+        
+        <div class="test-section">
+            <h3>1. 测试收到的申请（queryUserInfo=true）</h3>
+            <p>应该显示申请用户的昵称、头像和邮箱</p>
+            <button onclick="testReceivedApply()">测试收到的申请</button>
+            <div id="receivedResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. 测试已发送的申请（queryReceiveUserInfo=true）</h3>
+            <p>应该显示接收用户的昵称、头像和邮箱</p>
+            <button onclick="testSentApply()">测试已发送的申请</button>
+            <div id="sentResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. 测试所有申请（queryUserInfo=true）</h3>
+            <p>应该显示所有申请用户的昵称、头像和邮箱</p>
+            <button onclick="testAllApply()">测试所有申请</button>
+            <div id="allResult" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:6099';
+        const token = localStorage.getItem('token') || '';
+
+        async function testReceivedApply() {
+            const resultDiv = document.getElementById('receivedResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>正在测试...</p>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/contact/loadApply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({
+                        pageNo: 1,
+                        pageSize: 10
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    let html = '<h4>✅ 测试成功</h4>';
+                    html += `<p>共 ${data.data.totalCount} 条申请</p>`;
+                    
+                    if (data.data.list && data.data.list.length > 0) {
+                        html += '<div>';
+                        data.data.list.forEach(apply => {
+                            html += `
+                                <div class="apply-item">
+                                    <img src="${apply.avatar || '/svg/男头像.svg'}" class="apply-avatar" alt="Avatar">
+                                    <div class="apply-info">
+                                        <h4>${apply.nickName || '未知用户'}</h4>
+                                        <p><strong>邮箱:</strong> ${apply.email || '未提供邮箱'}</p>
+                                        <p><strong>申请用户ID:</strong> ${apply.applyUserId}</p>
+                                        <p><strong>申请时间:</strong> ${apply.lastApplyTime}</p>
+                                    </div>
+                                    <span class="status-badge ${getStatusClass(apply.status)}">
+                                        ${getStatusText(apply.status)}
+                                    </span>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                    } else {
+                        html += '<p>暂无申请</p>';
+                    }
+                    
+                    html += '<h4>原始数据:</h4>';
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h4>❌ 测试失败</h4><p>${data.info}</p>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+            }
+        }
+
+        async function testSentApply() {
+            const resultDiv = document.getElementById('sentResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>正在测试...</p>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/contact/loadMyApply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({
+                        pageNo: 1,
+                        pageSize: 10
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    let html = '<h4>✅ 测试成功</h4>';
+                    html += `<p>共 ${data.data.totalCount} 条申请</p>`;
+                    
+                    if (data.data.list && data.data.list.length > 0) {
+                        html += '<div>';
+                        data.data.list.forEach(apply => {
+                            html += `
+                                <div class="apply-item">
+                                    <img src="${apply.avatar || '/svg/男头像.svg'}" class="apply-avatar" alt="Avatar">
+                                    <div class="apply-info">
+                                        <h4>${apply.nickName || '未知用户'}</h4>
+                                        <p><strong>邮箱:</strong> ${apply.email || '未提供邮箱'}</p>
+                                        <p><strong>接收用户ID:</strong> ${apply.receiveUserId}</p>
+                                        <p><strong>申请时间:</strong> ${apply.lastApplyTime}</p>
+                                    </div>
+                                    <span class="status-badge ${getStatusClass(apply.status)}">
+                                        ${getStatusText(apply.status)}
+                                    </span>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                    } else {
+                        html += '<p>暂无申请</p>';
+                    }
+                    
+                    html += '<h4>原始数据:</h4>';
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h4>❌ 测试失败</h4><p>${data.info}</p>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+            }
+        }
+
+        async function testAllApply() {
+            const resultDiv = document.getElementById('allResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>正在测试...</p>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/contact/loadAllApply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify({
+                        pageNo: 1,
+                        pageSize: 20
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    let html = '<h4>✅ 测试成功</h4>';
+                    html += `<p>共 ${data.data.totalCount} 条申请</p>`;
+                    
+                    if (data.data.list && data.data.list.length > 0) {
+                        html += '<div>';
+                        data.data.list.forEach(apply => {
+                            html += `
+                                <div class="apply-item">
+                                    <img src="${apply.avatar || '/svg/男头像.svg'}" class="apply-avatar" alt="Avatar">
+                                    <div class="apply-info">
+                                        <h4>${apply.nickName || '未知用户'}</h4>
+                                        <p><strong>邮箱:</strong> ${apply.email || '未提供邮箱'}</p>
+                                        <p><strong>申请用户ID:</strong> ${apply.applyUserId}</p>
+                                        <p><strong>接收用户ID:</strong> ${apply.receiveUserId}</p>
+                                        <p><strong>申请时间:</strong> ${apply.lastApplyTime}</p>
+                                    </div>
+                                    <span class="status-badge ${getStatusClass(apply.status)}">
+                                        ${getStatusText(apply.status)}
+                                    </span>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                    } else {
+                        html += '<p>暂无申请</p>';
+                    }
+                    
+                    html += '<h4>原始数据:</h4>';
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h4>❌ 测试失败</h4><p>${data.info}</p>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+            }
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 0: return 'pending-badge';
+                case 1: return 'accepted-badge';
+                case 2: return 'rejected-badge';
+                default: return 'pending-badge';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 0: return '待处理';
+                case 1: return '已接受';
+                case 2: return '已拒绝';
+                case 3: return '已拉黑';
+                default: return '未知';
+            }
+        }
+
+        // 页面加载时检查token
+        window.onload = function() {
+            if (!token) {
+                alert('请先登录！将跳转到登录页面...');
+                window.location.href = 'login.html';
+            }
+        };
+    </script>
+</body>
+</html>

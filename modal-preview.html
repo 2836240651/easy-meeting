@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模态框样式预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #434343;
+            color: #ffffff;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .preview-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .preview-header {
+            background-color: #363636;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #555555;
+        }
+
+        .demo-button {
+            background-color: #999999;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 10px;
+        }
+
+        .demo-button:hover {
+            background-color: #b3b3b3;
+            transform: translateY(-1px);
+        }
+
+        /* 模态框样式 - 非覆盖式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: transparent;
+            pointer-events: none;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: #363636;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+            width: 400px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #888888;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
+        }
+
+        .modal-content:hover {
+            border-color: #aaaaaa;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 24px 0;
+            border-bottom: 1px solid #555555;
+            margin-bottom: 24px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .modal-header:hover {
+            background-color: rgba(136, 136, 136, 0.1);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #dfdfdf;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #dfdfdf;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background-color: #4a4a4a;
+            color: #ffffff;
+        }
+
+        .modal-body {
+            padding: 0 24px 24px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 24px;
+            border-top: 1px solid #555555;
+            background-color: #363636;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #dfdfdf;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #555555;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #dfdfdf;
+            background-color: #434343;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #999999;
+            box-shadow: 0 0 0 3px rgba(153, 153, 153, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #dfdfdf;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #dfdfdf;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #999999;
+        }
+
+        .btn-primary {
+            background-color: #999999;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #b3b3b3;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #4a4a4a;
+            color: #dfdfdf;
+            border: 1px solid #555555;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #555555;
+            border-color: #666666;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>模态框样式预览 - 非覆盖式</h1>
+            <p>背景透明，不遮挡主页面内容，文字颜色：#717171 (113,113,113)</p>
+            <p>✨ 特色：可以看到背景内容，模态框可拖拽移动</p>
+        </div>
+
+        <div>
+            <h2>点击按钮查看模态框效果：</h2>
+            <button class="demo-button" onclick="showModal('joinModal')">加入会议</button>
+            <button class="demo-button" onclick="showModal('quickModal')">快速会议</button>
+            <button class="demo-button" onclick="showModal('scheduleModal')">预约会议</button>
+        </div>
+    </div>
+
+    <!-- 加入会议模态框 -->
+    <div id="joinModal" class="modal-overlay hidden">
+        <div class="modal-content" id="joinModalContent">
+            <div class="modal-header" onmousedown="startDrag(event, 'joinModalContent')">
+                <h3>加入会议</h3>
+                <button class="modal-close" onclick="hideModal('joinModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>会议ID</label>
+                    <input type="text" placeholder="请输入会议ID" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>会议密码（可选）</label>
+                    <input type="password" placeholder="请输入会议密码" maxlength="5" class="form-input">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="hideModal('joinModal')">取消</button>
+                <button class="btn-primary">加入会议</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 快速会议模态框 -->
+    <div id="quickModal" class="modal-overlay hidden">
+        <div class="modal-content" id="quickModalContent">
+            <div class="modal-header" onmousedown="startDrag(event, 'quickModalContent')">
+                <h3>快速会议</h3>
+                <button class="modal-close" onclick="hideModal('quickModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>会议名称（可选）</label>
+                    <input type="text" placeholder="请输入会议名称" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>会议号类型</label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="meetingType" value="personal" checked>
+                            <span>使用个人会议号</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="meetingType" value="random">
+                            <span>随机生成会议号</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>会议密码（可选）</label>
+                    <input type="password" placeholder="请输入会议密码（最多5位）" maxlength="5" class="form-input">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="hideModal('quickModal')">取消</button>
+                <button class="btn-primary">创建会议</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预约会议模态框 -->
+    <div id="scheduleModal" class="modal-overlay hidden">
+        <div class="modal-content" id="scheduleModalContent">
+            <div class="modal-header" onmousedown="startDrag(event, 'scheduleModalContent')">
+                <h3>预约会议</h3>
+                <button class="modal-close" onclick="hideModal('scheduleModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>会议名称</label>
+                    <input type="text" placeholder="请输入会议名称" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>开始时间</label>
+                    <input type="datetime-local" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>会议密码（可选）</label>
+                    <input type="password" placeholder="请输入会议密码（最多5位）" maxlength="5" class="form-input">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="hideModal('scheduleModal')">取消</button>
+                <button class="btn-primary">预约会议</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // 拖拽功能
+        let isDragging = false;
+        let currentModal = null;
+        let startX = 0;
+        let startY = 0;
+        let initialX = 0;
+        let initialY = 0;
+
+        function startDrag(event, modalId) {
+            if (event.target.classList.contains('modal-close')) return;
+            
+            isDragging = true;
+            currentModal = modalId;
+            
+            const modal = document.getElementById(modalId).querySelector('.modal-content');
+            if (!modal) return;
+            
+            const rect = modal.getBoundingClientRect();
+            startX = event.clientX - rect.left;
+            startY = event.clientY - rect.top;
+            initialX = rect.left;
+            initialY = rect.top;
+            
+            // 移除居中的transform，改为绝对定位
+            modal.style.transform = 'none';
+            modal.style.left = initialX + 'px';
+            modal.style.top = initialY + 'px';
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            if (!isDragging || !currentModal) return;
+            
+            const modal = document.getElementById(currentModal).querySelector('.modal-content');
+            if (!modal) return;
+            
+            const newX = event.clientX - startX;
+            const newY = event.clientY - startY;
+            
+            // 限制拖拽范围，确保模态框不会完全移出视窗
+            const maxX = window.innerWidth - modal.offsetWidth;
+            const maxY = window.innerHeight - modal.offsetHeight;
+            
+            const constrainedX = Math.max(0, Math.min(newX, maxX));
+            const constrainedY = Math.max(0, Math.min(newY, maxY));
+            
+            modal.style.left = constrainedX + 'px';
+            modal.style.top = constrainedY + 'px';
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            currentModal = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal-overlay:not(.hidden)');
+                modals.forEach(modal => {
+                    modal.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

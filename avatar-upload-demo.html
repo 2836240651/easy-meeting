@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头像上传功能演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #363636;
+            color: #dfdfdf;
+        }
+        .container {
+            background: #434343;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #363636;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #dfdfdf;
+        }
+        
+        /* 头像预览区域 */
+        .avatar-preview-container {
+            position: relative;
+            cursor: pointer;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .avatar-preview-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #555;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+        
+        .avatar-preview-container:hover .avatar-overlay {
+            opacity: 1;
+        }
+        
+        .avatar-overlay-text {
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #363636;
+            border-radius: 8px;
+            width: 90vw;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow: hidden;
+            border: 1px solid #888;
+            color: #dfdfdf;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #555;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #dfdfdf;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            color: #dfdfdf;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #555;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* 当前头像预览 */
+        .current-avatar-preview {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .current-avatar-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #555;
+            margin-bottom: 8px;
+        }
+        
+        .current-avatar-label {
+            font-size: 14px;
+            color: #999;
+            margin: 0;
+        }
+        
+        /* 上传方式选择 */
+        .upload-method-selection h4 {
+            font-size: 16px;
+            color: #dfdfdf;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .upload-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .upload-method {
+            padding: 20px;
+            border: 2px solid #555;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: #434343;
+        }
+        
+        .upload-method:hover,
+        .upload-method.selected {
+            border-color: #007bff;
+            background: #363636;
+        }
+        
+        .method-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        
+        .method-info h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #dfdfdf;
+            margin: 0 0 4px 0;
+        }
+        
+        .method-info p {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+        }
+        
+        /* 文件上传区域 */
+        .file-upload-area {
+            margin-top: 16px;
+        }
+        
+        .file-drop-zone {
+            border: 2px dashed #555;
+            border-radius: 4px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #434343;
+        }
+        
+        .file-drop-zone:hover {
+            border-color: #007bff;
+            background: #363636;
+        }
+        
+        .drop-zone-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .drop-zone-icon {
+            font-size: 48px;
+            opacity: 0.6;
+        }
+        
+        .drop-zone-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #dfdfdf;
+            margin: 0;
+        }
+        
+        .drop-zone-hint {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+        }
+        
+        /* 进度条 */
+        .upload-progress {
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #434343;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #007bff;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+            margin: 0;
+        }
+        
+        /* URL上传区域 */
+        .url-upload-area {
+            margin-top: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #dfdfdf;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background: #434343;
+            color: #dfdfdf;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .url-preview {
+            margin-top: 16px;
+            text-align: center;
+        }
+        
+        .url-preview-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #555;
+            margin-bottom: 8px;
+        }
+        
+        .url-preview-status {
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .url-preview-status.error {
+            color: #dc3545;
+        }
+        
+        .url-preview-status.success {
+            color: #28a745;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #0056b3;
+        }
+        
+        .btn-primary:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .demo-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .demo-button:hover {
+            background: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .upload-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .file-drop-zone {
+                padding: 30px 15px;
+            }
+            
+            .drop-zone-icon {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>头像上传功能演示</h1>
+        
+        <!-- 演示控制 -->
+        <div class="demo-section">
+            <h3>演示控制</h3>
+            <button class="demo-button" onclick="showAvatarModal()">打开头像上传模态框</button>
+            <button class="demo-button" onclick="resetDemo()">重置演示</button>
+        </div>
+        
+        <!-- 头像预览 -->
+        <div class="demo-section">
+            <h3>头像预览（点击更换）</h3>
+            <div class="avatar-preview-container" onclick="showAvatarModal()">
+                <img id="currentAvatar" src="/svg/男头像.svg" alt="当前头像" class="avatar-preview">
+                <div class="avatar-overlay">
+                    <span class="avatar-overlay-text">点击更换头像</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头像上传模态框 -->
+    <div id="avatarModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>更换头像</h3>
+                <button class="modal-close" onclick="hideAvatarModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 当前头像预览 -->
+                <div class="current-avatar-preview">
+                    <img id="modalCurrentAvatar" src="/svg/男头像.svg" alt="当前头像" class="current-avatar-img">
+                    <p class="current-avatar-label">当前头像</p>
+                </div>
+
+                <!-- 上传方式选择 -->
+                <div class="upload-method-selection">
+                    <h4>选择上传方式</h4>
+                    <div class="upload-methods">
+                        <div class="upload-method" id="fileMethod" onclick="selectMethod('file')">
+                            <div class="method-icon">📁</div>
+                            <div class="method-info">
+                                <h5>本地上传</h5>
+                                <p>从本地选择图片文件上传</p>
+                            </div>
+                        </div>
+                        <div class="upload-method" id="urlMethod" onclick="selectMethod('url')">
+                            <div class="method-icon">🔗</div>
+                            <div class="method-info">
+                                <h5>URL上传</h5>
+                                <p>输入图片链接地址</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文件上传区域 -->
+                <div id="fileUploadArea" class="file-upload-area" style="display: none;">
+                    <div class="file-drop-zone" onclick="triggerFileInput()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+                        <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" style="display: none;">
+                        <div class="drop-zone-content">
+                            <div class="drop-zone-icon">📷</div>
+                            <p class="drop-zone-text">点击选择文件或拖拽文件到此处</p>
+                            <p class="drop-zone-hint">支持 JPG、PNG、GIF、WebP 格式，最大 2MB</p>
+                        </div>
+                    </div>
+                    <div id="uploadProgress" class="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <p id="progressText" class="progress-text">上传中... 0%</p>
+                    </div>
+                </div>
+
+                <!-- URL上传区域 -->
+                <div id="urlUploadArea" class="url-upload-area" style="display: none;">
+                    <div class="form-group">
+                        <label>图片URL地址</label>
+                        <input 
+                            type="url" 
+                            id="avatarUrlInput" 
+                            placeholder="请输入图片链接地址，如：https://example.com/avatar.jpg" 
+                            class="form-input"
+                            oninput="handleUrlInput()"
+                        >
+                    </div>
+                    <div id="urlPreview" class="url-preview" style="display: none;">
+                        <img id="urlPreviewImg" alt="URL预览" class="url-preview-img" onerror="handleUrlError()" onload="handleUrlLoad()">
+                        <p id="urlPreviewStatus" class="url-preview-status">正在加载预览...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideAvatarModal()">取消</button>
+                <button id="confirmBtn" class="btn btn-primary" onclick="confirmUpload()" disabled>确认更换</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMethod = '';
+        let uploadedFile = null;
+        let urlPreviewLoaded = false;
+        let urlPreviewError = false;
+
+        // 显示头像模态框
+        function showAvatarModal() {
+            document.getElementById('avatarModal').style.display = 'flex';
+            // 同步当前头像
+            const currentSrc = document.getElementById('currentAvatar').src;
+            document.getElementById('modalCurrentAvatar').src = currentSrc;
+        }
+
+        // 隐藏头像模态框
+        function hideAvatarModal() {
+            document.getElementById('avatarModal').style.display = 'none';
+            resetModal();
+        }
+
+        // 重置模态框状态
+        function resetModal() {
+            selectedMethod = '';
+            uploadedFile = null;
+            urlPreviewLoaded = false;
+            urlPreviewError = false;
+            
+            // 重置UI
+            document.getElementById('fileMethod').classList.remove('selected');
+            document.getElementById('urlMethod').classList.remove('selected');
+            document.getElementById('fileUploadArea').style.display = 'none';
+            document.getElementById('urlUploadArea').style.display = 'none';
+            document.getElementById('uploadProgress').style.display = 'none';
+            document.getElementById('urlPreview').style.display = 'none';
+            document.getElementById('avatarUrlInput').value = '';
+            document.getElementById('confirmBtn').disabled = true;
+            
+            // 重置进度条
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressText').textContent = '上传中... 0%';
+        }
+
+        // 选择上传方式
+        function selectMethod(method) {
+            selectedMethod = method;
+            
+            // 更新UI状态
+            document.getElementById('fileMethod').classList.toggle('selected', method === 'file');
+            document.getElementById('urlMethod').classList.toggle('selected', method === 'url');
+            
+            // 显示对应的上传区域
+            document.getElementById('fileUploadArea').style.display = method === 'file' ? 'block' : 'none';
+            document.getElementById('urlUploadArea').style.display = method === 'url' ? 'block' : 'none';
+            
+            // 重置状态
+            uploadedFile = null;
+            urlPreviewLoaded = false;
+            urlPreviewError = false;
+            updateConfirmButton();
+        }
+
+        // 触发文件选择
+        function triggerFileInput() {
+            document.getElementById('fileInput').click();
+        }
+
+        // 处理拖拽
+        function handleDragOver(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        // 处理文件选择
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        // 处理文件
+        function handleFile(file) {
+            // 验证文件
+            if (file.size > 2 * 1024 * 1024) {
+                alert('文件大小不能超过2MB');
+                return;
+            }
+            
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('只支持JPG、PNG、GIF、WebP格式的图片');
+                return;
+            }
+            
+            // 模拟上传进度
+            uploadedFile = file;
+            simulateUpload();
+        }
+
+        // 模拟上传进度
+        function simulateUpload() {
+            document.getElementById('uploadProgress').style.display = 'block';
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 30;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // 模拟上传完成，显示预览
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // 这里可以设置预览图片
+                        console.log('文件上传完成，可以预览');
+                        updateConfirmButton();
+                    };
+                    reader.readAsDataURL(uploadedFile);
+                }
+                
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('progressText').textContent = `上传中... ${Math.round(progress)}%`;
+            }, 200);
+        }
+
+        // 处理URL输入
+        function handleUrlInput() {
+            const url = document.getElementById('avatarUrlInput').value.trim();
+            if (url) {
+                document.getElementById('urlPreview').style.display = 'block';
+                document.getElementById('urlPreviewImg').src = url;
+                document.getElementById('urlPreviewStatus').textContent = '正在加载预览...';
+                document.getElementById('urlPreviewStatus').className = 'url-preview-status';
+                urlPreviewLoaded = false;
+                urlPreviewError = false;
+                updateConfirmButton();
+            } else {
+                document.getElementById('urlPreview').style.display = 'none';
+                urlPreviewLoaded = false;
+                urlPreviewError = false;
+                updateConfirmButton();
+            }
+        }
+
+        // URL预览加载成功
+        function handleUrlLoad() {
+            urlPreviewLoaded = true;
+            urlPreviewError = false;
+            document.getElementById('urlPreviewStatus').textContent = '图片预览成功';
+            document.getElementById('urlPreviewStatus').className = 'url-preview-status success';
+            updateConfirmButton();
+        }
+
+        // URL预览加载失败
+        function handleUrlError() {
+            urlPreviewLoaded = false;
+            urlPreviewError = true;
+            document.getElementById('urlPreviewStatus').textContent = '图片加载失败，请检查URL是否正确';
+            document.getElementById('urlPreviewStatus').className = 'url-preview-status error';
+            updateConfirmButton();
+        }
+
+        // 更新确认按钮状态
+        function updateConfirmButton() {
+            let canConfirm = false;
+            
+            if (selectedMethod === 'file') {
+                canConfirm = uploadedFile !== null;
+            } else if (selectedMethod === 'url') {
+                const url = document.getElementById('avatarUrlInput').value.trim();
+                canConfirm = url && urlPreviewLoaded && !urlPreviewError;
+            }
+            
+            document.getElementById('confirmBtn').disabled = !canConfirm;
+        }
+
+        // 确认上传
+        function confirmUpload() {
+            let newAvatarSrc = '';
+            
+            if (selectedMethod === 'file' && uploadedFile) {
+                // 对于文件上传，这里应该使用服务器返回的URL
+                // 为了演示，我们使用本地预览
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newAvatarSrc = e.target.result;
+                    updateAvatar(newAvatarSrc);
+                };
+                reader.readAsDataURL(uploadedFile);
+            } else if (selectedMethod === 'url') {
+                newAvatarSrc = document.getElementById('avatarUrlInput').value.trim();
+                updateAvatar(newAvatarSrc);
+            }
+        }
+
+        // 更新头像
+        function updateAvatar(src) {
+            document.getElementById('currentAvatar').src = src;
+            hideAvatarModal();
+            alert('头像更换成功！');
+        }
+
+        // 重置演示
+        function resetDemo() {
+            document.getElementById('currentAvatar').src = '/svg/男头像.svg';
+            hideAvatarModal();
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('avatarModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideAvatarModal();
+            }
+        });
+    </script>
+</body>
+</html>

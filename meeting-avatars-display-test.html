@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议成员头像显示测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .video-area {
+            width: 100%;
+            height: 600px;
+            background-color: #2c2c2c;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #444444;
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        .participants-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .participants-grid.grid-1 {
+            grid-template-columns: 1fr;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .participants-grid.grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .participants-grid.grid-4 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .participants-grid.grid-6 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .participants-grid.grid-9 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .participants-grid.grid-many {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        .participant-video-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            min-height: 150px;
+            max-height: 300px;
+        }
+        
+        .video-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #444444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .video-frame:hover {
+            border-color: #666666;
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .participant-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            border: 3px solid #555555;
+            transition: all 0.3s ease;
+        }
+        
+        .video-frame:hover .participant-avatar-large {
+            transform: scale(1.05);
+            border-color: #777777;
+        }
+        
+        .participant-info-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .participant-name {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .host-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #f39c12;
+            color: white;
+            font-size: 11px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .participant-status {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        
+        .status-icon {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .controls button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .controls button:hover {
+            background: #0056b3;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        
+        .feature-list li::before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎥 会议成员头像显示功能</h1>
+        
+        <div class="demo-section">
+            <h2>✨ 功能特点</h2>
+            <ul class="feature-list">
+                <li>显示自己的头像和名称（标注"我"）</li>
+                <li>显示所有会议成员的头像</li>
+                <li>主持人显示特殊徽章</li>
+                <li>显示成员状态（静音、视频关闭）</li>
+                <li>响应式网格布局（1-4列自适应）</li>
+                <li>悬停效果和动画</li>
+                <li>支持1-20+人的会议</li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🎮 测试控制</h2>
+            <div class="controls">
+                <button onclick="showParticipants(1)">1人（只有我）</button>
+                <button onclick="showParticipants(2)">2人</button>
+                <button onclick="showParticipants(4)">4人</button>
+                <button onclick="showParticipants(6)">6人</button>
+                <button onclick="showParticipants(9)">9人</button>
+                <button onclick="showParticipants(12)">12人</button>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📺 会议视图</h2>
+            <div class="video-area">
+                <div id="participantsGrid" class="participants-grid grid-1">
+                    <!-- 参与者将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📊 布局说明</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f8f9fa;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">参与者数量</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">网格布局</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1人</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1列</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">单人大视图，居中显示</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2人</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2列</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">横向并排显示</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3-4人</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2x2网格</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2列网格布局</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">5-6人</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2x3网格</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3列网格布局</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">7-9人</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3x3网格</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3列网格布局</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">10人以上</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4列网格</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4列网格布局，可滚动</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        const names = ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑十一', '王十二', '冯十三', '陈十四', '褚十五', '卫十六', '蒋十七', '沈十八', '韩十九', '杨二十'];
+        const colors = [
+            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+            'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+            'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+        ];
+        
+        function getGridClass(count) {
+            if (count === 1) return 'grid-1';
+            if (count === 2) return 'grid-2';
+            if (count <= 4) return 'grid-4';
+            if (count <= 6) return 'grid-6';
+            if (count <= 9) return 'grid-9';
+            return 'grid-many';
+        }
+        
+        function showParticipants(count) {
+            const grid = document.getElementById('participantsGrid');
+            grid.className = 'participants-grid ' + getGridClass(count);
+            grid.innerHTML = '';
+            
+            // 添加自己
+            const meItem = document.createElement('div');
+            meItem.className = 'participant-video-item';
+            meItem.innerHTML = `
+                <div class="video-frame">
+                    <div class="participant-avatar-large" style="background: ${colors[0]}">我</div>
+                    <div class="participant-info-overlay">
+                        <span class="participant-name">
+                            我自己 (我)
+                            <span class="host-badge">主持人</span>
+                        </span>
+                        <div class="participant-status">
+                            <span class="status-icon">🎤</span>
+                            <span class="status-icon">📹</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(meItem);
+            
+            // 添加其他参与者
+            for (let i = 1; i < count; i++) {
+                const item = document.createElement('div');
+                item.className = 'participant-video-item';
+                
+                const name = names[i - 1] || `用户${i}`;
+                const initial = name.charAt(0);
+                const color = colors[i % colors.length];
+                const isMuted = Math.random() > 0.5;
+                const videoOff = Math.random() > 0.7;
+                
+                item.innerHTML = `
+                    <div class="video-frame">
+                        <div class="participant-avatar-large" style="background: ${color}">${initial}</div>
+                        <div class="participant-info-overlay">
+                            <span class="participant-name">${name}</span>
+                            <div class="participant-status">
+                                ${isMuted ? '<span class="status-icon muted">🔇</span>' : '<span class="status-icon">🎤</span>'}
+                                ${videoOff ? '<span class="status-icon video-off">📹</span>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(item);
+            }
+        }
+        
+        // 初始显示1人
+        showParticipants(1);
+    </script>
+</body>
+</html>

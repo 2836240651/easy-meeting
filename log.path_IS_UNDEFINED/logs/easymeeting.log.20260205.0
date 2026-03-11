@@ -1,0 +1,12 @@
+2026-02-05 16:16:42 [INFO][com.easymeeting.websocket.netty.HandlerHeartBeat][userEventTriggered][23]-> 心跳检测 - userId: a0JMrGXON3HP, channelId: 5ba7a5b2
+2026-02-05 16:16:42 [INFO][com.easymeeting.websocket.netty.HandlerHeartBeat][userEventTriggered][26]-> 用户 a0JMrGXON3HP 心跳超时，关闭连接
+2026-02-05 16:16:42 [INFO][com.easymeeting.websocket.netty.HandlerWebSocket][channelInactive][48]-> 有连接断开
+2026-02-05 16:16:42 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2026-02-05 16:16:42 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@c752026] was not registered for synchronization because synchronization is not active
+2026-02-05 16:16:42 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][117]-> Fetching JDBC Connection from DataSource
+2026-02-05 16:16:42 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@77125921 wrapping com.mysql.cj.jdbc.ConnectionImpl@37adc599] will not be managed by Spring
+2026-02-05 16:16:42 [DEBUG][com.easymeeting.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==>  Preparing: UPDATE user_info SET lasg_off_time = ? where user_id=? 
+2026-02-05 16:16:42 [DEBUG][com.easymeeting.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==> Parameters: 1770279402253(Long), a0JMrGXON3HP(String)
+2026-02-05 16:16:42 [DEBUG][com.easymeeting.mappers.UserInfoMapper.updateByUserId][debug][159]-> <==    Updates: 1
+2026-02-05 16:16:42 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@c752026]
+2026-02-05 16:16:42 [INFO][com.easymeeting.websocket.netty.HandlerWebSocket][channelInactive][60]-> 用户 a0JMrGXON3HP 断开连接，更新离线时间

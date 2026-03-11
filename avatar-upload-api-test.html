@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头像上传API测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #007bff;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>头像上传API测试</h1>
+        
+        <!-- Token设置 -->
+        <div class="test-section">
+            <h3>1. 设置Token</h3>
+            <div class="input-group">
+                <label for="tokenInput">Token:</label>
+                <input type="text" id="tokenInput" placeholder="请输入token">
+            </div>
+            <button onclick="setToken()">设置Token</button>
+            <button onclick="getStoredToken()">获取当前Token</button>
+            <div id="tokenResult" class="result"></div>
+        </div>
+
+        <!-- 文件上传测试 -->
+        <div class="test-section">
+            <h3>2. 文件上传测试</h3>
+            <div class="input-group">
+                <label for="fileInput">选择头像文件:</label>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <button onclick="uploadFile()">上传文件</button>
+            <div class="progress-bar" id="fileProgressBar" style="display: none;">
+                <div class="progress-fill" id="fileProgressFill" style="width: 0%;"></div>
+            </div>
+            <div id="fileUploadResult" class="result"></div>
+            <img id="filePreview" class="avatar-preview" style="display: none;" alt="文件预览">
+        </div>
+
+        <!-- URL上传测试 -->
+        <div class="test-section">
+            <h3>3. URL上传测试</h3>
+            <div class="input-group">
+                <label for="urlInput">图片URL:</label>
+                <input type="text" id="urlInput" placeholder="请输入图片URL" 
+                       value="https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg">
+            </div>
+            <button onclick="uploadByUrl()">通过URL上传</button>
+            <div id="urlUploadResult" class="result"></div>
+            <img id="urlPreview" class="avatar-preview" style="display: none;" alt="URL预览">
+        </div>
+
+        <!-- 综合测试 -->
+        <div class="test-section">
+            <h3>4. 综合测试</h3>
+            <p>测试完整的头像更新流程：上传头像 → 更新用户信息 → 验证结果</p>
+            <button onclick="testCompleteFlow()">测试完整流程</button>
+            <div id="completeFlowResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:6099/api';
+        let currentToken = '';
+
+        // 设置Token
+        function setToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (!token) {
+                showResult('tokenResult', '请输入token', 'error');
+                return;
+            }
+            currentToken = token;
+            localStorage.setItem('token', token);
+            showResult('tokenResult', `Token已设置: ${token}`, 'success');
+        }
+
+        // 获取存储的Token
+        function getStoredToken() {
+            const token = localStorage.getItem('token');
+            currentToken = token || '';
+            showResult('tokenResult', token ? `当前Token: ${token}` : '未找到Token', token ? 'success' : 'error');
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type = '') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${type}`;
+        }
+
+        // 文件上传
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('请选择文件');
+                return;
+            }
+
+            const token = currentToken || localStorage.getItem('token');
+            if (!token) {
+                alert('请先设置Token');
+                return;
+            }
+
+            showResult('fileUploadResult', '正在上传文件...', '');
+            document.getElementById('fileProgressBar').style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const xhr = new XMLHttpRequest();
+
+            // 监听上传进度
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const progress = Math.round((e.loaded / e.total) * 100);
+                    document.getElementById('fileProgressFill').style.width = progress + '%';
+                }
+            });
+
+            xhr.onload = function() {
+                document.getElementById('fileProgressBar').style.display = 'none';
+                
+                if (xhr.status === 200) {
+                    try {
+                        const result = JSON.parse(xhr.responseText);
+                        console.log('文件上传响应:', result);
+                        
+                        if (result.code === 200) {
+                            const avatarUrl = result.data;
+                            const message = `文件上传成功！
+头像URL: ${avatarUrl}
+
+完整响应: ${JSON.stringify(result, null, 2)}`;
+                            showResult('fileUploadResult', message, 'success');
+                            
+                            // 显示预览
+                            const preview = document.getElementById('filePreview');
+                            preview.src = avatarUrl;
+                            preview.style.display = 'block';
+                        } else {
+                            showResult('fileUploadResult', `上传失败: ${result.info}\n\n完整响应: ${JSON.stringify(result, null, 2)}`, 'error');
+                        }
+                    } catch (e) {
+                        showResult('fileUploadResult', `解析响应失败: ${xhr.responseText}`, 'error');
+                    }
+                } else {
+                    showResult('fileUploadResult', `HTTP错误: ${xhr.status} ${xhr.statusText}`, 'error');
+                }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('fileProgressBar').style.display = 'none';
+                showResult('fileUploadResult', '网络错误，请重试', 'error');
+            };
+
+            xhr.open('POST', `${API_BASE}/upload/avatar`);
+            xhr.setRequestHeader('token', token);
+            xhr.send(formData);
+        }
+
+        // URL上传
+        async function uploadByUrl() {
+            const url = document.getElementById('urlInput').value.trim();
+            
+            if (!url) {
+                alert('请输入图片URL');
+                return;
+            }
+
+            const token = currentToken || localStorage.getItem('token');
+            if (!token) {
+                alert('请先设置Token');
+                return;
+            }
+
+            try {
+                showResult('urlUploadResult', '正在通过URL上传...', '');
+
+                const params = new URLSearchParams();
+                params.append('url', url);
+
+                const response = await fetch(`${API_BASE}/upload/avatarByUrl`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': token
+                    },
+                    body: params
+                });
+
+                const result = await response.json();
+                console.log('URL上传响应:', result);
+
+                if (result.code === 200) {
+                    const avatarUrl = result.data;
+                    const message = `URL上传成功！
+原始URL: ${url}
+新头像URL: ${avatarUrl}
+
+完整响应: ${JSON.stringify(result, null, 2)}`;
+                    showResult('urlUploadResult', message, 'success');
+                    
+                    // 显示预览
+                    const preview = document.getElementById('urlPreview');
+                    preview.src = avatarUrl;
+                    preview.style.display = 'block';
+                } else {
+                    showResult('urlUploadResult', `上传失败: ${result.info}\n\n完整响应: ${JSON.stringify(result, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                console.error('URL上传失败:', error);
+                showResult('urlUploadResult', `上传失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 测试完整流程
+        async function testCompleteFlow() {
+            const token = currentToken || localStorage.getItem('token');
+            if (!token) {
+                alert('请先设置Token');
+                return;
+            }
+
+            try {
+                showResult('completeFlowResult', '开始测试完整流程...', '');
+
+                // 1. 先获取用户信息
+                const userInfoResponse = await fetch(`${API_BASE}/userInfo/getUserInfo`, {
+                    headers: { 'token': token }
+                });
+                const userInfo = await userInfoResponse.json();
+                
+                if (userInfo.code !== 200) {
+                    throw new Error('获取用户信息失败: ' + userInfo.info);
+                }
+
+                // 2. 通过URL上传头像
+                const testUrl = 'https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg';
+                const params = new URLSearchParams();
+                params.append('url', testUrl);
+
+                const uploadResponse = await fetch(`${API_BASE}/upload/avatarByUrl`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': token
+                    },
+                    body: params
+                });
+
+                const uploadResult = await uploadResponse.json();
+                if (uploadResult.code !== 200) {
+                    throw new Error('头像上传失败: ' + uploadResult.info);
+                }
+
+                // 3. 更新用户信息
+                const updateParams = new URLSearchParams();
+                updateParams.append('nickName', userInfo.data.nickName || '测试用户');
+                updateParams.append('sex', userInfo.data.sex.toString());
+                updateParams.append('avatar', uploadResult.data);
+
+                const updateResponse = await fetch(`${API_BASE}/userInfo/updateUserInfo`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': token
+                    },
+                    body: updateParams
+                });
+
+                const updateResult = await updateResponse.json();
+                if (updateResult.code !== 200) {
+                    throw new Error('更新用户信息失败: ' + updateResult.info);
+                }
+
+                // 4. 验证结果
+                const verifyResponse = await fetch(`${API_BASE}/userInfo/getUserInfo`, {
+                    headers: { 'token': token }
+                });
+                const verifyResult = await verifyResponse.json();
+
+                const message = `完整流程测试成功！
+
+步骤1 - 获取用户信息: ✅
+步骤2 - 上传头像: ✅
+  原始URL: ${testUrl}
+  新头像URL: ${uploadResult.data}
+步骤3 - 更新用户信息: ✅
+步骤4 - 验证结果: ✅
+  当前头像: ${verifyResult.data.avatar}
+
+流程完成！头像已成功更新并保存到用户信息中。`;
+
+                showResult('completeFlowResult', message, 'success');
+
+            } catch (error) {
+                console.error('完整流程测试失败:', error);
+                showResult('completeFlowResult', `测试失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 页面加载时获取token
+        window.onload = function() {
+            getStoredToken();
+        };
+    </script>
+</body>
+</html>

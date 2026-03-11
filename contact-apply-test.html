@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系人申请功能测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        button.success { background: #28a745; }
+        button.success:hover { background: #218838; }
+        button.danger { background: #dc3545; }
+        button.danger:hover { background: #c82333; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 300px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .user-section { display: flex; gap: 20px; }
+        .user-panel { flex: 1; border: 1px solid #ddd; padding: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>联系人申请功能测试</h1>
+    
+    <div class="user-section">
+        <!-- 用户A -->
+        <div class="user-panel">
+            <h3>👤 用户A (申请发送方)</h3>
+            <input type="email" id="emailA" placeholder="邮箱" value="2836240651@qq.com">
+            <input type="password" id="passwordA" placeholder="密码" value="123456">
+            <div style="display: flex; gap: 10px; align-items: center; margin: 5px 0;">
+                <input type="text" id="checkCodeA" placeholder="验证码" style="width: 150px;">
+                <button onclick="getCheckCodeA()">获取验证码</button>
+            </div>
+            <button onclick="loginUserA()">登录用户A</button>
+            <div id="loginStatusA">未登录</div>
+            
+            <hr>
+            <h4>发送联系人申请</h4>
+            <input type="text" id="targetUserIdA" placeholder="目标用户ID" value="">
+            <button onclick="sendContactApply()">发送申请</button>
+            <div id="sendApplyResult" class="result">等待操作...</div>
+        </div>
+        
+        <!-- 用户B -->
+        <div class="user-panel">
+            <h3>👤 用户B (申请接收方)</h3>
+            <input type="email" id="emailB" placeholder="邮箱" value="test@example.com">
+            <input type="password" id="passwordB" placeholder="密码" value="123456">
+            <div style="display: flex; gap: 10px; align-items: center; margin: 5px 0;">
+                <input type="text" id="checkCodeB" placeholder="验证码" style="width: 150px;">
+                <button onclick="getCheckCodeB()">获取验证码</button>
+            </div>
+            <button onclick="loginUserB()">登录用户B</button>
+            <div id="loginStatusB">未登录</div>
+            
+            <hr>
+            <h4>处理联系人申请</h4>
+            <button onclick="loadContactApplies()">加载申请列表</button>
+            <button onclick="loadApplyCount()">获取申请数量</button>
+            <div id="applyListResult" class="result">等待加载...</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>API测试功能</h3>
+        <button onclick="testAllApis()">测试所有API</button>
+        <button onclick="simulateWorkflow()">模拟完整流程</button>
+        <div id="testResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let userAToken = null;
+        let userBToken = null;
+        let userAInfo = null;
+        let userBInfo = null;
+        let checkCodeKeyA = null;  // 用户A的验证码key
+        let checkCodeKeyB = null;  // 用户B的验证码key
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function getCheckCodeA() {
+            const email = document.getElementById('emailA').value.trim();
+            if (!email) {
+                alert('请输入邮箱');
+                return;
+            }
+
+            try {
+                log('用户A获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    checkCodeKeyA = result.data.checkCodeKey;
+                    const checkCodeImage = result.data.checkCode;
+                    
+                    log('✅ 用户A验证码获取成功');
+                    
+                    // 创建图片显示验证码
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + checkCodeImage;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImageA';
+                    
+                    // 移除旧的验证码图片
+                    const oldImg = document.getElementById('checkCodeImageA');
+                    if (oldImg) oldImg.remove();
+                    
+                    // 添加新的验证码图片
+                    document.getElementById('checkCodeA').parentNode.appendChild(imgElement);
+                    
+                    alert('验证码获取成功，请查看图片并输入验证码');
+                } else {
+                    log('❌ 用户A验证码获取失败: ' + result.info);
+                    alert('验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`🚨 用户A验证码获取失败: ${error.message}`);
+                alert('验证码获取失败: ' + error.message);
+            }
+        }
+
+        async function getCheckCodeB() {
+            const email = document.getElementById('emailB').value.trim();
+            if (!email) {
+                alert('请输入邮箱');
+                return;
+            }
+
+            try {
+                log('用户B获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    checkCodeKeyB = result.data.checkCodeKey;
+                    const checkCodeImage = result.data.checkCode;
+                    
+                    log('✅ 用户B验证码获取成功');
+                    
+                    // 创建图片显示验证码
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + checkCodeImage;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImageB';
+                    
+                    // 移除旧的验证码图片
+                    const oldImg = document.getElementById('checkCodeImageB');
+                    if (oldImg) oldImg.remove();
+                    
+                    // 添加新的验证码图片
+                    document.getElementById('checkCodeB').parentNode.appendChild(imgElement);
+                    
+                    alert('验证码获取成功，请查看图片并输入验证码');
+                } else {
+                    log('❌ 用户B验证码获取失败: ' + result.info);
+                    alert('验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`🚨 用户B验证码获取失败: ${error.message}`);
+                alert('验证码获取失败: ' + error.message);
+            }
+        }
+
+        async function loginUserA() {
+            const email = document.getElementById('emailA').value.trim();
+            const password = document.getElementById('passwordA').value.trim();
+            const checkCode = document.getElementById('checkCodeA').value.trim();
+            
+            if (!checkCode) {
+                alert('请先获取并输入验证码');
+                return;
+            }
+            
+            if (!checkCodeKeyA) {
+                alert('请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('用户A开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKeyA
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 用户A登录成功');
+                    userAToken = result.data.token;
+                    userAInfo = result.data; // 直接使用result.data，不是result.data.userInfo
+                    document.getElementById('loginStatusA').textContent = '已登录: ' + userAInfo.nickName + ' (ID: ' + userAInfo.userId + ')';
+                    document.getElementById('loginStatusA').style.color = 'green';
+                    
+                    // 自动填入用户B的ID作为目标
+                    if (userBInfo) {
+                        document.getElementById('targetUserIdA').value = userBInfo.userId;
+                    }
+                } else {
+                    log(`❌ 用户A登录失败: ${result.info}`);
+                    document.getElementById('loginStatusA').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatusA').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 用户A登录请求失败: ${error.message}`);
+                document.getElementById('loginStatusA').textContent = '登录失败: ' + error.message;
+                document.getElementById('loginStatusA').style.color = 'red';
+            }
+        }
+
+        async function loginUserB() {
+            const email = document.getElementById('emailB').value.trim();
+            const password = document.getElementById('passwordB').value.trim();
+            const checkCode = document.getElementById('checkCodeB').value.trim();
+            
+            if (!checkCode) {
+                alert('请先获取并输入验证码');
+                return;
+            }
+            
+            if (!checkCodeKeyB) {
+                alert('请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('用户B开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKeyB
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 用户B登录成功');
+                    userBToken = result.data.token;
+                    userBInfo = result.data; // 直接使用result.data，不是result.data.userInfo
+                    document.getElementById('loginStatusB').textContent = '已登录: ' + userBInfo.nickName + ' (ID: ' + userBInfo.userId + ')';
+                    document.getElementById('loginStatusB').style.color = 'green';
+                    
+                    // 自动填入用户B的ID作为目标
+                    if (userAInfo) {
+                        document.getElementById('targetUserIdA').value = userBInfo.userId;
+                    }
+                } else {
+                    log(`❌ 用户B登录失败: ${result.info}`);
+                    document.getElementById('loginStatusB').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatusB').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 用户B登录请求失败: ${error.message}`);
+                document.getElementById('loginStatusB').textContent = '登录失败: ' + error.message;
+                document.getElementById('loginStatusB').style.color = 'red';
+            }
+        }
+        async function sendContactApply() {
+            if (!userAToken) {
+                alert('请先登录用户A');
+                return;
+            }
+
+            const targetUserId = document.getElementById('targetUserIdA').value.trim();
+            if (!targetUserId) {
+                alert('请输入目标用户ID');
+                return;
+            }
+
+            try {
+                log(`用户A向用户${targetUserId}发送联系人申请...`);
+                const response = await fetch('http://localhost:6099/api/userContact/contactApply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': userAToken
+                    },
+                    body: new URLSearchParams({ receiveUserId: targetUserId })
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('sendApplyResult');
+                
+                if (result.status === 'success') {
+                    resultDiv.innerHTML = `
+                        <h4>✅ 联系人申请发送成功</h4>
+                        <p><strong>发送者:</strong> ${userAInfo.nickName} (${userAInfo.userId})</p>
+                        <p><strong>接收者:</strong> ${targetUserId}</p>
+                        <p><strong>状态:</strong> ${result.data}</p>
+                        <p>现在可以在用户B端查看和处理申请</p>
+                    `;
+                    resultDiv.className = 'result success';
+                    log('✅ 联系人申请发送成功');
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 发送失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 发送失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 发送申请失败: ${error.message}`);
+                const resultDiv = document.getElementById('sendApplyResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function loadContactApplies() {
+            if (!userBToken) {
+                alert('请先登录用户B');
+                return;
+            }
+
+            try {
+                log('用户B加载联系人申请列表...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactApply', {
+                    method: 'GET',
+                    headers: { 'token': userBToken }
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('applyListResult');
+                
+                if (result.status === 'success') {
+                    const applies = result.data || [];
+                    let html = `
+                        <h4>📋 联系人申请列表</h4>
+                        <p><strong>申请数量:</strong> ${applies.length}</p>
+                    `;
+                    
+                    if (applies.length > 0) {
+                        html += `
+                        <table>
+                            <tr><th>申请者</th><th>申请者ID</th><th>申请时间</th><th>操作</th></tr>
+                            ${applies.map(apply => `
+                                <tr>
+                                    <td>${apply.nickName || apply.applyUserNickName || '未知'}</td>
+                                    <td>${apply.applyUserId}</td>
+                                    <td>${new Date(apply.lastApplyTime).toLocaleString()}</td>
+                                    <td>
+                                        <button class="success" onclick="acceptApply('${apply.applyUserId}', '${apply.nickName || apply.applyUserNickName}')">同意</button>
+                                        <button class="danger" onclick="rejectApply('${apply.applyUserId}', '${apply.nickName || apply.applyUserNickName}')">拒绝</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                        `;
+                    } else {
+                        html += '<p>暂无联系人申请</p>';
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                    resultDiv.className = 'result success';
+                    log(`✅ 加载申请列表成功: ${applies.length} 条`);
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载申请列表失败: ${error.message}`);
+            }
+        }
+
+        async function loadApplyCount() {
+            if (!userBToken) {
+                alert('请先登录用户B');
+                return;
+            }
+
+            try {
+                log('用户B获取申请数量...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactApplyDealWithCount', {
+                    method: 'GET',
+                    headers: { 'token': userBToken }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    log(`✅ 待处理申请数量: ${result.data}`);
+                    alert(`待处理申请数量: ${result.data}`);
+                } else {
+                    log(`❌ 获取申请数量失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 获取申请数量失败: ${error.message}`);
+            }
+        }
+
+        async function acceptApply(applyUserId, applyUserName) {
+            if (!userBToken) {
+                alert('请先登录用户B');
+                return;
+            }
+
+            try {
+                log(`用户B同意 ${applyUserName} 的联系人申请...`);
+                const response = await fetch('http://localhost:6099/api/userContact/dealWithApply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': userBToken
+                    },
+                    body: new URLSearchParams({ 
+                        applyUserId: applyUserId, 
+                        status: '1' 
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    log(`✅ 已同意 ${applyUserName} 的联系人申请`);
+                    alert(`已同意 ${applyUserName} 的联系人申请`);
+                    // 重新加载申请列表
+                    await loadContactApplies();
+                } else {
+                    log(`❌ 同意申请失败: ${result.info}`);
+                    alert(`同意申请失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 同意申请失败: ${error.message}`);
+                alert(`同意申请失败: ${error.message}`);
+            }
+        }
+
+        async function rejectApply(applyUserId, applyUserName) {
+            if (!userBToken) {
+                alert('请先登录用户B');
+                return;
+            }
+
+            try {
+                log(`用户B拒绝 ${applyUserName} 的联系人申请...`);
+                const response = await fetch('http://localhost:6099/api/userContact/dealWithApply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': userBToken
+                    },
+                    body: new URLSearchParams({ 
+                        applyUserId: applyUserId, 
+                        status: '0' 
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    log(`✅ 已拒绝 ${applyUserName} 的联系人申请`);
+                    alert(`已拒绝 ${applyUserName} 的联系人申请`);
+                    // 重新加载申请列表
+                    await loadContactApplies();
+                } else {
+                    log(`❌ 拒绝申请失败: ${result.info}`);
+                    alert(`拒绝申请失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 拒绝申请失败: ${error.message}`);
+                alert(`拒绝申请失败: ${error.message}`);
+            }
+        }
+
+        async function testAllApis() {
+            log('开始测试所有联系人申请相关API...');
+            const resultDiv = document.getElementById('testResult');
+            
+            if (!userAToken || !userBToken) {
+                resultDiv.innerHTML = '<h4>❌ 请先登录两个用户</h4>';
+                resultDiv.className = 'result error';
+                return;
+            }
+
+            try {
+                // 测试发送申请
+                log('1. 测试发送联系人申请...');
+                await sendContactApply();
+                
+                // 等待1秒
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 测试加载申请列表
+                log('2. 测试加载申请列表...');
+                await loadContactApplies();
+                
+                // 测试获取申请数量
+                log('3. 测试获取申请数量...');
+                await loadApplyCount();
+                
+                resultDiv.innerHTML = `
+                    <h4>✅ API测试完成</h4>
+                    <p>所有联系人申请相关的API都已测试</p>
+                    <p>请查看日志了解详细结果</p>
+                `;
+                resultDiv.className = 'result success';
+                log('✅ 所有API测试完成');
+                
+            } catch (error) {
+                log(`🚨 API测试失败: ${error.message}`);
+                resultDiv.innerHTML = `<h4>❌ API测试失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function simulateWorkflow() {
+            log('开始模拟完整的联系人申请流程...');
+            
+            if (!userAToken || !userBToken) {
+                alert('请先登录两个用户');
+                return;
+            }
+
+            try {
+                // 1. 用户A发送申请
+                log('步骤1: 用户A发送联系人申请');
+                await sendContactApply();
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 2. 用户B查看申请
+                log('步骤2: 用户B查看申请列表');
+                await loadContactApplies();
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 3. 模拟用户B同意申请（如果有申请的话）
+                log('步骤3: 检查是否有申请可以处理');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactApply', {
+                    method: 'GET',
+                    headers: { 'token': userBToken }
+                });
+                
+                const result = await response.json();
+                if (result.status === 'success' && result.data && result.data.length > 0) {
+                    const firstApply = result.data[0];
+                    log(`步骤4: 用户B同意 ${firstApply.nickName || firstApply.applyUserNickName} 的申请`);
+                    await acceptApply(firstApply.applyUserId, firstApply.nickName || firstApply.applyUserNickName);
+                } else {
+                    log('步骤4: 没有找到待处理的申请');
+                }
+                
+                log('✅ 完整流程模拟完成');
+                
+            } catch (error) {
+                log(`🚨 流程模拟失败: ${error.message}`);
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('联系人申请功能测试工具已加载');
+            log('使用步骤：');
+            log('1. 点击"获取验证码"按钮获取图片验证码');
+            log('2. 查看验证码图片并输入验证码');
+            log('3. 登录两个不同的用户账号');
+            log('4. 用户A发送联系人申请给用户B');
+            log('5. 用户B查看并处理申请');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+[90m2026-03-10T15:11:31.571Z[39m [36m[browser/server][39m [33mChrome extension relay init failed for profile "chrome": Error: listen EADDRINUSE: address already in use 127.0.0.1:18792[39m
+[90m2026-03-10T15:11:35.475Z[39m [31m[bonjour][39m [33mgateway name conflict resolved; newName="Canoeist (OpenClaw) (2)"[39m
+[90m2026-03-10T15:11:35.480Z[39m [31m[bonjour][39m [33mgateway hostname conflict resolved; newHostname="openclaw-(2)"[39m
+2026-03-10T23:15:22.598+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T15:15:39.962Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:16:14.654Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:17:10.256Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:20:04.966Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:22:02.738Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:26:25.857Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:28:49.311Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:29:11.803Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:39:11.859Z[39m [33m[agent/embedded][39m [33membedded run timeout: runId=ff5b15fb-0ac6-4462-a27a-30a8241371b1 sessionId=237adc51-4783-40a6-94c7-879524ba9558 timeoutMs=600000[39m
+[90m2026-03-10T15:39:15.165Z[39m [33m[agent/embedded][39m [33mProfile minimax-portal:default timed out. Trying next account...[39m
+[90m2026-03-10T15:39:17.889Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:39:40.368Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T15:41:17.704Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:43:20.009Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:44:42.015Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T15:44:52.802Z[39m [34m[telegram][39m [31msendChatAction failed: Network request for 'sendChatAction' failed![39m
+[90m2026-03-10T15:44:59.910Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T15:49:23.806Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-10T23:53:23.101+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-10T23:53:40.812+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-10T23:54:41.275+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-10T23:54:45.214+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T15:55:05.891Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T15:56:19.883Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-10T23:59:17.963+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T15:59:27.165Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T16:00:02.218Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T16:00:06.813Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:00:51.344+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:01:06.837Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:01:25.369+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:01:36.596Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:01:43.910+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:02:02.093Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:02:13.279+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:02:33.924Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:03:21.157+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:03:40.452Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T16:03:51.450Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T16:04:07.502Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:04:32.342+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:04:52.710Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:04:53.470+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T00:05:13.531+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T00:06:16.500+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:06:41.762Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:06:58.336+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T00:07:01.350+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:07:36.542Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T16:09:42.365Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:12:54.048+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:13:24.843Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T16:17:47.283Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T00:21:40.804+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T16:47:15.819Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T17:16:49.601Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T01:21:08.719+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T01:21:18.384+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T01:21:28.664+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T01:29:15.020+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-10T17:29:32.729Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T18:08:34.887Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T18:22:16.934Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:22:16.950Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 2.25s.[39m
+[90m2026-03-10T18:22:19.653Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:22:19.668Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 4.04s.[39m
+[90m2026-03-10T18:22:24.163Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:22:24.168Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 7.05s.[39m
+[90m2026-03-10T18:22:31.670Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:22:31.682Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 14.16s.[39m
+[90m2026-03-10T18:22:46.283Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:22:46.288Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 25.27s.[39m
+[90m2026-03-10T18:23:12.074Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:23:12.092Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:23:42.529Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:23:42.547Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:24:12.996Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:24:13.000Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:24:43.435Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:24:43.449Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:25:13.892Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:25:13.907Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:25:44.366Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:25:44.370Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:26:14.832Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:26:14.845Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:26:45.325Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:26:45.331Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:27:15.790Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:27:15.796Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:27:56.976Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T18:27:56.994Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:27:56.997Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:28:27.680Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:28:27.690Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:28:58.118Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:28:58.123Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:29:28.556Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:29:28.569Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:29:59.028Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:29:59.034Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:30:29.466Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:30:29.473Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:30:59.970Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:30:59.982Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:31:30.424Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:31:30.438Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:32:00.946Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:32:00.951Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:32:31.504Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:32:31.511Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:33:12.646Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T18:33:12.663Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:33:12.669Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:33:43.117Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:33:43.132Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:34:13.586Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:34:13.598Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:34:44.059Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:34:44.063Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:35:14.519Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:35:14.532Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:35:44.971Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:35:44.975Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:36:26.090Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T18:36:26.103Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:36:26.107Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:36:56.639Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:36:56.652Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:37:27.188Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:37:27.202Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:37:57.667Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:37:57.672Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:38:28.170Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:38:28.183Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:38:58.625Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:38:58.630Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:39:29.073Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:39:29.077Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:39:59.522Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:39:59.525Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:40:29.999Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:40:30.011Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:41:00.757Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:41:00.773Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:41:31.207Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:41:31.222Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:42:01.772Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:42:01.777Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:42:32.205Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:42:32.210Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:43:02.653Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:43:02.667Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:43:10.510Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T18:43:11.986Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=22eae04f-782e-4057-b42d-8e957ab82bd1 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:43:15.514Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=22eae04f-782e-4057-b42d-8e957ab82bd1 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:43:20.857Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=22eae04f-782e-4057-b42d-8e957ab82bd1 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:43:30.259Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=22eae04f-782e-4057-b42d-8e957ab82bd1 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:43:31.755Z[39m [34m[telegram][39m [31mmessage failed: Network request for 'sendMessage' failed![39m
+2026-03-11T02:43:31.808+08:00 Subagent completion direct announce failed for run 02bd2390-e35d-4212-a5ca-c59fd9ee0bc7:22eae04f-782e-4057-b42d-8e957ab82bd1:1773168190120: HttpError: Network request for 'sendMessage' failed!
+[90m2026-03-10T18:43:33.115Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:43:33.120Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:44:03.581Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:44:03.597Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:44:34.057Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:44:34.071Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:45:04.516Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:45:04.522Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:45:34.967Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:45:34.981Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:46:05.445Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:46:05.450Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:46:35.900Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:46:35.905Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:46:44.519Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-10T18:46:46.057Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=300b9eae-2d23-4f73-b22b-fc0e8903fd29 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:46:49.389Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=300b9eae-2d23-4f73-b22b-fc0e8903fd29 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:46:54.841Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=300b9eae-2d23-4f73-b22b-fc0e8903fd29 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:47:04.257Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=300b9eae-2d23-4f73-b22b-fc0e8903fd29 isError=true error=LLM request timed out.[39m
+[90m2026-03-10T18:47:05.609Z[39m [34m[telegram][39m [31mmessage failed: Network request for 'sendMessage' failed![39m
+[90m2026-03-10T18:47:05.626Z[39m [36m[heartbeat][39m [31mfailed: Network request for 'sendMessage' failed![39m
+[90m2026-03-10T18:47:06.390Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:47:06.406Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:47:36.847Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:47:36.863Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:48:07.451Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:48:07.465Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:48:37.895Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:48:37.901Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:49:08.344Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:49:08.359Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:49:38.782Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:49:38.798Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:50:09.277Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:50:09.290Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:50:39.925Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:50:39.929Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:51:10.365Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:51:10.378Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:51:41.202Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:51:41.207Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:52:11.687Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:52:11.694Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:52:42.131Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:52:42.136Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:53:12.659Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:53:12.673Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:53:43.291Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:53:43.303Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:54:13.903Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:54:13.908Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:54:54.569Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-10T18:54:54.582Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:54:54.586Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:55:25.043Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:55:25.049Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:55:55.668Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:55:55.683Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:56:26.166Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:56:26.170Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:56:34.439Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:56:34.444Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 2.09s.[39m
+[90m2026-03-10T18:56:36.971Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:56:36.976Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 3.76s.[39m
+[90m2026-03-10T18:56:41.171Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:56:41.177Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 6.6s.[39m
+[90m2026-03-10T18:56:48.281Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:56:48.295Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 12.96s.[39m
+[90m2026-03-10T18:57:01.739Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:57:01.751Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 24.98s.[39m
+[90m2026-03-10T18:57:27.191Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:57:27.205Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:57:57.706Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:57:57.721Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:58:28.134Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:58:28.148Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:58:58.661Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:58:58.664Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:59:29.080Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:59:29.093Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T18:59:59.593Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T18:59:59.598Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:00:30.125Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:00:30.131Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:01:00.546Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:01:00.550Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:01:31.004Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:01:31.024Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:02:01.798Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:02:01.812Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:02:32.263Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:02:32.268Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:03:02.729Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:03:02.735Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:03:33.214Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:03:33.220Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:04:03.660Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:04:03.674Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:04:34.173Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:04:34.180Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:05:04.604Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:05:04.638Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:05:35.063Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:05:35.076Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:06:05.581Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:06:05.593Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:06:36.084Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:06:36.089Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:07:06.648Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:07:06.665Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:07:37.242Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:07:37.248Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:08:07.710Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:08:07.724Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:08:38.178Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:08:38.183Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:09:08.659Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:09:08.674Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:09:39.154Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:09:39.159Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:10:09.718Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:10:09.730Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:10:40.240Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:10:40.255Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:11:10.744Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:11:10.750Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:11:41.244Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:11:41.259Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:12:11.741Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:12:11.746Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:12:42.227Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:12:42.241Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:13:12.678Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:13:12.693Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:13:43.157Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:13:43.164Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:14:13.596Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:14:13.610Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:14:44.033Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:14:44.046Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:15:14.516Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:15:14.531Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:15:44.949Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:15:44.953Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:16:15.478Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:16:15.484Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:16:45.984Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:16:46.001Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:17:16.433Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:17:16.448Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:17:46.979Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:17:46.992Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:18:17.637Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:18:17.642Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:18:48.091Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:18:48.096Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:19:18.685Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:19:18.690Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:19:49.134Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:19:49.146Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:20:19.647Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:20:19.661Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:20:50.132Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:20:50.138Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:21:20.564Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:21:20.571Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-10T19:21:50.977Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-10T19:21:50.982Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:28:19.138Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:28:19.175Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 2.31s.[39m
+[90m2026-03-11T01:28:19.720Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T01:28:21.279Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=60735e8d-3841-4b2a-b898-607cc60c2acb isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:28:22.178Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:28:22.183Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 3.71s.[39m
+[90m2026-03-11T01:28:24.751Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=60735e8d-3841-4b2a-b898-607cc60c2acb isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:28:27.354Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:28:27.361Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 6.57s.[39m
+[90m2026-03-11T01:28:30.242Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=60735e8d-3841-4b2a-b898-607cc60c2acb isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:28:35.413Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:28:35.420Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 13.99s.[39m
+[90m2026-03-11T01:28:51.130Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:28:51.136Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 23.94s.[39m
+[90m2026-03-11T01:28:52.114Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=60735e8d-3841-4b2a-b898-607cc60c2acb isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:28:53.675Z[39m [34m[telegram][39m [31mmessage failed: Network request for 'sendMessage' failed![39m
+2026-03-11T09:28:53.722+08:00 Subagent completion direct announce failed for run 02bd2390-e35d-4212-a5ca-c59fd9ee0bc7:60735e8d-3841-4b2a-b898-607cc60c2acb:1773192491165: HttpError: Network request for 'sendMessage' failed!
+[90m2026-03-11T01:28:55.307Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T01:29:07.703Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=0548c8e8-f738-4288-8f50-e01f13884b8f isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:29:15.992Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:29:15.999Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:29:19.018Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T01:29:20.295Z[39m [34m[telegram][39m [31mmessage failed: Network request for 'sendMessage' failed![39m
+2026-03-11T09:29:20.312+08:00 Subagent completion direct announce failed for run 44270af6-0092-43f3-93db-80edca8e5202:0548c8e8-f738-4288-8f50-e01f13884b8f:1773192533802: HttpError: Network request for 'sendMessage' failed!
+[90m2026-03-11T01:29:22.388Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T01:29:23.760Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=5afac23d-a363-49bf-9233-e1832d9d86dd isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:29:27.135Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=5afac23d-a363-49bf-9233-e1832d9d86dd isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:29:32.604Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=5afac23d-a363-49bf-9233-e1832d9d86dd isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:29:47.248Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:29:47.259Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:30:04.303Z[39m [33m[agent/embedded][39m [33membedded run agent end: runId=5afac23d-a363-49bf-9233-e1832d9d86dd isError=true error=LLM request timed out.[39m
+[90m2026-03-11T01:30:05.602Z[39m [34m[telegram][39m [31mmessage failed: Network request for 'sendMessage' failed![39m
+[90m2026-03-11T01:30:05.614Z[39m [36m[heartbeat][39m [31mfailed: Network request for 'sendMessage' failed![39m
+[90m2026-03-11T01:30:18.629Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:30:18.636Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:30:50.030Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:30:50.037Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:31:21.216Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:31:21.224Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:31:52.392Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:31:52.399Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:32:23.708Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:32:23.719Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:32:54.998Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:32:55.006Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:33:26.232Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:33:26.246Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:33:57.327Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:33:57.333Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:34:28.727Z[39m [34m[telegram][39m [31mdeleteWebhook failed: Network request for 'deleteWebhook' failed![39m
+[90m2026-03-11T01:34:28.737Z[39m [34m[telegram][39m [31mwebhook cleanup failed: Network request for 'deleteWebhook' failed!; retrying in 30s.[39m
+[90m2026-03-11T01:38:31.669Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T01:43:17.593Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T01:53:15.804Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+2026-03-11T10:00:40.039+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T02:00:49.645Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T10:05:43.365+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T02:22:21.061Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T02:39:49.714Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T02:41:52.438Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T02:42:05.042Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T04:44:05.612Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T04:45:57.567Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T04:46:08.160Z[39m [34m[telegram][39m [31msendChatAction failed: Network request for 'sendChatAction' failed![39m
+[90m2026-03-11T04:46:26.743Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T12:53:17.602+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T04:53:23.073Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T12:53:26.388+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T12:53:29.835+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T12:53:32.054+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T04:53:48.514Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T04:56:39.429Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T04:57:30.033Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T12:57:56.659+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T04:58:22.759Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T05:00:18.518Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T13:06:33.010+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T05:06:33.528Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+2026-03-11T13:06:36.506+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T13:07:13.980+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+[90m2026-03-11T05:20:35.830Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T05:41:16.135Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T05:50:37.708Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T05:55:55.608Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T05:57:41.989Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T06:17:03.585Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T06:27:51.691Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T06:28:11.486Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T06:29:22.388Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T06:32:01.806Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T06:33:50.408Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T06:39:11.623Z[39m [34m[tools][39m [33mtools.profile (coding) allowlist contains unknown entries (apply_patch). These entries won't match any tool unless the plugin is enabled.[39m
+[90m2026-03-11T06:46:50.638Z[39m [34m[telegram][39m [31msendChatAction failed: Network request for 'sendChatAction' failed![39m
+[90m2026-03-11T06:46:55.721Z[39m [34m[telegram][39m [31msendChatAction failed: Network request for 'sendChatAction' failed![39m
+[90m2026-03-11T06:49:11.707Z[39m [33m[agent/embedded][39m [33membedded run timeout: runId=0b4a66c2-c5d1-4500-9502-810df496645a sessionId=db036275-39a7-42c0-bd21-4b18568eb110 timeoutMs=600000[39m
+[90m2026-03-11T06:49:11.749Z[39m [33m[agent/embedded][39m [33mProfile minimax-portal:default timed out. Trying next account...[39m
+[90m2026-03-11T06:50:37.185Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T07:16:51.985Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T07:44:42.329Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T07:57:33.542Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T08:09:34.114Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T08:24:56.733Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m
+[90m2026-03-11T08:29:37.800Z[39m [34m[telegram][39m [33mfetch fallback: forcing autoSelectFamily=false + dnsResultOrder=ipv4first[39m

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速状态测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h2>会议状态过滤快速测试</h2>
+        <p>测试后端API的status参数功能</p>
+        <button onclick="testStatus0()">测试 status=0 (进行中)</button>
+        <button onclick="testStatus1()">测试 status=1 (已结束)</button>
+        <button onclick="testNoStatus()">测试无status (全部)</button>
+        <div id="result" class="result">点击按钮开始测试...</div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('请先登录！');
+        }
+
+        async function testAPI(status) {
+            const params = new URLSearchParams({ pageNo: 1 });
+            if (status !== null) {
+                params.append('status', status);
+            }
+
+            const response = await fetch(`/api/meetingInfo/loadMeeting?${params}`, {
+                headers: { 'token': token }
+            });
+            return await response.json();
+        }
+
+        async function testStatus0() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result';
+            resultDiv.textContent = '正在测试 status=0...';
+
+            const result = await testAPI(0);
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                const wrongStatus = meetings.filter(m => m.status !== 0);
+                
+                let text = `✅ API调用成功\n`;
+                text += `返回 ${meetings.length} 条记录\n`;
+                text += `状态检查: ${wrongStatus.length === 0 ? '✅ 全部为进行中的会议' : '❌ 包含其他状态的会议'}\n\n`;
+                
+                if (meetings.length > 0) {
+                    text += '前3条记录:\n';
+                    meetings.slice(0, 3).forEach((m, i) => {
+                        text += `${i+1}. ${m.meetingName} - 状态:${m.status} - ${m.createTime}\n`;
+                    });
+                }
+
+                resultDiv.className = wrongStatus.length === 0 ? 'result success' : 'result error';
+                resultDiv.textContent = text;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ API调用失败: ${result.info}`;
+            }
+        }
+
+        async function testStatus1() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result';
+            resultDiv.textContent = '正在测试 status=1...';
+
+            const result = await testAPI(1);
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                const wrongStatus = meetings.filter(m => m.status !== 1);
+                
+                let text = `✅ API调用成功\n`;
+                text += `返回 ${meetings.length} 条记录\n`;
+                text += `状态检查: ${wrongStatus.length === 0 ? '✅ 全部为已结束的会议' : '❌ 包含其他状态的会议'}\n\n`;
+                
+                if (meetings.length > 0) {
+                    text += '前3条记录:\n';
+                    meetings.slice(0, 3).forEach((m, i) => {
+                        text += `${i+1}. ${m.meetingName} - 状态:${m.status} - ${m.createTime}\n`;
+                    });
+                }
+
+                resultDiv.className = wrongStatus.length === 0 ? 'result success' : 'result error';
+                resultDiv.textContent = text;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ API调用失败: ${result.info}`;
+            }
+        }
+
+        async function testNoStatus() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result';
+            resultDiv.textContent = '正在测试无status参数...';
+
+            const result = await testAPI(null);
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                const status0 = meetings.filter(m => m.status === 0).length;
+                const status1 = meetings.filter(m => m.status === 1).length;
+                
+                let text = `✅ API调用成功\n`;
+                text += `返回 ${meetings.length} 条记录\n`;
+                text += `进行中: ${status0} 条\n`;
+                text += `已结束: ${status1} 条\n\n`;
+                
+                if (meetings.length > 0) {
+                    text += '前3条记录:\n';
+                    meetings.slice(0, 3).forEach((m, i) => {
+                        text += `${i+1}. ${m.meetingName} - 状态:${m.status} - ${m.createTime}\n`;
+                    });
+                }
+
+                resultDiv.className = 'result success';
+                resultDiv.textContent = text;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ API调用失败: ${result.info}`;
+            }
+        }
+    </script>
+</body>
+</html>

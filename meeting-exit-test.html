@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议退出测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>会议退出和创建测试</h1>
+    
+    <!-- 登录 -->
+    <div class="test-section">
+        <h2>1. 登录</h2>
+        <div class="form-group">
+            <label>邮箱:</label>
+            <input type="email" id="loginEmail" value="test@qq.com">
+        </div>
+        <div class="form-group">
+            <label>密码:</label>
+            <input type="password" id="loginPassword" value="123456">
+        </div>
+        <button onclick="testLogin()">登录</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <!-- 当前会议状态 -->
+    <div class="test-section">
+        <h2>2. 当前会议状态</h2>
+        <button onclick="checkCurrentMeeting()">检查当前会议</button>
+        <div id="currentMeetingResult" class="result"></div>
+    </div>
+
+    <!-- 会议操作 -->
+    <div class="test-section">
+        <h2>3. 会议操作</h2>
+        <div class="button-group">
+            <button onclick="createQuickMeeting()">创建快速会议</button>
+            <button onclick="exitMeeting()">退出会议</button>
+            <button onclick="finishMeeting()">结束会议</button>
+        </div>
+        <div id="meetingOperationResult" class="result"></div>
+    </div>
+
+    <!-- 测试流程 -->
+    <div class="test-section">
+        <h2>4. 完整测试流程</h2>
+        <button onclick="runFullTest()">运行完整测试</button>
+        <div id="fullTestResult" class="result"></div>
+    </div>
+
+    <script>
+        let currentToken = '';
+
+        // 登录测试
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            resultDiv.innerHTML = '正在登录...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const response = await fetch('/api/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&checkCode=1234`
+                });
+                
+                const result = await response.json();
+                console.log('登录响应:', result);
+                
+                if (result.code === 200) {
+                    currentToken = result.data.token;
+                    resultDiv.innerHTML = `✅ 登录成功！\n用户: ${result.data.nickName}\nToken: ${currentToken.substring(0, 30)}...`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 登录失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('登录错误:', error);
+                resultDiv.innerHTML = `❌ 登录错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 检查当前会议
+        async function checkCurrentMeeting() {
+            const resultDiv = document.getElementById('currentMeetingResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = '正在检查当前会议状态...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const response = await fetch('/api/meetingInfo/getCurrentMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    }
+                });
+                
+                const result = await response.json();
+                console.log('当前会议响应:', result);
+                
+                if (result.code === 200) {
+                    if (result.data) {
+                        resultDiv.innerHTML = `📋 当前会议信息:\n` +
+                            `会议ID: ${result.data.meetingId}\n` +
+                            `会议名称: ${result.data.meetingName}\n` +
+                            `会议号: ${result.data.meetingNo}\n` +
+                            `状态: ${result.data.status === 0 ? '进行中' : '已结束'}`;
+                        resultDiv.className = 'result info';
+                    } else {
+                        resultDiv.innerHTML = '✅ 当前没有进行中的会议';
+                        resultDiv.className = 'result success';
+                    }
+                } else {
+                    resultDiv.innerHTML = `❌ 检查失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('检查当前会议错误:', error);
+                resultDiv.innerHTML = `❌ 检查错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 创建快速会议
+        async function createQuickMeeting() {
+            const resultDiv = document.getElementById('meetingOperationResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = '正在创建快速会议...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const params = new URLSearchParams();
+                params.append('meetingNoType', '1');
+                params.append('MeetingName', '测试快速会议');
+                params.append('joinType', '0');
+                
+                const response = await fetch('/api/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    },
+                    body: params
+                });
+                
+                const result = await response.json();
+                console.log('创建快速会议响应:', result);
+                
+                if (result.code === 200) {
+                    resultDiv.innerHTML = `✅ 快速会议创建成功！\n会议ID: ${result.data}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 创建失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('创建快速会议错误:', error);
+                resultDiv.innerHTML = `❌ 创建错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 退出会议
+        async function exitMeeting() {
+            const resultDiv = document.getElementById('meetingOperationResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = '正在退出会议...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const response = await fetch('/api/meetingInfo/exitMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    }
+                });
+                
+                const result = await response.json();
+                console.log('退出会议响应:', result);
+                
+                if (result.code === 200) {
+                    resultDiv.innerHTML = `✅ 成功退出会议！`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 退出失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('退出会议错误:', error);
+                resultDiv.innerHTML = `❌ 退出错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 结束会议
+        async function finishMeeting() {
+            const resultDiv = document.getElementById('meetingOperationResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = '正在结束会议...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const response = await fetch('/api/meetingInfo/finishMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    }
+                });
+                
+                const result = await response.json();
+                console.log('结束会议响应:', result);
+                
+                if (result.code === 200) {
+                    resultDiv.innerHTML = `✅ 成功结束会议！`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 结束失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('结束会议错误:', error);
+                resultDiv.innerHTML = `❌ 结束错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 运行完整测试
+        async function runFullTest() {
+            const resultDiv = document.getElementById('fullTestResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = '开始完整测试流程...\n';
+            resultDiv.className = 'result info';
+            
+            try {
+                // 1. 检查当前会议状态
+                resultDiv.innerHTML += '1. 检查当前会议状态...\n';
+                await checkCurrentMeeting();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 2. 创建快速会议
+                resultDiv.innerHTML += '2. 创建快速会议...\n';
+                await createQuickMeeting();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 3. 再次检查当前会议状态
+                resultDiv.innerHTML += '3. 检查会议创建后的状态...\n';
+                await checkCurrentMeeting();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 4. 结束会议
+                resultDiv.innerHTML += '4. 结束会议...\n';
+                await finishMeeting();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 5. 检查会议结束后的状态
+                resultDiv.innerHTML += '5. 检查会议结束后的状态...\n';
+                await checkCurrentMeeting();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 6. 尝试再次创建快速会议
+                resultDiv.innerHTML += '6. 尝试再次创建快速会议...\n';
+                await createQuickMeeting();
+                
+                resultDiv.innerHTML += '\n✅ 完整测试流程完成！';
+                resultDiv.className = 'result success';
+                
+            } catch (error) {
+                console.error('完整测试错误:', error);
+                resultDiv.innerHTML += `\n❌ 测试过程中出现错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 页面加载时的提示
+        window.onload = function() {
+            console.log('会议退出测试页面已加载');
+            console.log('测试目的: 验证会议结束后token中的currentMeetingId是否正确清除');
+        };
+    </script>
+</body>
+</html>

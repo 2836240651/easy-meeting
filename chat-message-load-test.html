@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天消息加载测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 300px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>聊天消息加载测试</h1>
+    
+    <div class="container">
+        <h3>1. 用户登录</h3>
+        <input type="email" id="emailInput" placeholder="邮箱" value="2836240651@qq.com">
+        <input type="password" id="passwordInput" placeholder="密码" value="123456">
+        <button onclick="login()">登录</button>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>2. 加载消息测试</h3>
+        <button onclick="loadMessagesWithoutMaxId()">加载消息（不传maxMessageId）</button>
+        <button onclick="loadMessagesWithMaxId()">加载消息（传入maxMessageId）</button>
+        <button onclick="loadMessagesWithCurrentTime()">加载消息（当前时间戳）</button>
+        <div id="loadResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>3. 发送测试消息</h3>
+        <input type="text" id="messageInput" placeholder="输入测试消息" value="测试消息 - 分表修复验证">
+        <button onclick="sendMessage()">发送消息</button>
+        <div id="sendResult" class="result">等待发送...</div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let currentToken = null;
+        let currentUser = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function login() {
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                log(`登录响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    currentToken = result.data.token;
+                    currentUser = result.data.userInfo;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + currentUser.nickName;
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败';
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败';
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }
+        async function loadMessagesWithoutMaxId() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('测试：加载消息（不传maxMessageId）...');
+                const response = await fetch('http://localhost:6099/chat/loadMeesage?pageNo=1', {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`响应: ${JSON.stringify(result)}`);
+
+                const resultDiv = document.getElementById('loadResult');
+                if (result.status === 'success') {
+                    const messages = result.data?.list || [];
+                    resultDiv.innerHTML = `
+                        <h4>✅ 加载成功（不传maxMessageId）</h4>
+                        <p><strong>消息数量:</strong> ${messages.length}</p>
+                        <p><strong>总数:</strong> ${result.data?.totalCount || 0}</p>
+                        <p><strong>页数:</strong> ${result.data?.pageNo || 1}/${result.data?.pageTotal || 1}</p>
+                        ${messages.length > 0 ? `
+                        <table>
+                            <tr><th>消息ID</th><th>内容</th><th>发送者</th><th>发送时间</th></tr>
+                            ${messages.slice(0, 5).map(msg => `
+                                <tr>
+                                    <td>${msg.messageId}</td>
+                                    <td>${msg.messageContent || '文件消息'}</td>
+                                    <td>${msg.sendUserNickName}</td>
+                                    <td>${new Date(msg.sendTime).toLocaleString()}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                        ` : ''}
+                    `;
+                    resultDiv.className = 'result success';
+                    log('✅ 不传maxMessageId的加载测试成功');
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载请求失败: ${error.message}`);
+                const resultDiv = document.getElementById('loadResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function loadMessagesWithMaxId() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                // 使用一个较大的时间戳作为maxMessageId
+                const maxMessageId = Date.now() * 1000; // 转换为微秒级别
+                log(`测试：加载消息（传入maxMessageId=${maxMessageId}）...`);
+                
+                const response = await fetch(`http://localhost:6099/chat/loadMeesage?pageNo=1&maxMessageId=${maxMessageId}`, {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`响应: ${JSON.stringify(result)}`);
+
+                const resultDiv = document.getElementById('loadResult');
+                if (result.status === 'success') {
+                    const messages = result.data?.list || [];
+                    resultDiv.innerHTML = `
+                        <h4>✅ 加载成功（传入maxMessageId）</h4>
+                        <p><strong>maxMessageId:</strong> ${maxMessageId}</p>
+                        <p><strong>消息数量:</strong> ${messages.length}</p>
+                        <p><strong>总数:</strong> ${result.data?.totalCount || 0}</p>
+                        ${messages.length > 0 ? `
+                        <table>
+                            <tr><th>消息ID</th><th>内容</th><th>发送者</th><th>发送时间</th></tr>
+                            ${messages.slice(0, 5).map(msg => `
+                                <tr>
+                                    <td>${msg.messageId}</td>
+                                    <td>${msg.messageContent || '文件消息'}</td>
+                                    <td>${msg.sendUserNickName}</td>
+                                    <td>${new Date(msg.sendTime).toLocaleString()}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                        ` : ''}
+                    `;
+                    resultDiv.className = 'result success';
+                    log('✅ 传入maxMessageId的加载测试成功');
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载请求失败: ${error.message}`);
+                const resultDiv = document.getElementById('loadResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function loadMessagesWithCurrentTime() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                // 使用当前时间戳
+                const maxMessageId = Date.now();
+                log(`测试：加载消息（当前时间戳=${maxMessageId}）...`);
+                
+                const response = await fetch(`http://localhost:6099/chat/loadMeesage?pageNo=1&maxMessageId=${maxMessageId}`, {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`响应: ${JSON.stringify(result)}`);
+
+                const resultDiv = document.getElementById('loadResult');
+                if (result.status === 'success') {
+                    const messages = result.data?.list || [];
+                    resultDiv.innerHTML = `
+                        <h4>✅ 加载成功（当前时间戳）</h4>
+                        <p><strong>当前时间戳:</strong> ${maxMessageId}</p>
+                        <p><strong>消息数量:</strong> ${messages.length}</p>
+                        <p><strong>说明:</strong> 应该加载所有在当前时间之前发送的消息</p>
+                        ${messages.length > 0 ? `
+                        <table>
+                            <tr><th>消息ID</th><th>内容</th><th>发送者</th><th>发送时间</th><th>消息ID < 时间戳?</th></tr>
+                            ${messages.slice(0, 5).map(msg => `
+                                <tr>
+                                    <td>${msg.messageId}</td>
+                                    <td>${msg.messageContent || '文件消息'}</td>
+                                    <td>${msg.sendUserNickName}</td>
+                                    <td>${new Date(msg.sendTime).toLocaleString()}</td>
+                                    <td>${msg.messageId < maxMessageId ? '✅' : '❌'}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                        ` : ''}
+                    `;
+                    resultDiv.className = 'result success';
+                    log('✅ 当前时间戳的加载测试成功');
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载请求失败: ${error.message}`);
+                const resultDiv = document.getElementById('loadResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function sendMessage() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            const message = document.getElementById('messageInput').value.trim();
+            if (!message) {
+                alert('请输入消息内容');
+                return;
+            }
+
+            try {
+                log(`发送测试消息: ${message}`);
+                const response = await fetch('http://localhost:6099/chat/sendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    },
+                    body: new URLSearchParams({
+                        message: message,
+                        messageType: '0', // 文本消息
+                        receiveUserId: '0' // 发送给所有人
+                    })
+                });
+
+                const result = await response.json();
+                log(`发送响应: ${JSON.stringify(result)}`);
+
+                const resultDiv = document.getElementById('sendResult');
+                if (result.status === 'success') {
+                    resultDiv.innerHTML = `
+                        <h4>✅ 消息发送成功</h4>
+                        <p><strong>消息内容:</strong> ${message}</p>
+                        <p><strong>发送时间:</strong> ${new Date().toLocaleString()}</p>
+                        <p>现在可以测试加载消息功能</p>
+                    `;
+                    resultDiv.className = 'result success';
+                    log('✅ 消息发送成功');
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 发送失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 发送失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 发送请求失败: ${error.message}`);
+                const resultDiv = document.getElementById('sendResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('聊天消息加载测试工具已加载');
+            log('修复内容：移除了 MyBatis 中 maxMessage 参数的空字符串检查');
+            log('现在 maxMessageId 参数可以正常工作了');
+        };
+    </script>
+</body>
+</html>

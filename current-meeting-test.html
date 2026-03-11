@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>当前会议API测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>当前会议API测试</h1>
+        
+        <!-- 登录设置 -->
+        <div class="test-section">
+            <h3>1. 设置Token</h3>
+            <div class="input-group">
+                <label for="tokenInput">Token:</label>
+                <input type="text" id="tokenInput" placeholder="请输入token">
+            </div>
+            <button onclick="setToken()">设置Token</button>
+            <button onclick="getStoredToken()">获取当前Token</button>
+            <div id="tokenResult" class="result"></div>
+        </div>
+
+        <!-- 获取当前会议 -->
+        <div class="test-section">
+            <h3>2. 获取当前会议</h3>
+            <button onclick="getCurrentMeeting()">获取当前会议</button>
+            <div id="currentMeetingResult" class="result"></div>
+        </div>
+
+        <!-- 会议操作 -->
+        <div class="test-section">
+            <h3>3. 会议操作</h3>
+            <button onclick="finishMeeting()">结束会议</button>
+            <button onclick="exitMeeting()">离开会议</button>
+            <div id="meetingActionResult" class="result"></div>
+        </div>
+
+        <!-- 创建快速会议测试 -->
+        <div class="test-section">
+            <h3>4. 创建快速会议（用于测试）</h3>
+            <div class="input-group">
+                <label for="meetingNameInput">会议名称:</label>
+                <input type="text" id="meetingNameInput" value="测试会议" placeholder="请输入会议名称">
+            </div>
+            <button onclick="createQuickMeeting()">创建快速会议</button>
+            <div id="createMeetingResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:6099/api';
+        let currentToken = '';
+
+        // 设置Token
+        function setToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (!token) {
+                showResult('tokenResult', '请输入token', 'error');
+                return;
+            }
+            currentToken = token;
+            localStorage.setItem('token', token);
+            showResult('tokenResult', `Token已设置: ${token}`, 'success');
+        }
+
+        // 获取存储的Token
+        function getStoredToken() {
+            const token = localStorage.getItem('token');
+            currentToken = token || '';
+            showResult('tokenResult', token ? `当前Token: ${token}` : '未找到Token', token ? 'success' : 'error');
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type = '') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${type}`;
+        }
+
+        // API请求封装
+        async function apiRequest(url, options = {}) {
+            const token = currentToken || localStorage.getItem('token');
+            if (!token) {
+                throw new Error('请先设置Token');
+            }
+
+            const defaultOptions = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                }
+            };
+
+            const response = await fetch(`${API_BASE}${url}`, {
+                ...defaultOptions,
+                ...options,
+                headers: {
+                    ...defaultOptions.headers,
+                    ...options.headers
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            return await response.json();
+        }
+
+        // 获取当前会议
+        async function getCurrentMeeting() {
+            try {
+                showResult('currentMeetingResult', '正在获取当前会议...', '');
+                const result = await apiRequest('/meetingInfo/getCurrentMeeting');
+                
+                console.log('当前会议响应:', result);
+                
+                if (result.code === 200) {
+                    if (result.data) {
+                        const meeting = result.data;
+                        const message = `当前会议信息:
+会议ID: ${meeting.meetingId}
+会议号: ${meeting.meetingNo}
+会议名称: ${meeting.meetingName || '未命名会议'}
+创建者ID: ${meeting.createUserId}
+创建时间: ${new Date(meeting.createTime).toLocaleString()}
+开始时间: ${new Date(meeting.startTime).toLocaleString()}
+状态: ${meeting.status === 0 ? '进行中' : '已结束'}
+加入类型: ${meeting.joinType === 0 ? '无密码' : '需要密码'}
+${meeting.joinPassword ? '会议密码: ' + meeting.joinPassword : ''}
+
+完整响应: ${JSON.stringify(result, null, 2)}`;
+                        showResult('currentMeetingResult', message, 'success');
+                    } else {
+                        showResult('currentMeetingResult', '当前没有进行中的会议\n\n完整响应: ' + JSON.stringify(result, null, 2), 'success');
+                    }
+                } else {
+                    showResult('currentMeetingResult', `获取失败: ${result.info}\n\n完整响应: ${JSON.stringify(result, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                console.error('获取当前会议失败:', error);
+                showResult('currentMeetingResult', `请求失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 结束会议
+        async function finishMeeting() {
+            try {
+                showResult('meetingActionResult', '正在结束会议...', '');
+                const result = await apiRequest('/meetingInfo/finishMeeting', {
+                    method: 'POST'
+                });
+                
+                console.log('结束会议响应:', result);
+                showResult('meetingActionResult', `结束会议结果: ${JSON.stringify(result, null, 2)}`, 
+                    result.code === 200 ? 'success' : 'error');
+            } catch (error) {
+                console.error('结束会议失败:', error);
+                showResult('meetingActionResult', `结束会议失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 离开会议
+        async function exitMeeting() {
+            try {
+                showResult('meetingActionResult', '正在离开会议...', '');
+                const result = await apiRequest('/meetingInfo/exitMeeting', {
+                    method: 'POST'
+                });
+                
+                console.log('离开会议响应:', result);
+                showResult('meetingActionResult', `离开会议结果: ${JSON.stringify(result, null, 2)}`, 
+                    result.code === 200 ? 'success' : 'error');
+            } catch (error) {
+                console.error('离开会议失败:', error);
+                showResult('meetingActionResult', `离开会议失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 创建快速会议
+        async function createQuickMeeting() {
+            try {
+                const meetingName = document.getElementById('meetingNameInput').value.trim() || '测试会议';
+                showResult('createMeetingResult', '正在创建快速会议...', '');
+                
+                const requestData = {
+                    meetingNoType: 1, // 随机生成会议号
+                    MeetingName: meetingName,
+                    joinType: 0, // 无密码
+                    joinPassword: null
+                };
+                
+                const result = await apiRequest('/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    body: JSON.stringify(requestData)
+                });
+                
+                console.log('创建会议响应:', result);
+                
+                if (result.code === 200) {
+                    const meetingId = result.data;
+                    showResult('createMeetingResult', `会议创建成功！
+会议ID: ${meetingId}
+会议名称: ${meetingName}
+
+完整响应: ${JSON.stringify(result, null, 2)}
+
+提示: 现在可以测试获取当前会议功能了`, 'success');
+                } else {
+                    showResult('createMeetingResult', `创建失败: ${result.info}\n\n完整响应: ${JSON.stringify(result, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                console.error('创建会议失败:', error);
+                showResult('createMeetingResult', `创建会议失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 页面加载时获取token
+        window.onload = function() {
+            getStoredToken();
+        };
+    </script>
+</body>
+</html>

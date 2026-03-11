@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头像更新测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .avatar-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        .avatar-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            object-fit: cover;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>头像更新测试</h1>
+        
+        <!-- Token设置 -->
+        <div class="test-section">
+            <h3>1. Token设置</h3>
+            <div class="input-group">
+                <label for="tokenInput">Token:</label>
+                <input type="text" id="tokenInput" placeholder="请输入token">
+            </div>
+            <button onclick="setToken()">设置Token</button>
+            <div id="tokenResult" class="result"></div>
+        </div>
+
+        <!-- 当前头像显示 -->
+        <div class="test-section">
+            <h3>2. 当前用户信息</h3>
+            <button onclick="loadUserInfo()">加载用户信息</button>
+            <div class="avatar-display">
+                <img id="currentAvatar" src="/svg/男头像.svg" alt="当前头像" class="avatar-img">
+                <div>
+                    <p><strong>昵称:</strong> <span id="currentNickName">-</span></p>
+                    <p><strong>性别:</strong> <span id="currentSex">-</span></p>
+                    <p><strong>头像URL:</strong> <span id="currentAvatarUrl">-</span></p>
+                </div>
+            </div>
+            <div id="userInfoResult" class="result"></div>
+        </div>
+
+        <!-- 头像更新测试 -->
+        <div class="test-section">
+            <h3>3. 头像更新测试</h3>
+            <div class="input-group">
+                <label for="newAvatarUrl">新头像URL:</label>
+                <input type="text" id="newAvatarUrl" placeholder="请输入新的头像URL" 
+                       value="https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg">
+            </div>
+            <button onclick="updateAvatar()">更新头像</button>
+            <div id="updateResult" class="result"></div>
+        </div>
+
+        <!-- 验证更新结果 -->
+        <div class="test-section">
+            <h3>4. 验证更新结果</h3>
+            <button onclick="verifyUpdate()">重新获取用户信息验证</button>
+            <div class="avatar-display">
+                <img id="verifyAvatar" src="/svg/男头像.svg" alt="验证头像" class="avatar-img">
+                <div>
+                    <p><strong>验证结果:</strong> <span id="verifyResult">-</span></p>
+                </div>
+            </div>
+            <div id="verifyOutput" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:6099/api';
+        let currentToken = '';
+
+        // 设置Token
+        function setToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (!token) {
+                showResult('tokenResult', '请输入token', 'error');
+                return;
+            }
+            currentToken = token;
+            localStorage.setItem('token', token);
+            showResult('tokenResult', `Token已设置: ${token}`, 'success');
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type = '') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${type}`;
+        }
+
+        // API请求封装
+        async function apiRequest(url, options = {}) {
+            const token = currentToken || localStorage.getItem('token');
+            if (!token) {
+                throw new Error('请先设置Token');
+            }
+
+            const defaultOptions = {
+                headers: {
+                    'token': token
+                }
+            };
+
+            const response = await fetch(`${API_BASE}${url}`, {
+                ...defaultOptions,
+                ...options,
+                headers: {
+                    ...defaultOptions.headers,
+                    ...options.headers
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            return await response.json();
+        }
+
+        // 加载用户信息
+        async function loadUserInfo() {
+            try {
+                showResult('userInfoResult', '正在加载用户信息...', '');
+                const result = await apiRequest('/userInfo/getUserInfo');
+                
+                if (result.code === 200) {
+                    const user = result.data;
+                    
+                    // 更新显示
+                    document.getElementById('currentNickName').textContent = user.nickName || '未设置';
+                    document.getElementById('currentSex').textContent = user.sex === 1 ? '男' : user.sex === 0 ? '女' : '未设置';
+                    document.getElementById('currentAvatarUrl').textContent = user.avatar || '未设置';
+                    
+                    // 更新头像显示
+                    const avatarImg = document.getElementById('currentAvatar');
+                    if (user.avatar) {
+                        avatarImg.src = user.avatar;
+                    } else {
+                        avatarImg.src = user.sex === 1 ? '/svg/男头像.svg' : '/svg/女头像.svg';
+                    }
+                    
+                    showResult('userInfoResult', `用户信息加载成功\n头像: ${user.avatar || '使用默认头像'}`, 'success');
+                } else {
+                    showResult('userInfoResult', `加载失败: ${result.info}`, 'error');
+                }
+            } catch (error) {
+                console.error('加载用户信息失败:', error);
+                showResult('userInfoResult', `加载失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 更新头像
+        async function updateAvatar() {
+            try {
+                const newAvatarUrl = document.getElementById('newAvatarUrl').value.trim();
+                if (!newAvatarUrl) {
+                    alert('请输入新的头像URL');
+                    return;
+                }
+                
+                showResult('updateResult', '正在更新头像...', '');
+                
+                // 先获取当前用户信息
+                const userResult = await apiRequest('/userInfo/getUserInfo');
+                if (userResult.code !== 200) {
+                    throw new Error('获取用户信息失败');
+                }
+                
+                const currentUser = userResult.data;
+                
+                // 准备更新参数
+                const params = new URLSearchParams();
+                params.append('nickName', currentUser.nickName || '用户');
+                params.append('sex', currentUser.sex.toString());
+                params.append('avatar', newAvatarUrl);
+                
+                // 调用更新API
+                const result = await apiRequest('/userInfo/updateUserInfo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                });
+                
+                if (result.code === 200) {
+                    const updatedUser = result.data;
+                    showResult('updateResult', `头像更新成功！\n新头像URL: ${updatedUser.avatar}`, 'success');
+                } else {
+                    showResult('updateResult', `更新失败: ${result.info}`, 'error');
+                }
+            } catch (error) {
+                console.error('更新头像失败:', error);
+                showResult('updateResult', `更新失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 验证更新结果
+        async function verifyUpdate() {
+            try {
+                showResult('verifyOutput', '正在验证更新结果...', '');
+                const result = await apiRequest('/userInfo/getUserInfo');
+                
+                if (result.code === 200) {
+                    const user = result.data;
+                    const expectedUrl = document.getElementById('newAvatarUrl').value.trim();
+                    
+                    // 更新验证头像显示
+                    const verifyImg = document.getElementById('verifyAvatar');
+                    if (user.avatar) {
+                        verifyImg.src = user.avatar;
+                    } else {
+                        verifyImg.src = user.sex === 1 ? '/svg/男头像.svg' : '/svg/女头像.svg';
+                    }
+                    
+                    // 检查是否更新成功
+                    const isSuccess = user.avatar === expectedUrl;
+                    document.getElementById('verifyResult').textContent = isSuccess ? '✅ 更新成功' : '❌ 更新失败';
+                    
+                    const message = `验证完成
+期望头像: ${expectedUrl}
+实际头像: ${user.avatar || '无'}
+结果: ${isSuccess ? '匹配' : '不匹配'}`;
+                    
+                    showResult('verifyOutput', message, isSuccess ? 'success' : 'error');
+                } else {
+                    showResult('verifyOutput', `验证失败: ${result.info}`, 'error');
+                }
+            } catch (error) {
+                console.error('验证失败:', error);
+                showResult('verifyOutput', `验证失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 页面加载时获取token
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                currentToken = token;
+                document.getElementById('tokenInput').value = token;
+                showResult('tokenResult', `已加载Token: ${token}`, 'success');
+            }
+        };
+    </script>
+</body>
+</html>

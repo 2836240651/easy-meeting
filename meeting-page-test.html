@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议页面功能测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        .test-title {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .test-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .status-icon {
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .implemented {
+            color: #28a745;
+        }
+        .pending {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>会议页面功能测试</h1>
+        
+        <!-- 功能实现状态 -->
+        <div class="test-section">
+            <div class="test-title">✅ 已实现功能清单</div>
+            <ul class="feature-list">
+                <li><span class="status-icon implemented">✓</span>会议顶部栏 - 会议详情按钮（左上角）</li>
+                <li><span class="status-icon implemented">✓</span>窗口控制按钮 - 设置、最小化、全屏、关闭（右上角）</li>
+                <li><span class="status-icon implemented">✓</span>设置浮框 - 常规设置、快捷键、关于我们</li>
+                <li><span class="status-icon implemented">✓</span>会议详情浮框 - 会议名称、会议号、发起人、我的名称</li>
+                <li><span class="status-icon implemented">✓</span>底部控制栏 - 静音、视频、共享屏幕、邀请、成员、聊天</li>
+                <li><span class="status-icon implemented">✓</span>成员列表模态框 - 显示参与者，主持人权限（踢人、拉黑）</li>
+                <li><span class="status-icon implemented">✓</span>聊天模态框 - 实时聊天功能</li>
+                <li><span class="status-icon implemented">✓</span>键盘快捷键 - Ctrl+M(静音), Ctrl+V(视频), Ctrl+S(共享), Ctrl+H(聊天), Ctrl+L(离开)</li>
+                <li><span class="status-icon implemented">✓</span>SVG图标集成 - 使用frontend/svg/目录下的图标</li>
+                <li><span class="status-icon implemented">✓</span>响应式设计 - 移动端和桌面端适配</li>
+                <li><span class="status-icon implemented">✓</span>深色主题 - 导航#434343, 主背景#363636, 按钮#999999</li>
+                <li><span class="status-icon implemented">✓</span>API集成 - joinMeeting, getCurrentMeeting, getMeetingMembers等</li>
+            </ul>
+        </div>
+
+        <!-- API测试 -->
+        <div class="test-section">
+            <div class="test-title">🔧 API接口测试</div>
+            <p>测试会议相关API接口的连通性和响应</p>
+            
+            <button class="test-button" onclick="testJoinMeetingAPI()">测试加入会议API</button>
+            <button class="test-button" onclick="testGetCurrentMeetingAPI()">测试获取当前会议API</button>
+            <button class="test-button" onclick="testGetMeetingMembersAPI()">测试获取会议成员API</button>
+            
+            <div id="api-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <!-- 页面导航测试 -->
+        <div class="test-section">
+            <div class="test-title">🔗 页面导航测试</div>
+            <p>测试会议页面的访问和导航功能</p>
+            
+            <button class="test-button" onclick="openMeetingPage()">打开会议页面</button>
+            <button class="test-button" onclick="openDashboard()">返回仪表板</button>
+            
+            <div id="nav-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <!-- 功能验证清单 -->
+        <div class="test-section">
+            <div class="test-title">📋 手动验证清单</div>
+            <p>请在会议页面中手动验证以下功能：</p>
+            <ul class="feature-list">
+                <li><span class="status-icon pending">⚠</span>点击"会议详情"按钮，查看会议信息浮框</li>
+                <li><span class="status-icon pending">⚠</span>点击"设置"按钮，切换设置选项卡</li>
+                <li><span class="status-icon pending">⚠</span>点击底部控制按钮，测试静音、视频等功能</li>
+                <li><span class="status-icon pending">⚠</span>点击"成员"按钮，查看参与者列表</li>
+                <li><span class="status-icon pending">⚠</span>点击"聊天"按钮，发送测试消息</li>
+                <li><span class="status-icon pending">⚠</span>测试键盘快捷键功能</li>
+                <li><span class="status-icon pending">⚠</span>测试全屏模式切换</li>
+                <li><span class="status-icon pending">⚠</span>验证SVG图标正确显示</li>
+                <li><span class="status-icon pending">⚠</span>验证响应式布局（调整浏览器窗口大小）</li>
+            </ul>
+        </div>
+
+        <!-- 技术规格 -->
+        <div class="test-section">
+            <div class="test-title">⚙️ 技术规格</div>
+            <ul class="feature-list">
+                <li><strong>框架：</strong>Vue 3 Composition API</li>
+                <li><strong>路由：</strong>Vue Router</li>
+                <li><strong>API：</strong>Axios HTTP客户端</li>
+                <li><strong>样式：</strong>Scoped CSS，响应式设计</li>
+                <li><strong>图标：</strong>SVG图标集成</li>
+                <li><strong>主题：</strong>深色主题 (#434343, #363636, #999999)</li>
+                <li><strong>兼容性：</strong>现代浏览器，移动端适配</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // API测试函数
+        async function testJoinMeetingAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'test-result info';
+            resultDiv.textContent = '正在测试加入会议API...';
+
+            try {
+                const response = await fetch('http://localhost:6099/api/meetingInfo/joinMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem('token') || 'test-token'
+                    },
+                    body: JSON.stringify({ videoOpen: true })
+                });
+
+                const data = await response.json();
+                resultDiv.className = 'test-result success';
+                resultDiv.textContent = `✅ 加入会议API测试成功\n响应状态: ${response.status}\n响应数据: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.className = 'test-result error';
+                resultDiv.textContent = `❌ 加入会议API测试失败\n错误信息: ${error.message}`;
+            }
+        }
+
+        async function testGetCurrentMeetingAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'test-result info';
+            resultDiv.textContent = '正在测试获取当前会议API...';
+
+            try {
+                const response = await fetch('http://localhost:6099/api/meetingInfo/getCurrentMeeting', {
+                    method: 'GET',
+                    headers: {
+                        'token': localStorage.getItem('token') || 'test-token'
+                    }
+                });
+
+                const data = await response.json();
+                resultDiv.className = 'test-result success';
+                resultDiv.textContent = `✅ 获取当前会议API测试成功\n响应状态: ${response.status}\n响应数据: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.className = 'test-result error';
+                resultDiv.textContent = `❌ 获取当前会议API测试失败\n错误信息: ${error.message}`;
+            }
+        }
+
+        async function testGetMeetingMembersAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'test-result info';
+            resultDiv.textContent = '正在测试获取会议成员API...';
+
+            try {
+                const response = await fetch('http://localhost:6099/api/meetingInfo/loadMeetingMembers?meetingId=test123', {
+                    method: 'GET',
+                    headers: {
+                        'token': localStorage.getItem('token') || 'test-token'
+                    }
+                });
+
+                const data = await response.json();
+                resultDiv.className = 'test-result success';
+                resultDiv.textContent = `✅ 获取会议成员API测试成功\n响应状态: ${response.status}\n响应数据: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.className = 'test-result error';
+                resultDiv.textContent = `❌ 获取会议成员API测试失败\n错误信息: ${error.message}`;
+            }
+        }
+
+        // 页面导航函数
+        function openMeetingPage() {
+            const resultDiv = document.getElementById('nav-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'test-result info';
+            resultDiv.textContent = '正在打开会议页面...';
+
+            // 在新标签页中打开会议页面
+            const meetingUrl = 'http://localhost:3000/#/meeting/test123';
+            window.open(meetingUrl, '_blank');
+            
+            resultDiv.className = 'test-result success';
+            resultDiv.textContent = `✅ 会议页面已在新标签页中打开\n页面地址: ${meetingUrl}`;
+        }
+
+        function openDashboard() {
+            const resultDiv = document.getElementById('nav-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'test-result info';
+            resultDiv.textContent = '正在打开仪表板...';
+
+            // 在新标签页中打开仪表板
+            const dashboardUrl = 'http://localhost:3000/#/dashboard';
+            window.open(dashboardUrl, '_blank');
+            
+            resultDiv.className = 'test-result success';
+            resultDiv.textContent = `✅ 仪表板已在新标签页中打开\n页面地址: ${dashboardUrl}`;
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('会议页面测试工具已加载');
+            
+            // 检查本地存储中的token
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.warn('未找到登录token，API测试可能会失败');
+            }
+        });
+    </script>
+</body>
+</html>

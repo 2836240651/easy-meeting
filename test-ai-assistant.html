@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        .response {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .error {
+            border-left-color: #f44336;
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status.success {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .status.error {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 AI助手测试工具</h1>
+        
+        <!-- 状态提示 -->
+        <div class="test-section" style="background-color: #fff3cd; border-color: #ffc107;">
+            <h3 style="color: #856404;">⚠️ 功能状态</h3>
+            <p style="color: #856404; margin: 0;">
+                AI助手功能的后端代码已准备好,但由于依赖问题暂时未集成到系统中。<br>
+                当前测试页面可以用来验证API接口设计,但实际调用会返回404错误。<br>
+                <strong>需要完成的工作:</strong>
+            </p>
+            <ul style="color: #856404;">
+                <li>解决MyBatis-Plus依赖问题(或改用标准MyBatis)</li>
+                <li>修复Lombok的log变量问题</li>
+                <li>为AI DTO类添加@Data注解或手动添加getter/setter</li>
+                <li>重新编译并启动后端服务</li>
+            </ul>
+        </div>
+        
+        <!-- 配置区域 -->
+        <div class="test-section">
+            <h3>⚙️ 配置</h3>
+            <div class="input-group">
+                <label>API地址:</label>
+                <input type="text" id="apiUrl" value="http://localhost:6099/api/ai">
+            </div>
+            <div class="input-group">
+                <label>JWT Token (可选):</label>
+                <input type="text" id="token" placeholder="Bearer token...">
+            </div>
+            <div class="input-group">
+                <label>会议ID:</label>
+                <input type="text" id="meetingId" placeholder="输入会议ID">
+            </div>
+        </div>
+
+        <!-- 测试1: 连接测试 -->
+        <div class="test-section">
+            <h3>测试1: 检查AI连接</h3>
+            <button onclick="testConnection()">测试连接</button>
+            <div id="connectionResult"></div>
+        </div>
+
+        <!-- 测试2: 聊天测试 -->
+        <div class="test-section">
+            <h3>测试2: AI聊天</h3>
+            <div class="input-group">
+                <label>消息:</label>
+                <textarea id="chatMessage" placeholder="输入你的问题...">现在有几个人在会议中?</textarea>
+            </div>
+            <button onclick="testChat()">发送消息</button>
+            <button onclick="testCommand('/summary')">测试 /summary</button>
+            <button onclick="testCommand('/suggest')">测试 /suggest</button>
+            <button onclick="testCommand('/help')">测试 /help</button>
+            <div id="chatResult"></div>
+        </div>
+
+        <!-- 测试3: 生成摘要 -->
+        <div class="test-section">
+            <h3>测试3: 生成会议摘要</h3>
+            <button onclick="testSummary()">生成摘要</button>
+            <div id="summaryResult"></div>
+        </div>
+
+        <!-- 测试4: 获取建议 -->
+        <div class="test-section">
+            <h3>测试4: 获取会议建议</h3>
+            <button onclick="testSuggestions()">获取建议</button>
+            <div id="suggestionsResult"></div>
+        </div>
+
+        <!-- Ollama状态检查 -->
+        <div class="test-section">
+            <h3>📊 Ollama状态</h3>
+            <p>请在命令行中运行以下命令检查Ollama状态:</p>
+            <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">
+# 检查Ollama版本
+ollama --version
+
+# 查看已安装的模型
+ollama list
+
+# 测试qwen3-vl:8b模型
+ollama run qwen3-vl:8b
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        function getApiUrl() {
+            return document.getElementById('apiUrl').value;
+        }
+
+        function getToken() {
+            const token = document.getElementById('token').value.trim();
+            return token ? (token.startsWith('Bearer ') ? token : 'Bearer ' + token) : '';
+        }
+
+        function getMeetingId() {
+            return document.getElementById('meetingId').value.trim();
+        }
+
+        function showLoading(elementId) {
+            document.getElementById(elementId).innerHTML = '<div class="response loading">⏳ 正在处理...</div>';
+        }
+
+        function showResult(elementId, data, isError = false) {
+            const resultDiv = document.getElementById(elementId);
+            const className = isError ? 'response error' : 'response';
+            resultDiv.innerHTML = `<div class="${className}">${JSON.stringify(data, null, 2)}</div>`;
+        }
+
+        async function testConnection() {
+            showLoading('connectionResult');
+            try {
+                const response = await fetch(`${getApiUrl()}/test`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                showResult('connectionResult', data, data.code !== 200);
+            } catch (error) {
+                showResult('connectionResult', { error: error.message }, true);
+            }
+        }
+
+        async function testChat() {
+            const meetingId = getMeetingId();
+            if (!meetingId) {
+                alert('请输入会议ID');
+                return;
+            }
+
+            const message = document.getElementById('chatMessage').value.trim();
+            if (!message) {
+                alert('请输入消息');
+                return;
+            }
+
+            showLoading('chatResult');
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                const token = getToken();
+                if (token) {
+                    headers['Authorization'] = token;
+                }
+
+                const response = await fetch(`${getApiUrl()}/chat`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        meetingId: meetingId,
+                        message: message
+                    })
+                });
+                const data = await response.json();
+                showResult('chatResult', data, data.code !== 200);
+            } catch (error) {
+                showResult('chatResult', { error: error.message }, true);
+            }
+        }
+
+        async function testCommand(command) {
+            document.getElementById('chatMessage').value = command;
+            await testChat();
+        }
+
+        async function testSummary() {
+            const meetingId = getMeetingId();
+            if (!meetingId) {
+                alert('请输入会议ID');
+                return;
+            }
+
+            showLoading('summaryResult');
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                const token = getToken();
+                if (token) {
+                    headers['Authorization'] = token;
+                }
+
+                const response = await fetch(`${getApiUrl()}/summary`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        meetingId: meetingId
+                    })
+                });
+                const data = await response.json();
+                showResult('summaryResult', data, data.code !== 200);
+            } catch (error) {
+                showResult('summaryResult', { error: error.message }, true);
+            }
+        }
+
+        async function testSuggestions() {
+            const meetingId = getMeetingId();
+            if (!meetingId) {
+                alert('请输入会议ID');
+                return;
+            }
+
+            showLoading('suggestionsResult');
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                const token = getToken();
+                if (token) {
+                    headers['Authorization'] = token;
+                }
+
+                const response = await fetch(`${getApiUrl()}/suggest`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        meetingId: meetingId
+                    })
+                });
+                const data = await response.json();
+                showResult('suggestionsResult', data, data.code !== 200);
+            } catch (error) {
+                showResult('suggestionsResult', { error: error.message }, true);
+            }
+        }
+
+        // 页面加载时自动测试连接
+        window.onload = function() {
+            console.log('AI助手测试工具已加载');
+            console.log('提示: 请确保Ollama正在运行,并且已下载qwen3-vl:8b模型');
+        };
+    </script>
+</body>
+</html>

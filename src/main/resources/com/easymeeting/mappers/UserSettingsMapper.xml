@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easymeeting.mappers.UserSettingsMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.easymeeting.entity.po.UserSettings">
+        <id column="user_id" property="userId"/>
+        <result column="default_video_on" property="defaultVideoOn"/>
+        <result column="default_audio_on" property="defaultAudioOn"/>
+        <result column="reminder_time" property="reminderTime"/>
+        <result column="desktop_notification" property="desktopNotification"/>
+        <result column="sound_notification" property="soundNotification"/>
+        <result column="meeting_invite_notification" property="meetingInviteNotification"/>
+        <result column="friend_request_notification" property="friendRequestNotification"/>
+        <result column="show_online_status" property="showOnlineStatus"/>
+        <result column="allow_stranger_add" property="allowStrangerAdd"/>
+        <result column="dark_mode" property="darkMode"/>
+        <result column="language" property="language"/>
+        <result column="video_quality" property="videoQuality"/>
+        <result column="mirror_video" property="mirrorVideo"/>
+        <result column="virtual_background" property="virtualBackground"/>
+        <result column="echo_cancellation" property="echoCancellation"/>
+        <result column="noise_suppression" property="noiseSuppression"/>
+        <result column="auto_gain_control" property="autoGainControl"/>
+        <result column="share_system_audio" property="shareSystemAudio"/>
+        <result column="optimize_video_sharing" property="optimizeVideoSharing"/>
+        <result column="auto_reconnect" property="autoReconnect"/>
+        <result column="show_network_status" property="showNetworkStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    
+    <!-- 根据用户ID查询设置 -->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM user_settings WHERE user_id = #{userId}
+    </select>
+    
+    <!-- 插入设置 -->
+    <insert id="insert" parameterType="com.easymeeting.entity.po.UserSettings">
+        INSERT INTO user_settings (
+            user_id, default_video_on, default_audio_on, reminder_time,
+            desktop_notification, sound_notification, meeting_invite_notification, friend_request_notification,
+            show_online_status, allow_stranger_add, dark_mode, language,
+            video_quality, mirror_video, virtual_background,
+            echo_cancellation, noise_suppression, auto_gain_control,
+            share_system_audio, optimize_video_sharing,
+            auto_reconnect, show_network_status
+        ) VALUES (
+            #{userId}, #{defaultVideoOn}, #{defaultAudioOn}, #{reminderTime},
+            #{desktopNotification}, #{soundNotification}, #{meetingInviteNotification}, #{friendRequestNotification},
+            #{showOnlineStatus}, #{allowStrangerAdd}, #{darkMode}, #{language},
+            #{videoQuality}, #{mirrorVideo}, #{virtualBackground},
+            #{echoCancellation}, #{noiseSuppression}, #{autoGainControl},
+            #{shareSystemAudio}, #{optimizeVideoSharing},
+            #{autoReconnect}, #{showNetworkStatus}
+        )
+    </insert>
+    
+    <!-- 更新设置 -->
+    <update id="update" parameterType="com.easymeeting.entity.po.UserSettings">
+        UPDATE user_settings
+        <set>
+            <if test="defaultVideoOn != null">default_video_on = #{defaultVideoOn},</if>
+            <if test="defaultAudioOn != null">default_audio_on = #{defaultAudioOn},</if>
+            <if test="reminderTime != null">reminder_time = #{reminderTime},</if>
+            <if test="desktopNotification != null">desktop_notification = #{desktopNotification},</if>
+            <if test="soundNotification != null">sound_notification = #{soundNotification},</if>
+            <if test="meetingInviteNotification != null">meeting_invite_notification = #{meetingInviteNotification},</if>
+            <if test="friendRequestNotification != null">friend_request_notification = #{friendRequestNotification},</if>
+            <if test="showOnlineStatus != null">show_online_status = #{showOnlineStatus},</if>
+            <if test="allowStrangerAdd != null">allow_stranger_add = #{allowStrangerAdd},</if>
+            <if test="darkMode != null">dark_mode = #{darkMode},</if>
+            <if test="language != null">language = #{language},</if>
+            <if test="videoQuality != null">video_quality = #{videoQuality},</if>
+            <if test="mirrorVideo != null">mirror_video = #{mirrorVideo},</if>
+            <if test="virtualBackground != null">virtual_background = #{virtualBackground},</if>
+            <if test="echoCancellation != null">echo_cancellation = #{echoCancellation},</if>
+            <if test="noiseSuppression != null">noise_suppression = #{noiseSuppression},</if>
+            <if test="autoGainControl != null">auto_gain_control = #{autoGainControl},</if>
+            <if test="shareSystemAudio != null">share_system_audio = #{shareSystemAudio},</if>
+            <if test="optimizeVideoSharing != null">optimize_video_sharing = #{optimizeVideoSharing},</if>
+            <if test="autoReconnect != null">auto_reconnect = #{autoReconnect},</if>
+            <if test="showNetworkStatus != null">show_network_status = #{showNetworkStatus},</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+    
+    <!-- 删除设置 -->
+    <delete id="deleteByUserId">
+        DELETE FROM user_settings WHERE user_id = #{userId}
+    </delete>
+    
+</mapper>

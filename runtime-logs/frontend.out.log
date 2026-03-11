@@ -1,0 +1,48 @@
+
+> easymeeting-frontend@1.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v4.5.14[39m  [2mready in [0m[1m477[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3001[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh[22m[2m to show help[22m
+(node:62208) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+🔄 Proxying: GET /api/account/loadSystemSetting → http://localhost:6099/api/account/loadSystemSetting
+🔄 Proxying: GET /api/account/checkCode → http://localhost:6099/api/account/checkCode
+🔄 Proxying: POST /api/account/login → http://localhost:6099/api/account/login
+🔄 Proxying: GET /api/meetingReserve/getUpcomingMeetings → http://localhost:6099/api/meetingReserve/getUpcomingMeetings
+🔄 Proxying: GET /api/userInfo/getUserInfo → http://localhost:6099/api/userInfo/getUserInfo
+🔄 Proxying: GET /api/meetingInfo/getCurrentMeeting → http://localhost:6099/api/meetingInfo/getCurrentMeeting
+🔄 Proxying: GET /api/meetingInfo/loadMeeting?pageNo=1&status=0 → http://localhost:6099/api/meetingInfo/loadMeeting?pageNo=1&status=0
+🔄 Proxying: GET /api/meetingInfo/loadMeeting?pageNo=1&status=1 → http://localhost:6099/api/meetingInfo/loadMeeting?pageNo=1&status=1
+🔄 Proxying: GET /api/userContact/loadContactApplyDealWithCount → http://localhost:6099/api/userContact/loadContactApplyDealWithCount
+
+
+#
+# Fatal process out of memory: Zone
+#
+----- Native stack trace -----
+
+ 1: 00007FF74DC218E7 
+ 2: 00007FF74DAF20FF 
+ 3: 00007FF74EDF1016 
+ 4: 00007FF74E777721 
+ 5: 00007FF74E25A12B 
+ 6: 00007FF74DFDBEFD 
+ 7: 00007FF74DFCE9D9 
+ 8: 00007FF74F38BB10 
+ 9: 00007FF74F3825C1 
+10: 00007FF74F39D09D 
+11: 00007FF74EF1175C 
+12: 00007FF74EF0B44A 
+13: 00007FF74E6F4A54 
+14: 00007FF74E6BB632 
+15: 00007FF74E97C646 
+16: 00007FF74DAF4EA0 
+17: 00007FF74DC818F3 
+18: 00007FF74F50964B 
+19: 00007FF9B591259D 
+20: 00007FF9B5B6AF78 

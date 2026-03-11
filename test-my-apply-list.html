@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试我的申请列表</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #999999;
+            border-bottom: 2px solid #999999;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #3a3a3a;
+        }
+        .test-button {
+            background-color: #999999;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background-color: #aaaaaa;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            border: 1px solid #3a3a3a;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #4caf50;
+        }
+        .error {
+            color: #f44336;
+        }
+        .info {
+            color: #2196f3;
+        }
+        .apply-item {
+            background-color: #2a2a2a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #3a3a3a;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .apply-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .apply-info {
+            flex: 1;
+        }
+        .apply-info h4 {
+            margin: 0 0 5px 0;
+            color: #999999;
+        }
+        .apply-info p {
+            margin: 3px 0;
+            font-size: 12px;
+            color: #888;
+        }
+        .token-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 4px;
+            color: #e0e0e0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试我的申请列表 API</h1>
+    
+    <div class="test-section">
+        <h3>配置</h3>
+        <label>Token:</label>
+        <input type="text" id="tokenInput" class="token-input" placeholder="请输入 token">
+        <button class="test-button" onclick="saveToken()">保存 Token</button>
+    </div>
+
+    <div class="test-section">
+        <h3>测试 /api/userContact/loadMyApply</h3>
+        <p>加载当前用户发送的待处理申请（应该显示接收用户的头像和昵称）</p>
+        <button class="test-button" onclick="testLoadMyApply()">测试加载我的申请</button>
+        <div id="myApplyResult" class="result"></div>
+        <div id="myApplyDisplay"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:6099/api';
+        let token = '';
+
+        // 页面加载时从 localStorage 读取 token
+        window.onload = function() {
+            const savedToken = localStorage.getItem('token');
+            if (savedToken) {
+                token = savedToken;
+                document.getElementById('tokenInput').value = token;
+                log('已从 localStorage 加载 token', 'info');
+            }
+        };
+
+        function saveToken() {
+            token = document.getElementById('tokenInput').value.trim();
+            if (token) {
+                localStorage.setItem('token', token);
+                log('Token 已保存到 localStorage', 'success');
+            } else {
+                log('请输入有效的 token', 'error');
+            }
+        }
+
+        function log(message, type = 'info') {
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        async function testLoadMyApply() {
+            const resultDiv = document.getElementById('myApplyResult');
+            const displayDiv = document.getElementById('myApplyDisplay');
+            
+            if (!token) {
+                resultDiv.innerHTML = '<span class="error">错误: 请先输入并保存 token</span>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<span class="info">正在加载...</span>';
+            displayDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE}/userContact/loadMyApply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    }
+                });
+
+                const data = await response.json();
+                
+                let resultHtml = `<span class="success">请求成功</span>\n`;
+                resultHtml += `状态码: ${response.status}\n`;
+                resultHtml += `响应数据:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.innerHTML = resultHtml;
+
+                // 显示申请列表
+                if (data.code === 200 && data.data && data.data.length > 0) {
+                    let displayHtml = '<h4>我的申请列表:</h4>';
+                    data.data.forEach(apply => {
+                        const avatarUrl = apply.avatar || (apply.sex === 1 ? '/svg/男头像.svg' : '/svg/女头像.svg');
+                        displayHtml += `
+                            <div class="apply-item">
+                                <img src="${avatarUrl}" alt="${apply.nickName}" class="apply-avatar">
+                                <div class="apply-info">
+                                    <h4>${apply.nickName || apply.receiveUserId}</h4>
+                                    <p>申请ID: ${apply.applyId}</p>
+                                    <p>申请用户: ${apply.applyUserId}</p>
+                                    <p>接收用户: ${apply.receiveUserId}</p>
+                                    <p>状态: ${apply.status === 0 ? '待处理' : apply.status === 1 ? '已接受' : apply.status === 2 ? '已拒绝' : '已拉黑'}</p>
+                                    <p>申请时间: ${apply.lastApplyTime ? new Date(apply.lastApplyTime).toLocaleString('zh-CN') : '未知'}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    displayDiv.innerHTML = displayHtml;
+                } else if (data.code === 200) {
+                    displayDiv.innerHTML = '<p class="info">暂无待处理的申请</p>';
+                } else {
+                    displayDiv.innerHTML = `<p class="error">加载失败: ${data.info || '未知错误'}</p>`;
+                }
+
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">请求失败: ${error.message}</span>`;
+                console.error('请求错误:', error);
+            }
+        }
+    </script>
+</body>
+</html>

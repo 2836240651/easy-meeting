@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议断线重连测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px;
+            width: 200px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .info-value {
+            color: #666;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+        .test-scenario {
+            border: 2px solid #007bff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .test-scenario h4 {
+            margin-top: 0;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>会议断线重连测试</h1>
+    
+    <div class="container">
+        <h3>1. 用户登录</h3>
+        <input type="email" id="emailInput" placeholder="邮箱" value="2836240651@qq.com">
+        <input type="password" id="passwordInput" placeholder="密码" value="123456">
+        <button onclick="login()">登录</button>
+        <div id="loginStatus" class="status">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>2. 用户信息</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">用户ID</div>
+                <div class="info-value" id="userIdDisplay">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">昵称</div>
+                <div class="info-value" id="nickNameDisplay">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Token</div>
+                <div class="info-value" id="tokenDisplay" style="font-size: 10px;">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">当前会议ID</div>
+                <div class="info-value" id="currentMeetingIdDisplay">-</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>3. 会议操作</h3>
+        <button onclick="createQuickMeeting()">创建快速会议</button>
+        <button onclick="getCurrentMeeting()">获取当前会议</button>
+        <button onclick="joinMeetingWithId()">加入会议(带ID)</button>
+        <button onclick="joinMeetingWithoutId()">加入会议(不带ID)</button>
+        <button onclick="exitMeeting()">退出会议</button>
+        <div id="meetingStatus" class="status">无会议</div>
+    </div>
+
+    <div class="container">
+        <h3>4. 会议信息</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">会议ID</div>
+                <div class="info-value" id="meetingIdDisplay">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">会议号</div>
+                <div class="info-value" id="meetingNoDisplay">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">会议名称</div>
+                <div class="info-value" id="meetingNameDisplay">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">创建者</div>
+                <div class="info-value" id="creatorDisplay">-</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>5. 测试场景</h3>
+        
+        <div class="test-scenario">
+            <h4>场景1：正常流程测试</h4>
+            <p>1. 登录 → 2. 创建会议 → 3. 加入会议 → 4. 获取当前会议</p>
+            <button onclick="runScenario1()">运行场景1</button>
+        </div>
+
+        <div class="test-scenario">
+            <h4>场景2：断线重连测试</h4>
+            <p>1. 登录 → 2. 创建会议 → 3. 加入会议 → 4. 模拟断线(清除currentMeetingId) → 5. 重新加入会议</p>
+            <button onclick="runScenario2()">运行场景2</button>
+        </div>
+
+        <div class="test-scenario">
+            <h4>场景3：手动清除状态测试</h4>
+            <p>手动清除用户的currentMeetingId，然后尝试重新加入会议</p>
+            <button onclick="clearCurrentMeetingId()">清除currentMeetingId</button>
+            <button onclick="testReconnect()">测试重连</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let currentToken = null;
+        let currentUser = null;
+        let currentMeetingInfo = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function updateLoginStatus(success, data = null) {
+            const statusDiv = document.getElementById('loginStatus');
+            if (success && data) {
+                statusDiv.textContent = '已登录';
+                statusDiv.className = 'status success';
+                currentToken = data.token;
+                currentUser = data.userInfo;
+                
+                document.getElementById('userIdDisplay').textContent = data.userInfo.userId;
+                document.getElementById('nickNameDisplay').textContent = data.userInfo.nickName;
+                document.getElementById('tokenDisplay').textContent = data.token;
+            } else {
+                statusDiv.textContent = '登录失败';
+                statusDiv.className = 'status error';
+            }
+        }
+
+        function updateMeetingStatus(status, meetingInfo = null) {
+            const statusDiv = document.getElementById('meetingStatus');
+            statusDiv.textContent = status;
+            statusDiv.className = meetingInfo ? 'status success' : 'status error';
+            
+            if (meetingInfo) {
+                currentMeetingInfo = meetingInfo;
+                document.getElementById('meetingIdDisplay').textContent = meetingInfo.meetingId || '-';
+                document.getElementById('meetingNoDisplay').textContent = meetingInfo.meetingNo || '-';
+                document.getElementById('meetingNameDisplay').textContent = meetingInfo.meetingName || '-';
+                document.getElementById('creatorDisplay').textContent = meetingInfo.createUserNickName || '-';
+            } else {
+                document.getElementById('meetingIdDisplay').textContent = '-';
+                document.getElementById('meetingNoDisplay').textContent = '-';
+                document.getElementById('meetingNameDisplay').textContent = '-';
+                document.getElementById('creatorDisplay').textContent = '-';
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                log(`登录响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    updateLoginStatus(true, result.data);
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    updateLoginStatus(false);
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                updateLoginStatus(false);
+            }
+        }
+
+        async function createQuickMeeting() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('创建快速会议...');
+                const response = await fetch('http://localhost:6099/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    },
+                    body: JSON.stringify({
+                        MeetingName: '断线重连测试会议',
+                        meetingNoType: 0,
+                        joinType: 0
+                    })
+                });
+
+                const result = await response.json();
+                log(`创建会议响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success') {
+                    log('✅ 会议创建成功');
+                    // 获取会议信息
+                    const meetingInfo = await getMeetingInfoByMeetingId(result.data);
+                    updateMeetingStatus('会议已创建', meetingInfo);
+                    document.getElementById('currentMeetingIdDisplay').textContent = result.data;
+                } else {
+                    log(`❌ 创建会议失败: ${result.info}`);
+                    updateMeetingStatus('创建失败');
+                }
+            } catch (error) {
+                log(`🚨 创建会议请求失败: ${error.message}`);
+                updateMeetingStatus('创建失败');
+            }
+        }
+
+        async function getMeetingInfoByMeetingId(meetingId) {
+            try {
+                const response = await fetch(`http://localhost:6099/meetingInfo/getMeetingInfoByMeetingId?meetingId=${meetingId}`, {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+                const result = await response.json();
+                return result.data;
+            } catch (error) {
+                log(`获取会议信息失败: ${error.message}`);
+                return null;
+            }
+        }
+
+        async function getCurrentMeeting() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('获取当前会议信息...');
+                const response = await fetch('http://localhost:6099/meetingInfo/getCurrentMeeting', {
+                    method: 'GET',
+                    headers: {
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`获取会议响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success') {
+                    if (result.data) {
+                        log('✅ 获取会议信息成功');
+                        updateMeetingStatus('有当前会议', result.data);
+                        document.getElementById('currentMeetingIdDisplay').textContent = result.data.meetingId;
+                    } else {
+                        log('⚠️ 当前没有会议');
+                        updateMeetingStatus('无当前会议');
+                        document.getElementById('currentMeetingIdDisplay').textContent = '-';
+                    }
+                } else {
+                    log(`❌ 获取会议失败: ${result.info}`);
+                    updateMeetingStatus('获取失败');
+                }
+            } catch (error) {
+                log(`🚨 获取会议请求失败: ${error.message}`);
+                updateMeetingStatus('获取失败');
+            }
+        }
+
+        async function joinMeetingWithId() {
+            if (!currentToken || !currentMeetingInfo) {
+                alert('请先登录并创建会议');
+                return;
+            }
+
+            try {
+                log('加入会议(带meetingId)...');
+                const response = await fetch('http://localhost:6099/meetingInfo/joinMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    },
+                    body: JSON.stringify({
+                        videoOpen: true,
+                        meetingId: currentMeetingInfo.meetingId
+                    })
+                });
+
+                const result = await response.json();
+                log(`加入会议响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success') {
+                    log('✅ 加入会议成功');
+                    updateMeetingStatus('已加入会议', currentMeetingInfo);
+                } else {
+                    log(`❌ 加入会议失败: ${result.info}`);
+                    updateMeetingStatus('加入失败');
+                }
+            } catch (error) {
+                log(`🚨 加入会议请求失败: ${error.message}`);
+                updateMeetingStatus('加入失败');
+            }
+        }
+
+        async function joinMeetingWithoutId() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('加入会议(不带meetingId)...');
+                const response = await fetch('http://localhost:6099/meetingInfo/joinMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    },
+                    body: JSON.stringify({
+                        videoOpen: true
+                    })
+                });
+
+                const result = await response.json();
+                log(`加入会议响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success') {
+                    log('✅ 加入会议成功');
+                    updateMeetingStatus('已加入会议');
+                } else {
+                    log(`❌ 加入会议失败: ${result.info}`);
+                    updateMeetingStatus('加入失败');
+                }
+            } catch (error) {
+                log(`🚨 加入会议请求失败: ${error.message}`);
+                updateMeetingStatus('加入失败');
+            }
+        }
+
+        async function exitMeeting() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('退出会议...');
+                const response = await fetch('http://localhost:6099/meetingInfo/exitMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    }
+                });
+
+                const result = await response.json();
+                log(`退出会议响应: ${JSON.stringify(result)}`);
+
+                if (result.status === 'success') {
+                    log('✅ 退出会议成功');
+                    updateMeetingStatus('已退出会议');
+                    document.getElementById('currentMeetingIdDisplay').textContent = '-';
+                } else {
+                    log(`❌ 退出会议失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 退出会议请求失败: ${error.message}`);
+            }
+        }
+
+        async function clearCurrentMeetingId() {
+            log('⚠️ 模拟断线：手动清除currentMeetingId');
+            // 这里我们通过退出会议来模拟currentMeetingId被清除的情况
+            await exitMeeting();
+            log('currentMeetingId已清除，模拟断线重连场景');
+        }
+
+        async function testReconnect() {
+            if (!currentMeetingInfo) {
+                alert('请先创建会议');
+                return;
+            }
+
+            log('🔄 测试断线重连：尝试重新加入会议');
+            await joinMeetingWithId();
+        }
+
+        async function runScenario1() {
+            log('🧪 开始运行场景1：正常流程测试');
+            await login();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await createQuickMeeting();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await joinMeetingWithId();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await getCurrentMeeting();
+            log('✅ 场景1完成');
+        }
+
+        async function runScenario2() {
+            log('🧪 开始运行场景2：断线重连测试');
+            await login();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await createQuickMeeting();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await joinMeetingWithId();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            log('⚠️ 模拟网络断开，清除currentMeetingId');
+            await clearCurrentMeetingId();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            log('🔄 网络恢复，尝试重新加入会议');
+            await testReconnect();
+            log('✅ 场景2完成');
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('会议断线重连测试页面已加载');
+            log('请按照测试场景进行操作，或手动测试各个功能');
+        };
+    </script>
+</body>
+</html>

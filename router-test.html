@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由跳转测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>路由跳转测试</h1>
+    
+    <div class="test-section">
+        <h2>当前页面信息</h2>
+        <p><strong>当前URL:</strong> <span id="currentUrl"></span></p>
+        <p><strong>当前路径:</strong> <span id="currentPath"></span></p>
+        <p><strong>Vue Router可用:</strong> <span id="routerAvailable"></span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>路由跳转测试</h2>
+        <button onclick="testRouterPush()">测试 router.push('/meeting/test123')</button>
+        <button onclick="testWindowLocation()">测试 window.location.href</button>
+        <button onclick="testWindowOpen()">测试 window.open</button>
+        <button onclick="testHistoryPush()">测试 history.pushState</button>
+        <div id="routerTestResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>会议页面测试</h2>
+        <button onclick="testMeetingPage()">直接访问会议页面</button>
+        <button onclick="testMeetingPageWithId()">访问带ID的会议页面</button>
+        <div id="meetingTestResult" class="result"></div>
+    </div>
+
+    <script>
+        // 更新页面信息
+        function updatePageInfo() {
+            document.getElementById('currentUrl').textContent = window.location.href;
+            document.getElementById('currentPath').textContent = window.location.pathname;
+            document.getElementById('routerAvailable').textContent = typeof window.router !== 'undefined' ? '是' : '否';
+        }
+
+        // 测试Vue Router跳转
+        function testRouterPush() {
+            const resultDiv = document.getElementById('routerTestResult');
+            resultDiv.textContent = '测试Vue Router跳转...\n';
+            
+            try {
+                // 检查是否在Vue应用中
+                if (typeof window.router === 'undefined') {
+                    resultDiv.textContent += '❌ Vue Router不可用，可能不在Vue应用中\n';
+                    resultDiv.textContent += '当前页面: ' + window.location.href + '\n';
+                    resultDiv.textContent += '建议: 在Dashboard页面中测试此功能\n';
+                    return;
+                }
+                
+                window.router.push('/meeting/test123').then(() => {
+                    resultDiv.textContent += '✅ Vue Router跳转成功\n';
+                }).catch(error => {
+                    resultDiv.textContent += '❌ Vue Router跳转失败: ' + error.message + '\n';
+                });
+            } catch (error) {
+                resultDiv.textContent += '❌ Vue Router跳转异常: ' + error.message + '\n';
+            }
+        }
+
+        // 测试window.location跳转
+        function testWindowLocation() {
+            const resultDiv = document.getElementById('routerTestResult');
+            resultDiv.textContent = '测试window.location跳转...\n';
+            
+            try {
+                // 在新标签页中打开，避免离开当前测试页面
+                const newWindow = window.open('/meeting/test123', '_blank');
+                if (newWindow) {
+                    resultDiv.textContent += '✅ window.open跳转成功\n';
+                } else {
+                    resultDiv.textContent += '❌ window.open被阻止\n';
+                }
+            } catch (error) {
+                resultDiv.textContent += '❌ window.location跳转异常: ' + error.message + '\n';
+            }
+        }
+
+        // 测试window.open
+        function testWindowOpen() {
+            const resultDiv = document.getElementById('routerTestResult');
+            resultDiv.textContent = '测试window.open...\n';
+            
+            try {
+                const newWindow = window.open('/meeting/test123', '_blank');
+                if (newWindow) {
+                    resultDiv.textContent += '✅ window.open成功\n';
+                    setTimeout(() => {
+                        newWindow.close();
+                        resultDiv.textContent += '✅ 测试窗口已关闭\n';
+                    }, 3000);
+                } else {
+                    resultDiv.textContent += '❌ window.open被浏览器阻止\n';
+                }
+            } catch (error) {
+                resultDiv.textContent += '❌ window.open异常: ' + error.message + '\n';
+            }
+        }
+
+        // 测试history.pushState
+        function testHistoryPush() {
+            const resultDiv = document.getElementById('routerTestResult');
+            resultDiv.textContent = '测试history.pushState...\n';
+            
+            try {
+                const originalUrl = window.location.href;
+                history.pushState({}, '', '/meeting/test123');
+                resultDiv.textContent += '✅ history.pushState成功\n';
+                resultDiv.textContent += '新URL: ' + window.location.href + '\n';
+                
+                // 3秒后恢复原URL
+                setTimeout(() => {
+                    history.pushState({}, '', originalUrl);
+                    resultDiv.textContent += '✅ 已恢复原URL\n';
+                    updatePageInfo();
+                }, 3000);
+            } catch (error) {
+                resultDiv.textContent += '❌ history.pushState异常: ' + error.message + '\n';
+            }
+        }
+
+        // 测试会议页面访问
+        function testMeetingPage() {
+            const resultDiv = document.getElementById('meetingTestResult');
+            resultDiv.textContent = '测试会议页面访问...\n';
+            
+            try {
+                fetch('/meeting')
+                    .then(response => {
+                        resultDiv.textContent += `会议页面响应状态: ${response.status}\n`;
+                        if (response.ok) {
+                            resultDiv.textContent += '✅ 会议页面可访问\n';
+                        } else {
+                            resultDiv.textContent += '❌ 会议页面访问失败\n';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.textContent += '❌ 会议页面访问异常: ' + error.message + '\n';
+                    });
+            } catch (error) {
+                resultDiv.textContent += '❌ 测试异常: ' + error.message + '\n';
+            }
+        }
+
+        // 测试带ID的会议页面
+        function testMeetingPageWithId() {
+            const resultDiv = document.getElementById('meetingTestResult');
+            resultDiv.textContent = '测试带ID的会议页面...\n';
+            
+            try {
+                fetch('/meeting/test123')
+                    .then(response => {
+                        resultDiv.textContent += `会议页面(带ID)响应状态: ${response.status}\n`;
+                        if (response.ok) {
+                            resultDiv.textContent += '✅ 带ID的会议页面可访问\n';
+                        } else {
+                            resultDiv.textContent += '❌ 带ID的会议页面访问失败\n';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.textContent += '❌ 带ID的会议页面访问异常: ' + error.message + '\n';
+                    });
+            } catch (error) {
+                resultDiv.textContent += '❌ 测试异常: ' + error.message + '\n';
+            }
+        }
+
+        // 页面加载时更新信息
+        window.onload = function() {
+            updatePageInfo();
+            console.log('路由跳转测试页面已加载');
+            console.log('当前URL:', window.location.href);
+            console.log('Vue Router可用:', typeof window.router !== 'undefined');
+        };
+    </script>
+</body>
+</html>

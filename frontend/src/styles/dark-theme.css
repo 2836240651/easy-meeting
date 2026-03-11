@@ -1,0 +1,378 @@
+/* 深色主题样式 */
+
+:root.dark-theme {
+  /* 背景色 */
+  --bg-color: #1a1a1a;
+  --card-bg: #2d2d2d;
+  --hover-bg: #3a3a3a;
+  
+  /* 文字颜色 */
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #808080;
+  
+  /* 边框颜色 */
+  --border-color: #404040;
+  --border-light: #505050;
+  
+  /* 主题色 */
+  --primary-color: #4CAF50;
+  --primary-hover: #45a049;
+  --primary-light: rgba(76, 175, 80, 0.1);
+  
+  /* 输入框 */
+  --input-bg: #3a3a3a;
+  --input-border: #505050;
+  --input-focus: #4CAF50;
+  
+  /* 按钮 */
+  --button-bg: #3a3a3a;
+  --button-hover: #4a4a4a;
+  
+  /* 状态色 */
+  --success-color: #4CAF50;
+  --warning-color: #ff9800;
+  --error-color: #f44336;
+  --info-color: #2196F3;
+  
+  /* 阴影 */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* 全局样式 */
+.dark-theme {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+}
+
+/* 卡片 */
+.dark-theme .card,
+.dark-theme .feature-card,
+.dark-theme .settings-section,
+.dark-theme .contact-item,
+.dark-theme .meeting-card,
+.dark-theme .notification-item {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.dark-theme .card:hover,
+.dark-theme .feature-card:hover,
+.dark-theme .contact-item:hover {
+  background-color: var(--hover-bg);
+}
+
+/* 模态框 */
+.dark-theme .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dark-theme .modal-content,
+.dark-theme .el-dialog {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-lg);
+}
+
+.dark-theme .modal-header {
+  border-bottom-color: var(--border-color);
+}
+
+/* 输入框 */
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--input-border);
+}
+
+.dark-theme input:focus,
+.dark-theme select:focus,
+.dark-theme textarea:focus {
+  border-color: var(--input-focus);
+  background-color: var(--hover-bg);
+}
+
+.dark-theme input::placeholder,
+.dark-theme textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* 按钮 */
+.dark-theme button:not(.primary):not(.danger):not(.success) {
+  background-color: var(--button-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dark-theme button:not(.primary):not(.danger):not(.success):hover {
+  background-color: var(--button-hover);
+}
+
+/* 导航栏 */
+.dark-theme .desktop-sidebar,
+.dark-theme .mobile-header {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme .nav-item:hover,
+.dark-theme .mobile-nav-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.dark-theme .nav-item.active,
+.dark-theme .mobile-nav-item.active {
+  background-color: var(--primary-light);
+}
+
+/* 表格 */
+.dark-theme table {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme th {
+  background-color: var(--hover-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme td {
+  border-color: var(--border-color);
+}
+
+.dark-theme tr:hover {
+  background-color: var(--hover-bg);
+}
+
+/* 标签页 */
+.dark-theme .tabs,
+.dark-theme .inbox-tabs,
+.dark-theme .contact-tabs {
+  border-bottom-color: var(--border-color);
+}
+
+.dark-theme .tab,
+.dark-theme .inbox-tab,
+.dark-theme .contact-tab {
+  color: var(--text-secondary);
+}
+
+.dark-theme .tab.active,
+.dark-theme .inbox-tab.active,
+.dark-theme .contact-tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+/* 徽章 */
+.dark-theme .badge,
+.dark-theme .nav-badge,
+.dark-theme .tab-badge {
+  background-color: var(--error-color);
+  color: white;
+}
+
+/* 分隔线 */
+.dark-theme hr,
+.dark-theme .divider {
+  border-color: var(--border-color);
+}
+
+/* 滚动条 */
+.dark-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+  background-color: var(--bg-color);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-light);
+}
+
+/* 下拉菜单 */
+.dark-theme .dropdown-menu,
+.dark-theme .context-menu {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.dark-theme .dropdown-item:hover,
+.dark-theme .context-menu-item:hover {
+  background-color: var(--hover-bg);
+}
+
+/* 工具提示 */
+.dark-theme .tooltip,
+.dark-theme .nav-tooltip {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+/* 加载动画 */
+.dark-theme .loading,
+.dark-theme .spinner {
+  border-color: var(--border-color);
+  border-top-color: var(--primary-color);
+}
+
+/* 空状态 */
+.dark-theme .empty-state,
+.dark-theme .empty-contacts,
+.dark-theme .empty-meetings {
+  color: var(--text-secondary);
+}
+
+/* 会议相关 */
+.dark-theme .meeting-header {
+  background-color: var(--card-bg);
+  border-bottom-color: var(--border-color);
+}
+
+.dark-theme .video-controls {
+  background-color: rgba(45, 45, 45, 0.9);
+}
+
+.dark-theme .control-button {
+  background-color: var(--button-bg);
+  color: var(--text-primary);
+}
+
+.dark-theme .control-button:hover {
+  background-color: var(--button-hover);
+}
+
+/* 聊天相关 */
+.dark-theme .chat-container {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme .chat-message {
+  background-color: var(--hover-bg);
+}
+
+.dark-theme .chat-message.own {
+  background-color: var(--primary-light);
+}
+
+.dark-theme .chat-input {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+}
+
+/* 设置面板 */
+.dark-theme .setting-item {
+  border-bottom-color: var(--border-color);
+}
+
+.dark-theme .setting-select {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+.dark-theme .setting-select:hover {
+  border-color: var(--primary-color);
+}
+
+.dark-theme .setting-select option {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
+/* 开关按钮 */
+.dark-theme .slider {
+  background-color: var(--border-color);
+}
+
+.dark-theme input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+/* Element Plus 组件适配 */
+.dark-theme .el-message-box {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme .el-message-box__title,
+.dark-theme .el-message-box__message {
+  color: var(--text-primary);
+}
+
+.dark-theme .el-input__inner {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+.dark-theme .el-select-dropdown {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme .el-select-dropdown__item {
+  color: var(--text-primary);
+}
+
+.dark-theme .el-select-dropdown__item:hover {
+  background-color: var(--hover-bg);
+}
+
+/* 通知 */
+.dark-theme .notification-content {
+  background-color: var(--card-bg);
+}
+
+.dark-theme .notification-item.unread {
+  background-color: var(--hover-bg);
+}
+
+/* 联系人 */
+.dark-theme .contact-avatar {
+  border-color: var(--border-color);
+}
+
+.dark-theme .contact-status.online {
+  background-color: var(--success-color);
+}
+
+/* 会议列表 */
+.dark-theme .meeting-preview-item {
+  background-color: var(--hover-bg);
+  border-color: var(--border-color);
+}
+
+.dark-theme .reservation-section {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .dark-theme .mobile-nav {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+  }
+}
+
+/* 过渡动画 */
+.dark-theme * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

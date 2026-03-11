@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后端URL下载测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .url-list {
+            margin: 10px 0;
+        }
+        .url-item {
+            padding: 5px;
+            margin: 5px 0;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .url-item:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <h1>后端URL下载功能测试</h1>
+    
+    <!-- 登录 -->
+    <div class="test-section">
+        <h2>1. 登录</h2>
+        <div class="form-group">
+            <label>邮箱:</label>
+            <input type="email" id="loginEmail" value="test@qq.com">
+        </div>
+        <div class="form-group">
+            <label>密码:</label>
+            <input type="password" id="loginPassword" value="123456">
+        </div>
+        <button onclick="testLogin()">登录</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <!-- URL选择 -->
+    <div class="test-section">
+        <h2>2. 选择测试URL</h2>
+        <div class="form-group">
+            <label>预设URL:</label>
+            <div class="url-list" id="urlList"></div>
+        </div>
+        <div class="form-group">
+            <label>自定义URL:</label>
+            <input type="url" id="customUrl" placeholder="输入自定义图片URL">
+        </div>
+        <div class="form-group">
+            <label>当前选择的URL:</label>
+            <input type="url" id="selectedUrl" readonly>
+        </div>
+    </div>
+
+    <!-- 后端下载测试 -->
+    <div class="test-section">
+        <h2>3. 后端下载测试</h2>
+        <button onclick="testBackendDownload()">测试后端下载</button>
+        <div id="downloadResult" class="result"></div>
+    </div>
+
+    <script>
+        let currentToken = '';
+        
+        const testUrls = [
+            {
+                name: '原问题URL',
+                url: 'https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg'
+            },
+            {
+                name: 'Dicebear头像API',
+                url: 'https://api.dicebear.com/9.x/avataaars/png?seed=test'
+            },
+            {
+                name: 'Picsum随机图片',
+                url: 'https://picsum.photos/200/200?random=2'
+            },
+            {
+                name: 'Placeholder图片',
+                url: 'https://via.placeholder.com/200x200.jpg'
+            },
+            {
+                name: 'GitHub头像',
+                url: 'https://avatars.githubusercontent.com/u/1?v=4'
+            },
+            {
+                name: 'JSONPlaceholder头像',
+                url: 'https://jsonplaceholder.typicode.com/photos/1'
+            }
+        ];
+
+        // 初始化URL列表
+        function initUrlList() {
+            const urlList = document.getElementById('urlList');
+            testUrls.forEach(urlObj => {
+                const div = document.createElement('div');
+                div.className = 'url-item';
+                div.innerHTML = `<strong>${urlObj.name}</strong><br><small>${urlObj.url}</small>`;
+                div.onclick = () => {
+                    document.getElementById('selectedUrl').value = urlObj.url;
+                };
+                urlList.appendChild(div);
+            });
+            
+            // 默认选择第一个URL
+            document.getElementById('selectedUrl').value = testUrls[0].url;
+        }
+
+        // 自定义URL输入
+        document.getElementById('customUrl').addEventListener('input', function() {
+            if (this.value) {
+                document.getElementById('selectedUrl').value = this.value;
+            }
+        });
+
+        // 登录测试
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            resultDiv.innerHTML = '正在登录...';
+            resultDiv.className = 'result info';
+            
+            try {
+                const response = await fetch('/api/account/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&checkCode=1234`
+                });
+                
+                const result = await response.json();
+                console.log('登录响应:', result);
+                
+                if (result.code === 200) {
+                    currentToken = result.data.token;
+                    resultDiv.innerHTML = `✅ 登录成功！\nToken: ${currentToken.substring(0, 30)}...`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 登录失败: ${result.info}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('登录错误:', error);
+                resultDiv.innerHTML = `❌ 登录错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 后端下载测试
+        async function testBackendDownload() {
+            const url = document.getElementById('selectedUrl').value;
+            const resultDiv = document.getElementById('downloadResult');
+            
+            if (!currentToken) {
+                resultDiv.innerHTML = '❌ 请先登录获取Token';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            if (!url) {
+                resultDiv.innerHTML = '❌ 请选择或输入图片URL';
+                resultDiv.className = 'result error';
+                return;
+            }
+            
+            resultDiv.innerHTML = `🚀 正在测试后端下载...\nURL: ${url}`;
+            resultDiv.className = 'result info';
+            
+            try {
+                const params = new URLSearchParams();
+                params.append('url', url);
+                
+                const startTime = Date.now();
+                const response = await fetch('/api/upload/avatarByUrl', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    },
+                    body: params
+                });
+                
+                const endTime = Date.now();
+                const result = await response.json();
+                
+                console.log('后端下载响应:', result);
+                
+                if (result.code === 200) {
+                    resultDiv.innerHTML = `✅ 后端下载成功！\n` +
+                        `原始URL: ${url}\n` +
+                        `MinIO URL: ${result.data}\n` +
+                        `耗时: ${endTime - startTime}ms\n\n` +
+                        `响应详情:\n${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ 后端下载失败!\n` +
+                        `URL: ${url}\n` +
+                        `错误信息: ${result.info}\n` +
+                        `耗时: ${endTime - startTime}ms\n\n` +
+                        `完整响应:\n${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                console.error('后端下载错误:', error);
+                resultDiv.innerHTML = `❌ 后端下载异常: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            initUrlList();
+            console.log('后端URL下载测试页面已加载');
+        };
+    </script>
+</body>
+</html>

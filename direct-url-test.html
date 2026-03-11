@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直接URL测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-img {
+            max-width: 300px;
+            max-height: 300px;
+            border: 2px solid #ddd;
+            margin: 20px 0;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>直接URL访问测试</h1>
+    
+    <h2>测试URL:</h2>
+    <p><strong>https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg</strong></p>
+    
+    <div id="status" class="status info">正在加载...</div>
+    
+    <h2>预览结果:</h2>
+    <img id="testImg" class="test-img" style="display: none;">
+    
+    <h2>测试方法:</h2>
+    <div>
+        <h3>方法1: 直接加载</h3>
+        <img id="method1" class="test-img" style="display: none;">
+        <div id="status1" class="status info">等待测试...</div>
+        
+        <h3>方法2: 无crossOrigin</h3>
+        <img id="method2" class="test-img" style="display: none;">
+        <div id="status2" class="status info">等待测试...</div>
+        
+        <h3>方法3: 添加时间戳</h3>
+        <img id="method3" class="test-img" style="display: none;">
+        <div id="status3" class="status info">等待测试...</div>
+    </div>
+
+    <script>
+        const testUrl = 'https://c-ssl.dtstatic.com/uploads/blog/202107/30/20210730145545_fca94.thumb.1000_0.jpeg';
+        
+        function testMethod(methodId, url, options = {}) {
+            const img = document.getElementById(`method${methodId}`);
+            const status = document.getElementById(`status${methodId}`);
+            
+            status.innerHTML = '正在测试...';
+            status.className = 'status info';
+            
+            const testImg = new Image();
+            
+            if (options.crossOrigin) {
+                testImg.crossOrigin = options.crossOrigin;
+            }
+            
+            if (options.referrerPolicy) {
+                testImg.referrerPolicy = options.referrerPolicy;
+            }
+            
+            const startTime = Date.now();
+            
+            testImg.onload = function() {
+                const loadTime = Date.now() - startTime;
+                status.innerHTML = `✅ 加载成功 (${loadTime}ms) - ${testImg.naturalWidth}x${testImg.naturalHeight}`;
+                status.className = 'status success';
+                img.src = url;
+                img.style.display = 'block';
+            };
+            
+            testImg.onerror = function() {
+                const loadTime = Date.now() - startTime;
+                status.innerHTML = `❌ 加载失败 (${loadTime}ms)`;
+                status.className = 'status error';
+            };
+            
+            testImg.src = url;
+        }
+        
+        // 开始测试
+        setTimeout(() => {
+            testMethod(1, testUrl, { crossOrigin: 'anonymous' });
+        }, 1000);
+        
+        setTimeout(() => {
+            testMethod(2, testUrl);
+        }, 2000);
+        
+        setTimeout(() => {
+            testMethod(3, testUrl + '?t=' + Date.now());
+        }, 3000);
+        
+        // 主要测试
+        const mainImg = document.getElementById('testImg');
+        const mainStatus = document.getElementById('status');
+        
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        
+        const startTime = Date.now();
+        
+        img.onload = function() {
+            const loadTime = Date.now() - startTime;
+            mainStatus.innerHTML = `✅ 图片加载成功！加载时间: ${loadTime}ms，尺寸: ${img.naturalWidth}x${img.naturalHeight}`;
+            mainStatus.className = 'status success';
+            mainImg.src = testUrl;
+            mainImg.style.display = 'block';
+        };
+        
+        img.onerror = function() {
+            const loadTime = Date.now() - startTime;
+            mainStatus.innerHTML = `❌ 图片加载失败！加载时间: ${loadTime}ms。这可能是由于：
+1. 图片URL已失效
+2. 服务器设置了防盗链
+3. CORS跨域限制
+4. 网络连接问题`;
+            mainStatus.className = 'status error';
+        };
+        
+        img.src = testUrl;
+    </script>
+</body>
+</html>

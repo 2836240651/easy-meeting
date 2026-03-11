@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模态框字体颜色对比</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #363636;
+            color: #ffffff;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background-color: #434343;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #555555;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .color-demo {
+            text-align: center;
+        }
+
+        .modal-sample {
+            width: 300px;
+            margin: 0 auto 20px;
+            background-color: #363636;
+            border: 2px solid #888888;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header-demo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .old-text {
+            color: #717171;
+        }
+
+        .new-text {
+            color: #dfdfdf;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .old-close {
+            color: #717171;
+        }
+
+        .new-close {
+            color: #dfdfdf;
+        }
+
+        .form-demo {
+            text-align: left;
+        }
+
+        .form-group-demo {
+            margin-bottom: 15px;
+        }
+
+        .label-demo {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .input-demo {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #555555;
+            border-radius: 4px;
+            background-color: #434343;
+            font-size: 14px;
+        }
+
+        .old-input {
+            color: #717171;
+        }
+
+        .new-input {
+            color: #dfdfdf;
+        }
+
+        .old-input::placeholder {
+            color: #717171;
+        }
+
+        .new-input::placeholder {
+            color: #dfdfdf;
+        }
+
+        .button-demo {
+            background-color: #999999;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .color-info {
+            background-color: #434343;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #555555;
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .old-color-code {
+            color: #717171;
+        }
+
+        .new-color-code {
+            color: #dfdfdf;
+        }
+
+        .rgb-info {
+            font-size: 12px;
+            color: #cccccc;
+        }
+
+        .comparison-table {
+            background-color: #434343;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #555555;
+            margin-top: 30px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #555555;
+        }
+
+        .table th {
+            background-color: #4a4a4a;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .table td {
+            color: #cccccc;
+        }
+
+        .highlight {
+            background-color: #363636;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .readability-demo {
+            background-color: #434343;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #555555;
+            margin-top: 30px;
+        }
+
+        .text-sample {
+            background-color: #363636;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #555555;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="header">
+            <h1>模态框字体颜色更新</h1>
+            <p>从 #717171 (113,113,113) 改为 #dfdfdf (223,223,223)</p>
+            <p>提升文字可读性和视觉对比度</p>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="color-demo">
+                <h3>❌ 之前的颜色 #717171</h3>
+                <div class="modal-sample">
+                    <div class="modal-header-demo">
+                        <h4 class="old-text">加入会议</h4>
+                        <button class="close-btn old-close">&times;</button>
+                    </div>
+                    <div class="form-demo">
+                        <div class="form-group-demo">
+                            <label class="label-demo old-text">会议ID</label>
+                            <input type="text" class="input-demo old-input" placeholder="请输入会议ID">
+                        </div>
+                        <div class="form-group-demo">
+                            <label class="label-demo old-text">会议密码</label>
+                            <input type="password" class="input-demo old-input" placeholder="请输入密码">
+                        </div>
+                        <button class="button-demo">加入会议</button>
+                    </div>
+                </div>
+                <div class="color-info">
+                    <div class="color-code old-color-code">#717171</div>
+                    <div class="rgb-info">RGB(113, 113, 113)</div>
+                    <p style="color: #f44336; margin-top: 10px;">对比度较低，可读性一般</p>
+                </div>
+            </div>
+
+            <div class="color-demo">
+                <h3>✅ 现在的颜色 #dfdfdf</h3>
+                <div class="modal-sample">
+                    <div class="modal-header-demo">
+                        <h4 class="new-text">加入会议</h4>
+                        <button class="close-btn new-close">&times;</button>
+                    </div>
+                    <div class="form-demo">
+                        <div class="form-group-demo">
+                            <label class="label-demo new-text">会议ID</label>
+                            <input type="text" class="input-demo new-input" placeholder="请输入会议ID">
+                        </div>
+                        <div class="form-group-demo">
+                            <label class="label-demo new-text">会议密码</label>
+                            <input type="password" class="input-demo new-input" placeholder="请输入密码">
+                        </div>
+                        <button class="button-demo">加入会议</button>
+                    </div>
+                </div>
+                <div class="color-info">
+                    <div class="color-code new-color-code">#dfdfdf</div>
+                    <div class="rgb-info">RGB(223, 223, 223)</div>
+                    <p style="color: #4caf50; margin-top: 10px;">对比度高，可读性优秀</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <h3 style="margin-bottom: 20px; color: #ffffff;">颜色对比分析</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>属性</th>
+                        <th>旧颜色 #717171</th>
+                        <th>新颜色 #dfdfdf</th>
+                        <th>改进效果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>RGB值</td>
+                        <td>113, 113, 113</td>
+                        <td>223, 223, 223</td>
+                        <td>亮度提升 97%</td>
+                    </tr>
+                    <tr>
+                        <td>对比度</td>
+                        <td>中等</td>
+                        <td>高</td>
+                        <td>显著提升</td>
+                    </tr>
+                    <tr>
+                        <td>可读性</td>
+                        <td>一般</td>
+                        <td>优秀</td>
+                        <td>用户体验更佳</td>
+                    </tr>
+                    <tr>
+                        <td>视觉层次</td>
+                        <td>较弱</td>
+                        <td>清晰</td>
+                        <td>信息层次更明确</td>
+                    </tr>
+                    <tr>
+                        <td>适用场景</td>
+                        <td>辅助信息</td>
+                        <td>主要内容</td>
+                        <td>适合重要信息展示</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="readability-demo">
+            <h3 style="margin-bottom: 20px; color: #ffffff;">可读性对比测试</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4 style="color: #f44336; margin-bottom: 10px;">旧颜色 #717171</h4>
+                    <div class="text-sample">
+                        <p class="old-text">这是使用旧颜色的文字示例。在深色背景下，这种灰色的对比度相对较低，用户需要更仔细地阅读才能清楚看到内容。</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color: #4caf50; margin-bottom: 10px;">新颜色 #dfdfdf</h4>
+                    <div class="text-sample">
+                        <p class="new-text">这是使用新颜色的文字示例。在深色背景下，这种浅灰色提供了更好的对比度，用户可以更轻松地阅读和理解内容。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <h3 style="margin-bottom: 20px; color: #ffffff;">设计优势总结</h3>
+            <ul style="color: #cccccc; line-height: 1.8;">
+                <li>✅ <strong>提升可读性</strong>：更高的对比度让文字更容易阅读</li>
+                <li>✅ <strong>减少视觉疲劳</strong>：清晰的文字减少用户眼部疲劳</li>
+                <li>✅ <strong>改善用户体验</strong>：更好的可读性提升整体使用体验</li>
+                <li>✅ <strong>符合无障碍标准</strong>：更高的对比度符合可访问性要求</li>
+                <li>✅ <strong>专业外观</strong>：清晰的文字层次提升界面专业度</li>
+                <li>✅ <strong>适应性强</strong>：在各种显示设备上都有良好表现</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

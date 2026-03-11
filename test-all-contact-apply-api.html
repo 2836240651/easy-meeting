@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试所有联系人申请 API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #409EFF;
+            padding-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #409EFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #66b1ff;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #fef0f0;
+            color: #f56c6c;
+        }
+        .success {
+            background: #f0f9ff;
+            color: #67c23a;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 400px;
+        }
+        .apply-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9f9f9;
+            border-left: 3px solid #409EFF;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-0 { background: #409EFF; color: white; }
+        .status-1 { background: #67c23a; color: white; }
+        .status-2 { background: #f56c6c; color: white; }
+        .status-3 { background: #909399; color: white; }
+    </style>
+</head>
+<body>
+    <h1>测试所有联系人申请 API</h1>
+    
+    <div class="test-section">
+        <h2>1. 加载待处理申请（原API）</h2>
+        <input type="text" id="token1" placeholder="输入 token" value="">
+        <button onclick="loadContactApply()">加载待处理申请</button>
+        <div id="result1" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. 加载所有申请（新API）</h2>
+        <input type="text" id="token2" placeholder="输入 token" value="">
+        <button onclick="loadAllContactApply()">加载所有申请</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 对比两个API</h2>
+        <input type="text" id="token3" placeholder="输入 token" value="">
+        <button onclick="compareApis()">对比两个API</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:6099';
+
+        // 获取状态文本
+        function getStatusText(status) {
+            switch(status) {
+                case 0: return '待处理';
+                case 1: return '已接受';
+                case 2: return '已拒绝';
+                case 3: return '已拉黑';
+                default: return '未知';
+            }
+        }
+
+        // 加载待处理申请
+        async function loadContactApply() {
+            const token = document.getElementById('token1').value;
+            const resultDiv = document.getElementById('result1');
+            
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入 token';
+                return;
+            }
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                const response = await fetch(`${BASE_URL}/api/userContact/loadContactApply`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.code === 200) {
+                    resultDiv.className = 'result success';
+                    
+                    let html = `<h3>✅ 成功加载 ${data.data.length} 个待处理申请</h3>`;
+                    html += `<p><strong>响应数据：</strong></p>`;
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    if (data.data.length > 0) {
+                        html += `<h3>待处理申请列表：</h3>`;
+                        data.data.forEach((apply, index) => {
+                            html += `
+                                <div class="apply-item">
+                                    <strong>${index + 1}. ${apply.nickName || '未知'}</strong>
+                                    <span class="status-badge status-${apply.status}">${getStatusText(apply.status)}</span><br>
+                                    申请ID: ${apply.applyId}<br>
+                                    申请者ID: ${apply.applyUserId}<br>
+                                    邮箱: ${apply.email || '无'}<br>
+                                    申请时间: ${new Date(apply.lastApplyTime).toLocaleString()}
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 失败\n错误码: ${data.code}\n错误信息: ${data.info}\n\n完整响应:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+
+        // 加载所有申请
+        async function loadAllContactApply() {
+            const token = document.getElementById('token2').value;
+            const resultDiv = document.getElementById('result2');
+            
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入 token';
+                return;
+            }
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                const response = await fetch(`${BASE_URL}/api/userContact/loadAllContactApply`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.code === 200) {
+                    resultDiv.className = 'result success';
+                    
+                    // 统计各状态数量
+                    const statusCount = {
+                        0: 0, // 待处理
+                        1: 0, // 已接受
+                        2: 0, // 已拒绝
+                        3: 0  // 已拉黑
+                    };
+                    data.data.forEach(apply => {
+                        if (statusCount[apply.status] !== undefined) {
+                            statusCount[apply.status]++;
+                        }
+                    });
+                    
+                    let html = `<h3>✅ 成功加载 ${data.data.length} 个申请（所有状态）</h3>`;
+                    html += `<p><strong>状态统计：</strong></p>`;
+                    html += `<ul>`;
+                    html += `<li>待处理: ${statusCount[0]} 条</li>`;
+                    html += `<li>已接受: ${statusCount[1]} 条</li>`;
+                    html += `<li>已拒绝: ${statusCount[2]} 条</li>`;
+                    html += `<li>已拉黑: ${statusCount[3]} 条</li>`;
+                    html += `</ul>`;
+                    html += `<p><strong>响应数据：</strong></p>`;
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    if (data.data.length > 0) {
+                        html += `<h3>所有申请列表：</h3>`;
+                        data.data.forEach((apply, index) => {
+                            html += `
+                                <div class="apply-item">
+                                    <strong>${index + 1}. ${apply.nickName || '未知'}</strong>
+                                    <span class="status-badge status-${apply.status}">${getStatusText(apply.status)}</span><br>
+                                    申请ID: ${apply.applyId}<br>
+                                    申请者ID: ${apply.applyUserId}<br>
+                                    邮箱: ${apply.email || '无'}<br>
+                                    申请时间: ${new Date(apply.lastApplyTime).toLocaleString()}
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 失败\n错误码: ${data.code}\n错误信息: ${data.info}\n\n完整响应:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+
+        // 对比两个API
+        async function compareApis() {
+            const token = document.getElementById('token3').value;
+            const resultDiv = document.getElementById('result3');
+            
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入 token';
+                return;
+            }
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                // 同时调用两个API
+                const [response1, response2] = await Promise.all([
+                    fetch(`${BASE_URL}/api/userContact/loadContactApply`, {
+                        method: 'GET',
+                        headers: { 'token': token }
+                    }),
+                    fetch(`${BASE_URL}/api/userContact/loadAllContactApply`, {
+                        method: 'GET',
+                        headers: { 'token': token }
+                    })
+                ]);
+                
+                const data1 = await response1.json();
+                const data2 = await response2.json();
+                
+                if (response1.ok && data1.code === 200 && response2.ok && data2.code === 200) {
+                    resultDiv.className = 'result success';
+                    
+                    const pendingCount = data1.data.length;
+                    const allCount = data2.data.length;
+                    const processedCount = allCount - pendingCount;
+                    
+                    let html = `<h3>✅ API 对比结果</h3>`;
+                    html += `<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">`;
+                    html += `<tr style="background: #f0f0f0;">`;
+                    html += `<th style="padding: 10px; border: 1px solid #ddd;">API</th>`;
+                    html += `<th style="padding: 10px; border: 1px solid #ddd;">数量</th>`;
+                    html += `<th style="padding: 10px; border: 1px solid #ddd;">说明</th>`;
+                    html += `</tr>`;
+                    html += `<tr>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">loadContactApply</td>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">${pendingCount}</td>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">只返回待处理申请</td>`;
+                    html += `</tr>`;
+                    html += `<tr>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">loadAllContactApply</td>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">${allCount}</td>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">返回所有状态申请</td>`;
+                    html += `</tr>`;
+                    html += `<tr style="background: #f9f9f9;">`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;"><strong>差异</strong></td>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;"><strong>${processedCount}</strong></td>`;
+                    html += `<td style="padding: 10px; border: 1px solid #ddd;">已处理的申请数量</td>`;
+                    html += `</tr>`;
+                    html += `</table>`;
+                    
+                    html += `<p><strong>结论：</strong></p>`;
+                    html += `<ul>`;
+                    html += `<li>待处理申请：${pendingCount} 条</li>`;
+                    html += `<li>已处理申请：${processedCount} 条</li>`;
+                    html += `<li>总申请数：${allCount} 条</li>`;
+                    html += `</ul>`;
+                    
+                    if (processedCount > 0) {
+                        html += `<p style="color: #67c23a; font-weight: bold;">✅ 新API正常工作！返回了 ${processedCount} 条已处理的申请。</p>`;
+                    } else {
+                        html += `<p style="color: #e6a23c; font-weight: bold;">⚠️ 暂无已处理的申请，无法验证差异。</p>`;
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 失败\nAPI1: ${data1.code} - ${data1.info}\nAPI2: ${data2.code} - ${data2.info}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

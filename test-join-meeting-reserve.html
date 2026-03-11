@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试加入预约会议 API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #409EFF;
+            padding-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #409EFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #66b1ff;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #fef0f0;
+            color: #f56c6c;
+        }
+        .success {
+            background: #f0f9ff;
+            color: #67c23a;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        label {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试加入预约会议 API</h1>
+    
+    <div class="test-section">
+        <h2>1. 加载预约会议列表</h2>
+        <input type="text" id="token1" placeholder="输入 token" value="">
+        <button onclick="loadMeetingReserveList()">加载预约会议列表</button>
+        <div id="result1" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. 加入预约会议（无需密码）</h2>
+        <div class="form-group">
+            <label>Token:</label>
+            <input type="text" id="token2" placeholder="输入 token" value="">
+        </div>
+        <div class="form-group">
+            <label>会议ID:</label>
+            <input type="text" id="meetingId2" placeholder="输入会议ID" value="">
+        </div>
+        <button onclick="joinMeetingReserve(false)">加入会议（无密码）</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 加入预约会议（需要密码）</h2>
+        <div class="form-group">
+            <label>Token:</label>
+            <input type="text" id="token3" placeholder="输入 token" value="">
+        </div>
+        <div class="form-group">
+            <label>会议ID:</label>
+            <input type="text" id="meetingId3" placeholder="输入会议ID" value="">
+        </div>
+        <div class="form-group">
+            <label>密码:</label>
+            <input type="text" id="password3" placeholder="输入5位密码" maxlength="5" value="">
+        </div>
+        <button onclick="joinMeetingReserve(true)">加入会议（有密码）</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:6099';
+
+        // 加载预约会议列表
+        async function loadMeetingReserveList() {
+            const token = document.getElementById('token1').value;
+            const resultDiv = document.getElementById('result1');
+            
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入 token';
+                return;
+            }
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                const response = await fetch(`${BASE_URL}/api/meetingReserve/loadMeetingReserveList`, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.code === 200) {
+                    resultDiv.className = 'result success';
+                    
+                    let html = `<h3>✅ 成功加载 ${data.data.length} 个预约会议</h3>`;
+                    html += `<p><strong>响应数据：</strong></p>`;
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    if (data.data.length > 0) {
+                        html += `<h3>预约会议列表：</h3>`;
+                        data.data.forEach((meeting, index) => {
+                            html += `
+                                <div style="padding: 10px; margin: 5px 0; background: #f9f9f9; border-left: 3px solid #409EFF;">
+                                    <strong>${index + 1}. ${meeting.meetingName}</strong><br>
+                                    会议ID: ${meeting.meetingId}<br>
+                                    开始时间: ${meeting.startTime}<br>
+                                    时长: ${meeting.duration} 分钟<br>
+                                    加入方式: ${meeting.joinType === 0 ? '无需密码' : '需要密码'}<br>
+                                    状态: ${meeting.status === 0 ? '未开始' : meeting.status === 1 ? '进行中' : '已结束'}
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 失败\n错误码: ${data.code}\n错误信息: ${data.info}\n\n完整响应:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+
+        // 加入预约会议
+        async function joinMeetingReserve(needPassword) {
+            const tokenId = needPassword ? 'token3' : 'token2';
+            const meetingIdId = needPassword ? 'meetingId3' : 'meetingId2';
+            const resultId = needPassword ? 'result3' : 'result2';
+            
+            const token = document.getElementById(tokenId).value;
+            const meetingId = document.getElementById(meetingIdId).value;
+            const password = needPassword ? document.getElementById('password3').value : '';
+            const resultDiv = document.getElementById(resultId);
+            
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入 token';
+                return;
+            }
+            
+            if (!meetingId) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入会议ID';
+                return;
+            }
+            
+            if (needPassword && !password) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入密码';
+                return;
+            }
+            
+            try {
+                resultDiv.textContent = '请求中...';
+                resultDiv.className = 'result';
+                
+                // 构建URL参数
+                const params = new URLSearchParams({
+                    meetingId: meetingId
+                });
+                
+                if (needPassword && password) {
+                    params.append('password', password);
+                }
+                
+                const response = await fetch(`${BASE_URL}/api/meetingInfo/joinMeetingReserve?${params.toString()}`, {
+                    method: 'POST',
+                    headers: {
+                        'token': token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.code === 200) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ 加入会议成功</h3>
+                        <p><strong>响应数据：</strong></p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        <p style="color: #67c23a; font-weight: bold;">现在可以跳转到会议页面了！</p>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 失败\n错误码: ${data.code}\n错误信息: ${data.info}\n\n完整响应:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ 错误: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

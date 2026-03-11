@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天时间线测试 - minMessageId 逻辑</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        input, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .timeline-selector { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
+        .logic-explanation { background: #e7f3ff; padding: 15px; border-radius: 4px; border-left: 4px solid #007bff; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>聊天时间线测试 - minMessageId 逻辑</h1>
+    
+    <div class="logic-explanation">
+        <h4>📋 逻辑说明</h4>
+        <p><strong>修复前（错误）：</strong> 使用 maxMessageId，"最近5分钟" 查询 messageId < 5分钟前时间戳 的消息（错误）</p>
+        <p><strong>修复后（正确）：</strong> 使用 minMessageId，"最近5分钟" 查询 messageId >= 5分钟前时间戳 的消息（正确）</p>
+        <p><strong>示例：</strong> 当前时间 16:30，选择"最近5分钟"，应该查询 16:25 之后的所有消息</p>
+    </div>
+    
+    <div class="container">
+        <h3>1. 用户登录</h3>
+        <input type="email" id="emailInput" placeholder="邮箱" value="2836240651@qq.com">
+        <input type="password" id="passwordInput" placeholder="密码" value="123456">
+        <button onclick="login()">登录</button>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>2. 时间线选择器测试（minMessageId 逻辑）</h3>
+        <div class="timeline-selector">
+            <label>查看消息时间范围：</label>
+            <select id="timeRangeSelect">
+                <option value="all">所有消息</option>
+                <option value="5m">最近5分钟</option>
+                <option value="15m">最近15分钟</option>
+                <option value="30m">最近30分钟</option>
+                <option value="1h">最近1小时</option>
+                <option value="2h">最近2小时</option>
+                <option value="6h">最近6小时</option>
+                <option value="12h">最近12小时</option>
+                <option value="24h">最近24小时</option>
+            </select>
+            <button onclick="loadMessagesWithTimeRange()">加载消息</button>
+        </div>
+        <div id="timelineResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>3. 发送测试消息</h3>
+        <input type="text" id="messageInput" placeholder="输入测试消息" value="时间线测试消息 - minMessageId 逻辑">
+        <button onclick="sendTestMessage()">发送消息</button>
+        <div id="sendResult" class="result">等待发送...</div>
+    </div>
+
+    <div class="container">
+        <h3>4. 对比测试</h3>
+        <button onclick="compareLogic()">对比新旧逻辑</button>
+        <div id="compareResult" class="result">等待对比...</div>
+    </div>
+
+    <div class="container">
+        <h3>调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let currentToken = null;
+        let currentUser = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // 计算 minMessageId（正确逻辑）
+        function calculateMinMessageId(timeRange) {
+            if (timeRange === 'all') {
+                return null; // 不传minMessageId，获取所有消息
+            }
+            
+            const now = Date.now();
+            let minutesAgo = 0;
+            
+            switch (timeRange) {
+                case '5m': minutesAgo = 5; break;
+                case '15m': minutesAgo = 15; break;
+                case '30m': minutesAgo = 30; break;
+                case '1h': minutesAgo = 60; break;
+                case '2h': minutesAgo = 120; break;
+                case '6h': minutesAgo = 360; break;
+                case '12h': minutesAgo = 720; break;
+                case '24h': minutesAgo = 1440; break;
+                default: return null;
+            }
+            
+            // 计算指定时间前的时间戳（作为最小消息ID）
+            const targetTime = now - (minutesAgo * 60 * 1000);
+            log(`✅ 正确逻辑 - 时间范围: ${timeRange}, 起始时间: ${new Date(targetTime).toLocaleString()}, minMessageId: ${targetTime}`);
+            return targetTime;
+        }
+
+        // 计算 maxMessageId（错误逻辑，仅用于对比）
+        function calculateMaxMessageId(timeRange) {
+            if (timeRange === 'all') {
+                return null;
+            }
+            
+            const now = Date.now();
+            let minutesAgo = 0;
+            
+            switch (timeRange) {
+                case '5m': minutesAgo = 5; break;
+                case '15m': minutesAgo = 15; break;
+                case '30m': minutesAgo = 30; break;
+                case '1h': minutesAgo = 60; break;
+                case '2h': minutesAgo = 120; break;
+                case '6h': minutesAgo = 360; break;
+                case '12h': minutesAgo = 720; break;
+                case '24h': minutesAgo = 1440; break;
+                default: return null;
+            }
+            
+            const targetTime = now - (minutesAgo * 60 * 1000);
+            log(`❌ 错误逻辑 - 时间范围: ${timeRange}, 截止时间: ${new Date(targetTime).toLocaleString()}, maxMessageId: ${targetTime}`);
+            return targetTime;
+        }
+
+        async function login() {
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    currentToken = result.data.token;
+                    currentUser = result.data.userInfo;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + currentUser.nickName;
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败';
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+            }
+        }
+        async function loadMessagesWithTimeRange() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            const timeRange = document.getElementById('timeRangeSelect').value;
+            
+            try {
+                log(`测试时间范围: ${timeRange}`);
+                
+                // 使用新的 minMessageId 逻辑
+                const minMessageId = calculateMinMessageId(timeRange);
+                
+                let url = 'http://localhost:6099/chat/loadMeesage?pageNo=1';
+                if (minMessageId) {
+                    url += `&minMessageId=${minMessageId}`;
+                }
+                
+                log(`请求URL: ${url}`);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'token': currentToken }
+                });
+
+                const result = await response.json();
+                log(`响应: ${JSON.stringify(result)}`);
+
+                const resultDiv = document.getElementById('timelineResult');
+                if (result.status === 'success') {
+                    const messages = result.data?.list || [];
+                    const now = Date.now();
+                    
+                    // 分析消息时间分布
+                    let withinRange = 0;
+                    let outsideRange = 0;
+                    
+                    messages.forEach(msg => {
+                        const messageTime = msg.sendTime;
+                        const minutesAgo = (now - messageTime) / (1000 * 60);
+                        
+                        if (timeRange === 'all') {
+                            withinRange++;
+                        } else {
+                            const rangeMinutes = parseInt(timeRange.replace(/[mh]/, '')) * (timeRange.includes('h') ? 60 : 1);
+                            if (minutesAgo <= rangeMinutes) {
+                                withinRange++;
+                            } else {
+                                outsideRange++;
+                            }
+                        }
+                    });
+                    
+                    resultDiv.innerHTML = `
+                        <h4>✅ 加载成功（minMessageId 逻辑）</h4>
+                        <p><strong>时间范围:</strong> ${getTimeRangeText(timeRange)}</p>
+                        <p><strong>minMessageId:</strong> ${minMessageId || '无'}</p>
+                        <p><strong>消息总数:</strong> ${messages.length}</p>
+                        <p><strong>范围内消息:</strong> ${withinRange} 条</p>
+                        <p><strong>范围外消息:</strong> ${outsideRange} 条</p>
+                        <p><strong>逻辑验证:</strong> ${outsideRange === 0 ? '✅ 正确' : '❌ 有范围外消息'}</p>
+                        ${messages.length > 0 ? `
+                        <table>
+                            <tr><th>消息ID</th><th>内容</th><th>发送时间</th><th>距现在(分钟)</th><th>是否在范围内</th></tr>
+                            ${messages.slice(0, 10).map(msg => {
+                                const minutesAgo = Math.round((now - msg.sendTime) / (1000 * 60));
+                                const rangeMinutes = timeRange === 'all' ? Infinity : parseInt(timeRange.replace(/[mh]/, '')) * (timeRange.includes('h') ? 60 : 1);
+                                const inRange = minutesAgo <= rangeMinutes;
+                                return `
+                                <tr style="background-color: ${inRange ? '#d4edda' : '#f8d7da'}">
+                                    <td>${msg.messageId}</td>
+                                    <td>${msg.messageContent || '文件消息'}</td>
+                                    <td>${new Date(msg.sendTime).toLocaleString()}</td>
+                                    <td>${minutesAgo}</td>
+                                    <td>${inRange ? '✅' : '❌'}</td>
+                                </tr>
+                                `;
+                            }).join('')}
+                        </table>
+                        ` : ''}
+                    `;
+                    resultDiv.className = 'result success';
+                    log(`✅ 时间范围测试完成: ${withinRange}/${messages.length} 条消息在范围内`);
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载请求失败: ${error.message}`);
+                const resultDiv = document.getElementById('timelineResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function sendTestMessage() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            const message = document.getElementById('messageInput').value.trim();
+            if (!message) {
+                alert('请输入消息内容');
+                return;
+            }
+
+            try {
+                log(`发送测试消息: ${message}`);
+                const response = await fetch('http://localhost:6099/chat/sendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': currentToken
+                    },
+                    body: new URLSearchParams({
+                        message: message,
+                        messageType: '0',
+                        receiveUserId: '0'
+                    })
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('sendResult');
+                if (result.status === 'success') {
+                    resultDiv.innerHTML = `
+                        <h4>✅ 消息发送成功</h4>
+                        <p><strong>消息内容:</strong> ${message}</p>
+                        <p><strong>发送时间:</strong> ${new Date().toLocaleString()}</p>
+                        <p>现在可以测试时间线功能，这条消息应该出现在"最近5分钟"中</p>
+                    `;
+                    resultDiv.className = 'result success';
+                    log('✅ 消息发送成功');
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 发送失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 发送失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 发送请求失败: ${error.message}`);
+            }
+        }
+
+        async function compareLogic() {
+            if (!currentToken) {
+                alert('请先登录');
+                return;
+            }
+
+            const timeRange = '5m'; // 固定测试5分钟
+            
+            try {
+                log('开始对比新旧逻辑...');
+                
+                // 新逻辑：minMessageId
+                const minMessageId = calculateMinMessageId(timeRange);
+                const newResponse = await fetch(`http://localhost:6099/chat/loadMeesage?pageNo=1&minMessageId=${minMessageId}`, {
+                    method: 'GET',
+                    headers: { 'token': currentToken }
+                });
+                const newResult = await newResponse.json();
+                const newMessages = newResult.data?.list || [];
+                
+                // 旧逻辑：maxMessageId（模拟，实际上后端已经修改了）
+                const maxMessageId = calculateMaxMessageId(timeRange);
+                log(`注意：后端已修改，这里只是模拟旧逻辑的计算`);
+                
+                const resultDiv = document.getElementById('compareResult');
+                const now = Date.now();
+                
+                // 分析新逻辑结果
+                let correctMessages = 0;
+                newMessages.forEach(msg => {
+                    const minutesAgo = (now - msg.sendTime) / (1000 * 60);
+                    if (minutesAgo <= 5) correctMessages++;
+                });
+                
+                resultDiv.innerHTML = `
+                    <h4>📊 新旧逻辑对比</h4>
+                    <div style="display: flex; gap: 20px;">
+                        <div style="flex: 1; background: #d4edda; padding: 10px; border-radius: 4px;">
+                            <h5>✅ 新逻辑（minMessageId）</h5>
+                            <p><strong>参数:</strong> minMessageId = ${minMessageId}</p>
+                            <p><strong>SQL条件:</strong> message_id >= ${minMessageId}</p>
+                            <p><strong>含义:</strong> 查询5分钟前至今的所有消息</p>
+                            <p><strong>结果:</strong> ${newMessages.length} 条消息</p>
+                            <p><strong>正确性:</strong> ${correctMessages}/${newMessages.length} 条在范围内</p>
+                        </div>
+                        <div style="flex: 1; background: #f8d7da; padding: 10px; border-radius: 4px;">
+                            <h5>❌ 旧逻辑（maxMessageId）</h5>
+                            <p><strong>参数:</strong> maxMessageId = ${maxMessageId}</p>
+                            <p><strong>SQL条件:</strong> message_id < ${maxMessageId}</p>
+                            <p><strong>含义:</strong> 查询5分钟前之前的所有消息（错误）</p>
+                            <p><strong>问题:</strong> 这会查询到5分钟前的旧消息，而不是最近5分钟的消息</p>
+                        </div>
+                    </div>
+                    <p><strong>结论:</strong> 新逻辑使用 minMessageId 正确实现了"最近X时间"的查询需求</p>
+                `;
+                resultDiv.className = 'result success';
+                log('✅ 逻辑对比完成');
+                
+            } catch (error) {
+                log(`🚨 对比测试失败: ${error.message}`);
+            }
+        }
+
+        function getTimeRangeText(timeRange) {
+            const rangeMap = {
+                '5m': '最近5分钟',
+                '15m': '最近15分钟',
+                '30m': '最近30分钟',
+                '1h': '最近1小时',
+                '2h': '最近2小时',
+                '6h': '最近6小时',
+                '12h': '最近12小时',
+                '24h': '最近24小时',
+                'all': '所有时间'
+            };
+            return rangeMap[timeRange] || '未知时间范围';
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('聊天时间线测试工具已加载 - minMessageId 逻辑');
+            log('修复说明：将 maxMessageId 改为 minMessageId，正确实现"最近X时间"查询');
+        };
+    </script>
+</body>
+</html>

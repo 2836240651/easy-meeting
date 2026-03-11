@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系人头像直接显示测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 150px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 200px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        
+        .contact-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
+        .contact-item { 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            transition: box-shadow 0.2s;
+        }
+        .contact-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        
+        .avatar { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            background: #e9ecef; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 20px; 
+            color: #6c757d;
+            overflow: hidden;
+            position: relative;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .status-indicator { 
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            border: 2px solid white;
+        }
+        .status-indicator.online { background: #28a745; }
+        .status-indicator.offline { background: #dc3545; }
+        
+        .contact-info { flex: 1; }
+        .contact-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+        .contact-id { color: #6c757d; font-size: 12px; margin-bottom: 5px; }
+        .contact-status { font-size: 14px; margin-bottom: 3px; }
+        .contact-time { font-size: 12px; color: #6c757d; }
+        .avatar-url { font-size: 10px; color: #6c757d; word-break: break-all; margin-top: 5px; }
+        
+        .status-online { color: #28a745; }
+        .status-offline { color: #dc3545; }
+        
+        .login-section { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>联系人头像直接显示测试</h1>
+    <p>测试思路：直接使用联系人列表API返回的avatar字段（MinIO完整URL），无需通过后端getAvatar API</p>
+    
+    <div class="container">
+        <h3>👤 用户登录</h3>
+        <div class="login-section">
+            <input type="email" id="email" placeholder="邮箱" value="2836240651@qq.com">
+            <input type="password" id="password" placeholder="密码" value="123456">
+            <input type="text" id="checkCode" placeholder="验证码" style="width: 100px;">
+            <button onclick="getCheckCode()">获取验证码</button>
+            <button onclick="loginUser()">登录</button>
+        </div>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>📋 联系人头像测试</h3>
+        <button onclick="loadContactsWithDirectAvatars()">加载联系人（直接显示头像）</button>
+        <div id="contactResult" class="result">等待加载...</div>
+    </div>
+
+    <div class="container">
+        <h3>🔍 调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let userToken = null;
+        let userInfo = null;
+        let checkCodeKey = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function getCheckCode() {
+            try {
+                log('获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    checkCodeKey = result.data.checkCodeKey;
+                    const checkCodeImage = result.data.checkCode;
+                    
+                    log('✅ 验证码获取成功');
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + checkCodeImage;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImage';
+                    
+                    const oldImg = document.getElementById('checkCodeImage');
+                    if (oldImg) oldImg.remove();
+                    
+                    document.getElementById('checkCode').parentNode.appendChild(imgElement);
+                    
+                } else {
+                    log('❌ 验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`🚨 验证码获取失败: ${error.message}`);
+            }
+        }
+
+        async function loginUser() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const checkCode = document.getElementById('checkCode').value.trim();
+            
+            if (!checkCode || !checkCodeKey) {
+                alert('请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKey
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    userToken = result.data.token;
+                    userInfo = result.data;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + userInfo.nickName + ' (ID: ' + userInfo.userId + ')';
+                    document.getElementById('loginStatus').style.color = 'green';
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败: ' + error.message;
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }
+
+        // 在线状态判断函数
+        function isContactOnline(contact) {
+            if (!contact.lastLoginTime) return false
+            if (!contact.lastOffTime) return true
+            return contact.lastLoginTime > contact.lastOffTime
+        }
+
+        // 格式化时间戳
+        function formatTime(timestamp) {
+            if (!timestamp) return '未知'
+            const date = new Date(timestamp)
+            const now = new Date()
+            const diff = now - date
+            
+            if (diff < 60000) {
+                return '刚刚'
+            } else if (diff < 3600000) {
+                return `${Math.floor(diff / 60000)}分钟前`
+            } else if (diff < 86400000) {
+                return `${Math.floor(diff / 3600000)}小时前`
+            } else {
+                return date.toLocaleDateString('zh-CN')
+            }
+        }
+
+        // 获取头像占位符
+        function getAvatarPlaceholder(nickName) {
+            const firstChar = nickName ? nickName.charAt(0).toUpperCase() : '?';
+            return firstChar;
+        }
+
+        // 获取默认头像
+        function getDefaultAvatar(sex) {
+            return sex === 1 ? '/svg/男头像.svg' : '/svg/女头像.svg';
+        }
+
+        async function loadContactsWithDirectAvatars() {
+            if (!userToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('加载联系人列表（直接使用avatar字段）...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactUser', {
+                    method: 'GET',
+                    headers: { 'token': userToken }
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('contactResult');
+                
+                if (result.status === 'success') {
+                    const contacts = result.data || [];
+                    log(`✅ 联系人列表加载成功: ${contacts.length} 个联系人`);
+                    
+                    let html = `
+                        <h4>📋 联系人列表 (${contacts.length}) - 直接使用avatar字段</h4>
+                        <div class="contact-list">
+                    `;
+                    
+                    if (contacts.length > 0) {
+                        contacts.forEach((contact, index) => {
+                            const isOnline = isContactOnline(contact);
+                            const onlineStatus = isOnline ? 'online' : 'offline';
+                            const onlineText = isOnline ? '在线' : '离线';
+                            
+                            // 直接使用avatar字段，如果没有则使用默认头像
+                            const avatarUrl = contact.avatar || getDefaultAvatar(contact.sex);
+                            
+                            const lastActiveTime = isOnline ? 
+                                (contact.lastLoginTime ? formatTime(contact.lastLoginTime) : '') :
+                                (contact.lastOffTime ? formatTime(contact.lastOffTime) : '');
+                            
+                            html += `
+                                <div class="contact-item">
+                                    <div class="avatar">
+                                        <img src="${avatarUrl}" alt="头像" 
+                                             onload="console.log('联系人${index+1}头像加载成功:', '${avatarUrl}')" 
+                                             onerror="console.log('联系人${index+1}头像加载失败:', '${avatarUrl}'); this.style.display='none'; this.parentNode.innerHTML='${getAvatarPlaceholder(contact.nickName)}';">
+                                        <div class="status-indicator ${onlineStatus}"></div>
+                                    </div>
+                                    <div class="contact-info">
+                                        <div class="contact-name">${contact.nickName || '未知用户'}</div>
+                                        <div class="contact-id">ID: ${contact.contactId}</div>
+                                        <div class="contact-status status-${onlineStatus}">${onlineText}</div>
+                                        ${lastActiveTime ? `<div class="contact-time">${lastActiveTime}</div>` : ''}
+                                        <div class="avatar-url">头像URL: ${contact.avatar || '无'}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html += '<div style="text-align: center; padding: 40px; color: #6c757d;">暂无联系人</div>';
+                    }
+                    
+                    html += '</div>';
+                    
+                    resultDiv.innerHTML = html;
+                    resultDiv.className = 'result success';
+                    
+                    // 输出详细的联系人数据到日志
+                    contacts.forEach((contact, index) => {
+                        const isOnline = isContactOnline(contact);
+                        log(`联系人${index+1}: ${contact.nickName} (${contact.contactId})`);
+                        log(`  在线状态: ${isOnline ? '在线' : '离线'}`);
+                        log(`  登录时间: ${contact.lastLoginTime || '无'}`);
+                        log(`  离线时间: ${contact.lastOffTime || '无'}`);
+                        log(`  头像字段: ${contact.avatar || '无'}`);
+                        log(`  性别: ${contact.sex || '未知'}`);
+                        log('---');
+                    });
+                    
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载联系人列表失败: ${error.message}`);
+                const resultDiv = document.getElementById('contactResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('联系人头像直接显示测试工具已加载');
+            log('测试思路：');
+            log('1. 联系人列表API已通过联表查询返回avatar字段');
+            log('2. avatar字段存储的是MinIO的完整URL');
+            log('3. 前端直接使用这个URL显示头像，无需通过getAvatar API');
+            log('4. 如果没有avatar，使用默认头像');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+2026-03-11T05:03:23.182Z [delivery-recovery] Retry failed for delivery 00ed56d4-dd09-4bde-ab86-5bc091cb4c58: Cannot destructure property 'tenant_access_token' of '(intermediate value)' as it is undefined.
+2026-03-11T13:06:29.488+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T13:06:32.909+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T05:06:37.453Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T13:06:40.669+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T13:07:16.905+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T05:07:17.238Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T05:07:32.026Z [feishu] streaming start failed: TypeError: fetch failed
+2026-03-11T05:07:54.564Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T05:08:59.805Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T13:10:20.124+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T05:10:54.072Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T05:19:32.617Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T05:32:10.214Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T05:33:46.783Z [feishu] feishu[default] final reply failed: Error: Client network socket disconnected before secure TLS connection was established
+2026-03-11T05:57:57.892Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T05:58:14.409Z [agent/embedded] embedded run agent end: runId=3261b4f6-3695-4ddc-b654-fb8cf93ee0ff isError=true error=LLM request timed out.
+2026-03-11T13:58:41.932+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T05:58:45.037Z [feishu] feishu[default] final reply failed: Error: Client network socket disconnected before secure TLS connection was established
+2026-03-11T13:58:46.567+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T13:58:48.710+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T14:02:59.918+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+2026-03-11T06:03:08.376Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:18:09.304Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:19:19.062Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:19:48.733Z [feishu] feishu[default] final reply failed: Error: Client network socket disconnected before secure TLS connection was established
+2026-03-11T06:24:52.338Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:25:36.783Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:25:56.218Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:27:17.664Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:27:22.352Z [feishu] feishu[default] final reply failed: Error: Client network socket disconnected before secure TLS connection was established
+2026-03-11T06:28:14.624Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:28:51.300Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=11300 queueAhead=0
+2026-03-11T06:28:51.631Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:29:59.077Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:31:29.339Z [feishu] feishu[default] final reply failed: Error: Client network socket disconnected before secure TLS connection was established
+2026-03-11T06:34:20.312Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:35:43.457Z [agent/embedded] embedded run agent end: runId=97c42399-63c5-40ae-befd-75e499bd0c05 isError=true error=LLM request timed out.
+2026-03-11T06:37:19.553Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T06:38:23.891Z [tools] tools.profile (coding) allowlist contains unknown entries (apply_patch, cron). These entries won't match any tool unless the plugin is enabled.
+2026-03-11T15:02:51.213+08:00 [warn]: [ 'no im.chat.access_event.bot_p2p_chat_entered_v1 handle' ]
+^C

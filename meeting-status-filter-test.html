@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议状态过滤测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.success {
+            background-color: #28a745;
+        }
+        button.success:hover {
+            background-color: #218838;
+        }
+        button.warning {
+            background-color: #ffc107;
+        }
+        button.warning:hover {
+            background-color: #e0a800;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .meeting-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .meeting-card h4 {
+            margin: 0 0 8px 0;
+            color: #333;
+        }
+        .meeting-card p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-running {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-finished {
+            background-color: #6c757d;
+            color: white;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>会议状态过滤测试</h1>
+        <p>测试后端loadMeeting API的status参数功能</p>
+        
+        <div class="section">
+            <h3>API测试</h3>
+            <button onclick="loadAllMeetings()">加载全部会议（无status参数）</button>
+            <button class="success" onclick="loadUpcomingMeetings()">加载进行中的会议（status=0）</button>
+            <button class="warning" onclick="loadEndedMeetings()">加载已结束的会议（status=1）</button>
+            <button onclick="loadBothSeparately()">分别加载两种状态</button>
+        </div>
+
+        <div class="grid">
+            <div class="section">
+                <h3>进行中的会议 (status=0)</h3>
+                <div id="upcomingResult" class="result">点击按钮加载数据...</div>
+            </div>
+
+            <div class="section">
+                <h3>已结束的会议 (status=1)</h3>
+                <div id="endedResult" class="result">点击按钮加载数据...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>全部会议（无过滤）</h3>
+            <div id="allResult" class="result">点击按钮加载数据...</div>
+        </div>
+
+        <div class="section">
+            <h3>对比测试结果</h3>
+            <button onclick="runComparisonTest()">运行对比测试</button>
+            <div id="comparisonResult" class="result">点击按钮运行测试...</div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('请先登录获取token');
+        }
+
+        async function apiCall(url, params = {}) {
+            try {
+                const queryString = new URLSearchParams(params).toString();
+                const fullUrl = queryString ? `${url}?${queryString}` : url;
+                
+                const response = await fetch(fullUrl, {
+                    method: 'GET',
+                    headers: {
+                        'token': token
+                    }
+                });
+                
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                return { code: 500, info: '网络错误: ' + error.message };
+            }
+        }
+
+        function formatMeetingList(meetings) {
+            if (!meetings || meetings.length === 0) {
+                return '没有会议记录';
+            }
+
+            let html = `<p>共 ${meetings.length} 条记录</p>`;
+            meetings.forEach((meeting, index) => {
+                const statusClass = meeting.status === 0 ? 'status-running' : 'status-finished';
+                const statusText = meeting.status === 0 ? '进行中' : '已结束';
+                
+                html += `
+                    <div class="meeting-card">
+                        <h4>${index + 1}. ${meeting.meetingName || '未命名会议'}</h4>
+                        <p><strong>状态:</strong> <span class="${statusClass} status-badge">${statusText}</span></p>
+                        <p><strong>会议号:</strong> ${meeting.meetingNo}</p>
+                        <p><strong>会议ID:</strong> ${meeting.meetingId}</p>
+                        <p><strong>创建时间:</strong> ${meeting.createTime}</p>
+                        ${meeting.endTime ? `<p><strong>结束时间:</strong> ${meeting.endTime}</p>` : ''}
+                        <p><strong>参与人数:</strong> ${meeting.memberCount || 0}</p>
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+
+        async function loadAllMeetings() {
+            const resultDiv = document.getElementById('allResult');
+            resultDiv.innerHTML = '正在加载全部会议...';
+            
+            const result = await apiCall(`${API_BASE}/meetingInfo/loadMeeting`, { pageNo: 1 });
+            
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                const runningCount = meetings.filter(m => m.status === 0).length;
+                const finishedCount = meetings.filter(m => m.status === 1).length;
+                
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    <p><strong>加载成功！</strong></p>
+                    <p>总数: ${meetings.length} | 进行中: ${runningCount} | 已结束: ${finishedCount}</p>
+                    <hr>
+                    ${formatMeetingList(meetings)}
+                `;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `加载失败: ${result.info}`;
+            }
+        }
+
+        async function loadUpcomingMeetings() {
+            const resultDiv = document.getElementById('upcomingResult');
+            resultDiv.innerHTML = '正在加载进行中的会议...';
+            
+            const result = await apiCall(`${API_BASE}/meetingInfo/loadMeeting`, { pageNo: 1, status: 0 });
+            
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = formatMeetingList(meetings);
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `加载失败: ${result.info}`;
+            }
+        }
+
+        async function loadEndedMeetings() {
+            const resultDiv = document.getElementById('endedResult');
+            resultDiv.innerHTML = '正在加载已结束的会议...';
+            
+            const result = await apiCall(`${API_BASE}/meetingInfo/loadMeeting`, { pageNo: 1, status: 1 });
+            
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = formatMeetingList(meetings);
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `加载失败: ${result.info}`;
+            }
+        }
+
+        async function loadBothSeparately() {
+            await Promise.all([
+                loadUpcomingMeetings(),
+                loadEndedMeetings()
+            ]);
+        }
+
+        async function runComparisonTest() {
+            const resultDiv = document.getElementById('comparisonResult');
+            resultDiv.innerHTML = '正在运行对比测试...\n';
+            
+            try {
+                // 加载三种情况
+                const [allResult, upcomingResult, endedResult] = await Promise.all([
+                    apiCall(`${API_BASE}/meetingInfo/loadMeeting`, { pageNo: 1 }),
+                    apiCall(`${API_BASE}/meetingInfo/loadMeeting`, { pageNo: 1, status: 0 }),
+                    apiCall(`${API_BASE}/meetingInfo/loadMeeting`, { pageNo: 1, status: 1 })
+                ]);
+
+                let report = '=== 对比测试报告 ===\n\n';
+
+                if (allResult.code === 200 && upcomingResult.code === 200 && endedResult.code === 200) {
+                    const allMeetings = allResult.data?.list || [];
+                    const upcomingMeetings = upcomingResult.data?.list || [];
+                    const endedMeetings = endedResult.data?.list || [];
+
+                    report += `1. 全部会议数量: ${allMeetings.length}\n`;
+                    report += `   - 进行中: ${allMeetings.filter(m => m.status === 0).length}\n`;
+                    report += `   - 已结束: ${allMeetings.filter(m => m.status === 1).length}\n\n`;
+
+                    report += `2. 按status=0过滤: ${upcomingMeetings.length} 条\n`;
+                    const hasWrongStatusInUpcoming = upcomingMeetings.some(m => m.status !== 0);
+                    report += `   - 数据正确性: ${hasWrongStatusInUpcoming ? '❌ 包含非进行中的会议' : '✅ 全部为进行中的会议'}\n\n`;
+
+                    report += `3. 按status=1过滤: ${endedMeetings.length} 条\n`;
+                    const hasWrongStatusInEnded = endedMeetings.some(m => m.status !== 1);
+                    report += `   - 数据正确性: ${hasWrongStatusInEnded ? '❌ 包含非已结束的会议' : '✅ 全部为已结束的会议'}\n\n`;
+
+                    const totalFiltered = upcomingMeetings.length + endedMeetings.length;
+                    report += `4. 数据完整性检查:\n`;
+                    report += `   - 全部会议: ${allMeetings.length}\n`;
+                    report += `   - 过滤后总和: ${totalFiltered}\n`;
+                    report += `   - 结果: ${allMeetings.length === totalFiltered ? '✅ 数据完整' : '⚠️ 数据可能不完整'}\n\n`;
+
+                    report += `5. 测试结论:\n`;
+                    if (!hasWrongStatusInUpcoming && !hasWrongStatusInEnded && allMeetings.length === totalFiltered) {
+                        report += '   ✅ 所有测试通过！status参数工作正常。\n';
+                        resultDiv.className = 'result success';
+                    } else {
+                        report += '   ⚠️ 部分测试未通过，请检查后端实现。\n';
+                        resultDiv.className = 'result';
+                    }
+                } else {
+                    report += '❌ API调用失败\n';
+                    report += `全部会议: ${allResult.info || '成功'}\n`;
+                    report += `进行中: ${upcomingResult.info || '成功'}\n`;
+                    report += `已结束: ${endedResult.info || '成功'}\n`;
+                    resultDiv.className = 'result error';
+                }
+
+                resultDiv.textContent = report;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '测试过程中出现错误: ' + error.message;
+            }
+        }
+
+        // 页面加载时自动运行对比测试
+        window.onload = function() {
+            runComparisonTest();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyMeeting - 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .checkcode-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .checkcode-group input {
+            flex: 1;
+        }
+        
+        #checkcode {
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #ff4d4f;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="login-title">EasyMeeting 会议系统</h2>
+        <div class="error-message" id="errorMsg"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group checkcode-group">
+                <label for="checkCode">验证码</label>
+                <input type="text" id="checkCode" name="checkCode" required placeholder="请输入验证码">
+                <img id="checkcode" alt="验证码">
+            </div>
+            <input type="hidden" id="checkCodeKey" name="checkCodeKey">
+            <button type="submit" class="login-btn">登录</button>
+        </form>
+        <div class="register-link">
+            还没有账号？<a href="register.html">立即注册</a>
+        </div>
+    </div>
+    
+    <script>
+        // 获取验证码
+        function getCheckCode() {
+            fetch('/api/account/checkCode')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        document.getElementById('checkcode').src = 'data:image/png;base64,' + data.data.checkCode;
+                        document.getElementById('checkCodeKey').value = data.data.checkCodeKey;
+                    }
+                });
+        }
+        
+        // 页面加载时获取验证码
+        window.onload = function() {
+            getCheckCode();
+            // 点击验证码刷新
+            document.getElementById('checkcode').onclick = getCheckCode;
+        };
+        
+        // 登录表单提交
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                email: formData.get('email'),
+                password: formData.get('password'),
+                checkCode: formData.get('checkCode'),
+                checkCodeKey: formData.get('checkCodeKey')
+            };
+            
+            fetch('/api/account/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    // 登录成功，保存token到localStorage
+                    localStorage.setItem('token', data.data.token);
+                    localStorage.setItem('userInfo', JSON.stringify(data.data));
+                    // 跳转到主页面
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // 显示错误信息
+                    document.getElementById('errorMsg').textContent = data.message;
+                    document.getElementById('errorMsg').style.display = 'block';
+                    // 重新获取验证码
+                    getCheckCode();
+                }
+            })
+            .catch(error => {
+                console.error('登录失败:', error);
+                document.getElementById('errorMsg').textContent = '登录失败，请稍后重试';
+                document.getElementById('errorMsg').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

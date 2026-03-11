@@ -1,0 +1,1 @@
+from docx import Document\npath=r'C:\\Users\\13377\\Desktop\\论文相关\\1.0.1_v1.0.4.docx'\ndoc=Document(path)\nfor idx, table in enumerate(doc.tables,1):\n    first_row=' | '.join(cell.text.strip().replace('\\n',' ') for cell in table.rows[0].cells)\n    print(idx, first_row[:120])

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速会议API测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #363636;
+            color: #ffffff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #434343;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #555555;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #dfdfdf;
+            font-weight: 500;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #555555;
+            border-radius: 4px;
+            background-color: #363636;
+            color: #dfdfdf;
+            font-size: 14px;
+        }
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #dfdfdf;
+        }
+        .btn {
+            background-color: #999999;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background-color: #b3b3b3;
+        }
+        .result {
+            background-color: #363636;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border: 1px solid #555555;
+        }
+        .success {
+            border-color: #4caf50;
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .error {
+            border-color: #f44336;
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 12px;
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>快速会议API测试</h1>
+        
+        <div class="form-group">
+            <label>Token (从localStorage获取)</label>
+            <input type="text" id="token" class="form-input" readonly>
+            <button class="btn" onclick="loadToken()">获取Token</button>
+        </div>
+        
+        <h3>快速会议参数</h3>
+        <div class="form-group">
+            <label>会议名称</label>
+            <input type="text" id="meetingName" class="form-input" placeholder="请输入会议名称">
+        </div>
+        
+        <div class="form-group">
+            <label>会议号类型</label>
+            <div class="radio-group">
+                <label class="radio-item">
+                    <input type="radio" name="meetingNoType" value="0" checked>
+                    <span>使用个人会议号 (0)</span>
+                </label>
+                <label class="radio-item">
+                    <input type="radio" name="meetingNoType" value="1">
+                    <span>随机生成会议号 (1)</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>加入类型</label>
+            <div class="radio-group">
+                <label class="radio-item">
+                    <input type="radio" name="joinType" value="0" checked onchange="togglePassword()">
+                    <span>无密码 (0)</span>
+                </label>
+                <label class="radio-item">
+                    <input type="radio" name="joinType" value="1" onchange="togglePassword()">
+                    <span>有密码 (1)</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group" id="passwordGroup" style="display: none;">
+            <label>会议密码</label>
+            <input type="password" id="joinPassword" class="form-input" placeholder="请输入会议密码（最多5位）" maxlength="5">
+        </div>
+        
+        <button class="btn" onclick="testQuickMeeting()">创建快速会议</button>
+        <button class="btn" onclick="clearResult()">清空结果</button>
+        
+        <div id="result" class="result" style="display: none;">
+            <h3>API响应结果</h3>
+            <pre id="resultContent"></pre>
+        </div>
+    </div>
+
+    <script>
+        function loadToken() {
+            const token = localStorage.getItem('token');
+            document.getElementById('token').value = token || '未找到token';
+        }
+        
+        function togglePassword() {
+            const joinType = document.querySelector('input[name="joinType"]:checked').value;
+            const passwordGroup = document.getElementById('passwordGroup');
+            passwordGroup.style.display = joinType === '1' ? 'block' : 'none';
+        }
+        
+        async function testQuickMeeting() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showResult('错误: 未找到token，请先登录', 'error');
+                return;
+            }
+            
+            const meetingName = document.getElementById('meetingName').value || '快速会议';
+            const meetingNoType = parseInt(document.querySelector('input[name="meetingNoType"]:checked').value);
+            const joinType = parseInt(document.querySelector('input[name="joinType"]:checked').value);
+            const joinPassword = document.getElementById('joinPassword').value;
+            
+            const requestData = {
+                meetingNoType: meetingNoType,
+                MeetingName: meetingName,
+                joinType: joinType,
+                joinPassword: joinType === 1 ? joinPassword : null
+            };
+            
+            showResult('发送请求中...', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:6099/api/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': token
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const result = await response.json();
+                
+                const resultText = `
+请求URL: http://localhost:6099/api/meetingInfo/quickMeeting
+请求方法: POST
+请求头: 
+  Content-Type: application/json
+  token: ${token}
+
+请求数据:
+${JSON.stringify(requestData, null, 2)}
+
+响应状态: ${response.status} ${response.statusText}
+响应数据:
+${JSON.stringify(result, null, 2)}
+                `;
+                
+                if (result.code === 200) {
+                    showResult(resultText, 'success');
+                } else {
+                    showResult(resultText, 'error');
+                }
+            } catch (error) {
+                showResult(`请求失败: ${error.message}`, 'error');
+            }
+        }
+        
+        function showResult(content, type) {
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            
+            resultDiv.className = `result ${type}`;
+            resultContent.textContent = content;
+            resultDiv.style.display = 'block';
+        }
+        
+        function clearResult() {
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        // 页面加载时自动获取token
+        window.onload = function() {
+            loadToken();
+        };
+    </script>
+</body>
+</html>

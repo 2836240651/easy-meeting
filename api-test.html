@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <h1>EasyMeeting API 测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 获取验证码</h2>
+        <button onclick="testGetCaptcha()">获取验证码</button>
+        <div id="captcha-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 用户登录</h2>
+        <input type="email" id="email" placeholder="邮箱" value="test@example.com">
+        <input type="password" id="password" placeholder="密码" value="123456">
+        <input type="text" id="checkCode" placeholder="验证码">
+        <input type="hidden" id="checkCodeKey">
+        <button onclick="testLogin()">登录</button>
+        <div id="login-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 获取用户信息</h2>
+        <button onclick="testGetUserInfo()">获取用户信息</button>
+        <div id="userinfo-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Token信息</h2>
+        <button onclick="showTokenInfo()">显示Token信息</button>
+        <div id="token-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        
+        async function apiCall(url, options = {}) {
+            const token = localStorage.getItem('token');
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            
+            if (token) {
+                headers['token'] = token;
+            }
+            
+            try {
+                const response = await fetch(API_BASE + url, {
+                    ...options,
+                    headers
+                });
+                const data = await response.json();
+                return { success: true, data, status: response.status };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+        
+        async function testGetCaptcha() {
+            const result = document.getElementById('captcha-result');
+            result.textContent = '正在获取验证码...';
+            
+            const response = await apiCall('/account/checkCode');
+            
+            if (response.success) {
+                result.className = 'result success';
+                result.textContent = JSON.stringify(response.data, null, 2);
+                
+                if (response.data.code === 200) {
+                    document.getElementById('checkCodeKey').value = response.data.data.checkCodeKey;
+                    
+                    // 显示验证码图片
+                    const img = document.createElement('img');
+                    img.src = 'data:image/png;base64,' + response.data.data.checkCode;
+                    img.style.marginTop = '10px';
+                    result.appendChild(img);
+                }
+            } else {
+                result.className = 'result error';
+                result.textContent = '错误: ' + response.error;
+            }
+        }
+        
+        async function testLogin() {
+            const result = document.getElementById('login-result');
+            result.textContent = '正在登录...';
+            
+            const loginData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                checkCode: document.getElementById('checkCode').value,
+                checkCodeKey: document.getElementById('checkCodeKey').value
+            };
+            
+            const response = await apiCall('/account/login', {
+                method: 'POST',
+                body: JSON.stringify(loginData)
+            });
+            
+            if (response.success) {
+                result.className = 'result success';
+                result.textContent = JSON.stringify(response.data, null, 2);
+                
+                if (response.data.code === 200) {
+                    localStorage.setItem('token', response.data.data.token);
+                    localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                    result.textContent += '\n\nToken已保存到localStorage';
+                }
+            } else {
+                result.className = 'result error';
+                result.textContent = '错误: ' + response.error;
+            }
+        }
+        
+        async function testGetUserInfo() {
+            const result = document.getElementById('userinfo-result');
+            result.textContent = '正在获取用户信息...';
+            
+            const response = await apiCall('/userInfo/getUserInfo');
+            
+            if (response.success) {
+                result.className = 'result success';
+                result.textContent = JSON.stringify(response.data, null, 2);
+            } else {
+                result.className = 'result error';
+                result.textContent = '错误: ' + response.error;
+            }
+        }
+        
+        function showTokenInfo() {
+            const result = document.getElementById('token-result');
+            const token = localStorage.getItem('token');
+            const userInfo = localStorage.getItem('userInfo');
+            
+            if (token) {
+                result.className = 'result success';
+                result.textContent = `Token: ${token}\n\nUserInfo: ${userInfo}`;
+            } else {
+                result.className = 'result error';
+                result.textContent = '没有找到Token';
+            }
+        }
+        
+        // 页面加载时显示当前token状态
+        window.onload = function() {
+            showTokenInfo();
+        }
+    </script>
+</body>
+</html>

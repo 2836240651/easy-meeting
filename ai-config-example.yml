@@ -1,0 +1,17 @@
+# AI助手配置示例
+# 将以下配置添加到 src/main/resources/application.yml
+
+ai:
+  # AI提供商: openai 或 ollama
+  provider: ollama
+  
+  # OpenAI配置(如果使用OpenAI)
+  openai:
+    api-key: your-api-key-here
+    api-url: https://api.openai.com/v1/chat/completions
+    model: gpt-3.5-turbo
+  
+  # Ollama配置(本地部署)
+  ollama:
+    api-url: http://localhost:11434/api/generate
+    model: qwen3-vl:8b

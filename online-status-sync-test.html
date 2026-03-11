@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线状态同步问题测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        button.success { background: #28a745; }
+        button.danger { background: #dc3545; }
+        button.warning { background: #ffc107; color: #000; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 200px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; color: #856404; }
+        
+        .user-section { display: flex; gap: 20px; }
+        .user-panel { flex: 1; border: 2px solid #ddd; border-radius: 8px; padding: 15px; }
+        .user-panel.user-a { border-color: #007bff; }
+        .user-panel.user-b { border-color: #28a745; }
+        .user-info { margin-bottom: 15px; padding: 10px; background: white; border-radius: 4px; }
+        .status-indicator { 
+            display: inline-block; 
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            margin-right: 8px; 
+        }
+        .status-online { background: #28a745; }
+        .status-offline { background: #dc3545; }
+        .contact-list { margin-top: 15px; }
+        .contact-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 10px; 
+            background: white; 
+            border-radius: 4px; 
+            margin-bottom: 8px; 
+        }
+        .ws-status { 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            font-weight: bold; 
+        }
+        .ws-connected { background: #d4edda; color: #155724; }
+        .ws-disconnected { background: #f8d7da; color: #721c24; }
+        .time-display { font-size: 12px; color: #6c757d; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>在线状态同步问题测试</h1>
+    <p>测试两个Electron应用之间的在线状态同步问题</p>
+    
+    <div class="container">
+        <h3>🔍 问题分析</h3>
+        <div class="result warning">
+            <h4>问题现象</h4>
+            <p>• 用户A看到用户B离线，但用户B看到用户A在线</p>
+            <p>• 两个应用都在运行，但在线状态显示不一致</p>
+            
+            <h4>可能原因</h4>
+            <p>• WebSocket连接状态不同步</p>
+            <p>• 离线时间更新机制问题</p>
+            <p>• 联系人列表轮询时机不一致</p>
+            <p>• 数据库lastLoginTime和lastOffTime更新时序问题</p>
+        </div>
+    </div>
+
+    <div class="user-section">
+        <!-- 用户A面板 -->
+        <div class="user-panel user-a">
+            <h3>👤 用户A (iron)</h3>
+            <div class="user-info">
+                <div>邮箱: <input type="email" id="emailA" value="13377571475@qq.com"></div>
+                <div>密码: <input type="password" id="passwordA" value="123456"></div>
+                <div>验证码: <input type="text" id="checkCodeA" style="width: 100px;"></div>
+                <button onclick="getCheckCodeA()">获取验证码</button>
+                <button onclick="loginUserA()">登录</button>
+            </div>
+            <div id="loginStatusA">未登录</div>
+            <div id="wsStatusA" class="ws-status ws-disconnected">WebSocket: 未连接</div>
+            
+            <div class="contact-list">
+                <h4>联系人列表</h4>
+                <button class="success" onclick="loadContactsA()">刷新联系人</button>
+                <button class="warning" onclick="startPollingA()">开始轮询</button>
+                <button class="danger" onclick="stopPollingA()">停止轮询</button>
+                <div id="contactListA"></div>
+            </div>
+        </div>
+
+        <!-- 用户B面板 -->
+        <div class="user-panel user-b">
+            <h3>👤 用户B (jemmy)</h3>
+            <div class="user-info">
+                <div>邮箱: <input type="email" id="emailB" value="2836240651@qq.com"></div>
+                <div>密码: <input type="password" id="passwordB" value="123456"></div>
+                <div>验证码: <input type="text" id="checkCodeB" style="width: 100px;"></div>
+                <button onclick="getCheckCodeB()">获取验证码</button>
+                <button onclick="loginUserB()">登录</button>
+            </div>
+            <div id="loginStatusB">未登录</div>
+            <div id="wsStatusB" class="ws-status ws-disconnected">WebSocket: 未连接</div>
+            
+            <div class="contact-list">
+                <h4>联系人列表</h4>
+                <button class="success" onclick="loadContactsB()">刷新联系人</button>
+                <button class="warning" onclick="startPollingB()">开始轮询</button>
+                <button class="danger" onclick="stopPollingB()">停止轮询</button>
+                <div id="contactListB"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>🧪 测试操作</h3>
+        <button onclick="testScenario1()">场景1: 同时登录测试</button>
+        <button onclick="testScenario2()">场景2: 断开重连测试</button>
+        <button onclick="testScenario3()">场景3: 轮询同步测试</button>
+        <button onclick="compareOnlineStatus()">比较在线状态</button>
+        <button onclick="checkDatabaseTimes()">检查数据库时间</button>
+    </div>
+
+    <div class="container">
+        <h3>🔍 调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        // 用户A的状态
+        let userAToken = null;
+        let userAInfo = null;
+        let checkCodeKeyA = null;
+        let pollingIntervalA = null;
+        let wsA = null;
+
+        // 用户B的状态
+        let userBToken = null;
+        let userBInfo = null;
+        let checkCodeKeyB = null;
+        let pollingIntervalB = null;
+        let wsB = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // 用户A相关函数
+        async function getCheckCodeA() {
+            try {
+                log('用户A: 获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode');
+                const result = await response.json();
+                
+                if (result.status === 'success' && result.data) {
+                    checkCodeKeyA = result.data.checkCodeKey;
+                    log('用户A: ✅ 验证码获取成功');
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + result.data.checkCode;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImageA';
+                    
+                    const oldImg = document.getElementById('checkCodeImageA');
+                    if (oldImg) oldImg.remove();
+                    
+                    document.getElementById('checkCodeA').parentNode.appendChild(imgElement);
+                } else {
+                    log('用户A: ❌ 验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`用户A: 🚨 验证码获取失败: ${error.message}`);
+            }
+        }
+
+        async function loginUserA() {
+            const email = document.getElementById('emailA').value.trim();
+            const password = document.getElementById('passwordA').value.trim();
+            const checkCode = document.getElementById('checkCodeA').value.trim();
+            
+            if (!checkCode || !checkCodeKeyA) {
+                alert('用户A请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('用户A: 开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKeyA
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('用户A: ✅ 登录成功');
+                    userAToken = result.data.token;
+                    userAInfo = result.data;
+                    document.getElementById('loginStatusA').textContent = '已登录: ' + userAInfo.nickName;
+                    document.getElementById('loginStatusA').style.color = 'green';
+                    
+                    // 建立WebSocket连接
+                    connectWebSocketA();
+                } else {
+                    log(`用户A: ❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatusA').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatusA').style.color = 'red';
+                }
+            } catch (error) {
+                log(`用户A: 🚨 登录请求失败: ${error.message}`);
+            }
+        }
+
+        function connectWebSocketA() {
+            if (wsA && wsA.readyState === WebSocket.OPEN) {
+                log('用户A: WebSocket已连接');
+                return;
+            }
+
+            try {
+                log('用户A: 建立WebSocket连接...');
+                wsA = new WebSocket(`ws://localhost:6098/ws?token=${encodeURIComponent(userAToken)}`);
+                
+                wsA.onopen = () => {
+                    log('用户A: ✅ WebSocket连接成功');
+                    document.getElementById('wsStatusA').textContent = 'WebSocket: 已连接';
+                    document.getElementById('wsStatusA').className = 'ws-status ws-connected';
+                    
+                    // 开始心跳
+                    setInterval(() => {
+                        if (wsA && wsA.readyState === WebSocket.OPEN) {
+                            wsA.send('ping');
+                        }
+                    }, 20000);
+                };
+
+                wsA.onclose = (event) => {
+                    log(`用户A: WebSocket连接关闭，code: ${event.code}`);
+                    document.getElementById('wsStatusA').textContent = 'WebSocket: 已断开';
+                    document.getElementById('wsStatusA').className = 'ws-status ws-disconnected';
+                };
+
+                wsA.onerror = (error) => {
+                    log(`用户A: WebSocket错误: ${error}`);
+                };
+
+                wsA.onmessage = (event) => {
+                    if (event.data === 'pong') {
+                        log('用户A: 收到心跳响应');
+                    } else {
+                        log(`用户A: 收到消息: ${event.data}`);
+                    }
+                };
+            } catch (error) {
+                log(`用户A: WebSocket连接失败: ${error.message}`);
+            }
+        }
+
+        async function loadContactsA() {
+            if (!userAToken) {
+                log('用户A: 请先登录');
+                return;
+            }
+
+            try {
+                log('用户A: 加载联系人列表...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactUser', {
+                    headers: { 'token': userAToken }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    const contacts = result.data || [];
+                    log(`用户A: ✅ 联系人列表加载成功: ${contacts.length} 个联系人`);
+                    displayContactsA(contacts);
+                } else {
+                    log(`用户A: ❌ 联系人列表加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`用户A: 🚨 联系人列表加载失败: ${error.message}`);
+            }
+        }
+
+        function displayContactsA(contacts) {
+            const container = document.getElementById('contactListA');
+            let html = `<div style="margin-top: 10px;">`;
+            
+            contacts.forEach(contact => {
+                const isOnline = isContactOnline(contact);
+                const statusClass = isOnline ? 'status-online' : 'status-offline';
+                const statusText = isOnline ? '在线' : '离线';
+                
+                html += `
+                    <div class="contact-item">
+                        <span class="status-indicator ${statusClass}"></span>
+                        <div>
+                            <strong>${contact.nickName}</strong> (${statusText})
+                            <div class="time-display">
+                                登录: ${formatTime(contact.lastLoginTime)} | 
+                                离线: ${formatTime(contact.lastOffTime)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function startPollingA() {
+            if (pollingIntervalA) {
+                log('用户A: 轮询已在运行');
+                return;
+            }
+            
+            log('用户A: 开始联系人轮询 (60秒间隔)');
+            pollingIntervalA = setInterval(() => {
+                log('用户A: ⏰ 轮询更新联系人列表');
+                loadContactsA();
+            }, 60000);
+        }
+
+        function stopPollingA() {
+            if (pollingIntervalA) {
+                clearInterval(pollingIntervalA);
+                pollingIntervalA = null;
+                log('用户A: ⏹️ 停止联系人轮询');
+            }
+        }
+
+        // 用户B相关函数（类似用户A，但使用不同的变量和ID）
+        async function getCheckCodeB() {
+            try {
+                log('用户B: 获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode');
+                const result = await response.json();
+                
+                if (result.status === 'success' && result.data) {
+                    checkCodeKeyB = result.data.checkCodeKey;
+                    log('用户B: ✅ 验证码获取成功');
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + result.data.checkCode;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImageB';
+                    
+                    const oldImg = document.getElementById('checkCodeImageB');
+                    if (oldImg) oldImg.remove();
+                    
+                    document.getElementById('checkCodeB').parentNode.appendChild(imgElement);
+                } else {
+                    log('用户B: ❌ 验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`用户B: 🚨 验证码获取失败: ${error.message}`);
+            }
+        }
+
+        async function loginUserB() {
+            const email = document.getElementById('emailB').value.trim();
+            const password = document.getElementById('passwordB').value.trim();
+            const checkCode = document.getElementById('checkCodeB').value.trim();
+            
+            if (!checkCode || !checkCodeKeyB) {
+                alert('用户B请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('用户B: 开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKeyB
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('用户B: ✅ 登录成功');
+                    userBToken = result.data.token;
+                    userBInfo = result.data;
+                    document.getElementById('loginStatusB').textContent = '已登录: ' + userBInfo.nickName;
+                    document.getElementById('loginStatusB').style.color = 'green';
+                    
+                    // 建立WebSocket连接
+                    connectWebSocketB();
+                } else {
+                    log(`用户B: ❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatusB').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatusB').style.color = 'red';
+                }
+            } catch (error) {
+                log(`用户B: 🚨 登录请求失败: ${error.message}`);
+            }
+        }
+
+        function connectWebSocketB() {
+            if (wsB && wsB.readyState === WebSocket.OPEN) {
+                log('用户B: WebSocket已连接');
+                return;
+            }
+
+            try {
+                log('用户B: 建立WebSocket连接...');
+                wsB = new WebSocket(`ws://localhost:6098/ws?token=${encodeURIComponent(userBToken)}`);
+                
+                wsB.onopen = () => {
+                    log('用户B: ✅ WebSocket连接成功');
+                    document.getElementById('wsStatusB').textContent = 'WebSocket: 已连接';
+                    document.getElementById('wsStatusB').className = 'ws-status ws-connected';
+                    
+                    // 开始心跳
+                    setInterval(() => {
+                        if (wsB && wsB.readyState === WebSocket.OPEN) {
+                            wsB.send('ping');
+                        }
+                    }, 20000);
+                };
+
+                wsB.onclose = (event) => {
+                    log(`用户B: WebSocket连接关闭，code: ${event.code}`);
+                    document.getElementById('wsStatusB').textContent = 'WebSocket: 已断开';
+                    document.getElementById('wsStatusB').className = 'ws-status ws-disconnected';
+                };
+
+                wsB.onerror = (error) => {
+                    log(`用户B: WebSocket错误: ${error}`);
+                };
+
+                wsB.onmessage = (event) => {
+                    if (event.data === 'pong') {
+                        log('用户B: 收到心跳响应');
+                    } else {
+                        log(`用户B: 收到消息: ${event.data}`);
+                    }
+                };
+            } catch (error) {
+                log(`用户B: WebSocket连接失败: ${error.message}`);
+            }
+        }
+
+        async function loadContactsB() {
+            if (!userBToken) {
+                log('用户B: 请先登录');
+                return;
+            }
+
+            try {
+                log('用户B: 加载联系人列表...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactUser', {
+                    headers: { 'token': userBToken }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    const contacts = result.data || [];
+                    log(`用户B: ✅ 联系人列表加载成功: ${contacts.length} 个联系人`);
+                    displayContactsB(contacts);
+                } else {
+                    log(`用户B: ❌ 联系人列表加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`用户B: 🚨 联系人列表加载失败: ${error.message}`);
+            }
+        }
+
+        function displayContactsB(contacts) {
+            const container = document.getElementById('contactListB');
+            let html = `<div style="margin-top: 10px;">`;
+            
+            contacts.forEach(contact => {
+                const isOnline = isContactOnline(contact);
+                const statusClass = isOnline ? 'status-online' : 'status-offline';
+                const statusText = isOnline ? '在线' : '离线';
+                
+                html += `
+                    <div class="contact-item">
+                        <span class="status-indicator ${statusClass}"></span>
+                        <div>
+                            <strong>${contact.nickName}</strong> (${statusText})
+                            <div class="time-display">
+                                登录: ${formatTime(contact.lastLoginTime)} | 
+                                离线: ${formatTime(contact.lastOffTime)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function startPollingB() {
+            if (pollingIntervalB) {
+                log('用户B: 轮询已在运行');
+                return;
+            }
+            
+            log('用户B: 开始联系人轮询 (60秒间隔)');
+            pollingIntervalB = setInterval(() => {
+                log('用户B: ⏰ 轮询更新联系人列表');
+                loadContactsB();
+            }, 60000);
+        }
+
+        function stopPollingB() {
+            if (pollingIntervalB) {
+                clearInterval(pollingIntervalB);
+                pollingIntervalB = null;
+                log('用户B: ⏹️ 停止联系人轮询');
+            }
+        }
+
+        // 公共函数
+        function isContactOnline(contact) {
+            if (!contact.lastLoginTime) return false;
+            if (!contact.lastOffTime) return true;
+            return contact.lastLoginTime > contact.lastOffTime;
+        }
+
+        function formatTime(timestamp) {
+            if (!timestamp) return '未知';
+            const date = new Date(timestamp);
+            return date.toLocaleString('zh-CN');
+        }
+
+        // 测试场景
+        async function testScenario1() {
+            log('🧪 开始场景1: 同时登录测试');
+            log('1. 两个用户同时登录');
+            log('2. 建立WebSocket连接');
+            log('3. 加载联系人列表');
+            log('4. 比较在线状态显示');
+            
+            if (!userAToken || !userBToken) {
+                log('❌ 请先让两个用户都登录');
+                return;
+            }
+            
+            await loadContactsA();
+            await loadContactsB();
+            compareOnlineStatus();
+        }
+
+        async function testScenario2() {
+            log('🧪 开始场景2: 断开重连测试');
+            log('1. 断开用户A的WebSocket连接');
+            log('2. 等待5秒');
+            log('3. 重新连接用户A');
+            log('4. 比较在线状态');
+            
+            if (wsA) {
+                wsA.close();
+                log('用户A: WebSocket连接已断开');
+                
+                setTimeout(() => {
+                    connectWebSocketA();
+                    setTimeout(() => {
+                        loadContactsA();
+                        loadContactsB();
+                        compareOnlineStatus();
+                    }, 2000);
+                }, 5000);
+            }
+        }
+
+        async function testScenario3() {
+            log('🧪 开始场景3: 轮询同步测试');
+            log('1. 启动两个用户的轮询');
+            log('2. 观察轮询间隔和同步情况');
+            
+            startPollingA();
+            startPollingB();
+            
+            setTimeout(() => {
+                compareOnlineStatus();
+            }, 65000); // 等待一个轮询周期后比较
+        }
+
+        function compareOnlineStatus() {
+            log('🔍 比较在线状态显示...');
+            
+            // 这里需要获取两个用户看到的对方状态进行比较
+            // 由于DOM结构限制，这里只是记录日志提示
+            log('请手动比较两个用户面板中显示的联系人在线状态');
+            log('注意观察：');
+            log('- 用户A看到用户B的状态');
+            log('- 用户B看到用户A的状态');
+            log('- 登录时间和离线时间是否一致');
+        }
+
+        async function checkDatabaseTimes() {
+            log('🔍 检查数据库时间戳...');
+            log('提示：需要直接查询数据库中的 lastLoginTime 和 lasg_off_time 字段');
+            log('SQL: SELECT user_id, nick_name, last_login_time, lasg_off_time FROM user_info WHERE user_id IN (\'6cq7Pg48b4Rq\', \'a0JMrGXON3HP\')');
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            log('在线状态同步问题测试工具已加载');
+            log('使用步骤：');
+            log('1. 分别为用户A和用户B获取验证码并登录');
+            log('2. 观察WebSocket连接状态');
+            log('3. 加载联系人列表，观察在线状态显示');
+            log('4. 运行测试场景，分析问题原因');
+            
+            // 自动获取验证码
+            getCheckCodeA();
+            setTimeout(() => getCheckCodeB(), 1000);
+        };
+
+        // 页面卸载时清理
+        window.onbeforeunload = function() {
+            stopPollingA();
+            stopPollingB();
+            if (wsA) wsA.close();
+            if (wsB) wsB.close();
+        };
+    </script>
+</body>
+</html>

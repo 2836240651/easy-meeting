@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模态框背景色演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #363636;
+            color: #ffffff;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background-color: #434343;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #555555;
+        }
+
+        .color-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .color-demo {
+            text-align: center;
+        }
+
+        .color-sample {
+            width: 200px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 16px;
+            border: 2px solid #888888;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .old-color {
+            background-color: #434343;
+        }
+
+        .new-color {
+            background-color: #363636;
+        }
+
+        .color-info {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .color-name {
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 5px;
+        }
+
+        .demo-text {
+            color: #dfdfdf;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .demo-button {
+            background-color: #999999;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .comparison-table {
+            background-color: #434343;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #555555;
+            margin-top: 30px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #555555;
+        }
+
+        .table th {
+            background-color: #4a4a4a;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .table td {
+            color: #cccccc;
+        }
+
+        .highlight {
+            background-color: #363636;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 768px) {
+            .color-comparison {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="header">
+            <h1>模态框背景色更新</h1>
+            <p>从 #434343 改为 #363636，与主页面背景色保持一致</p>
+        </div>
+
+        <div class="color-comparison">
+            <div class="color-demo">
+                <h3>❌ 之前的颜色</h3>
+                <div class="color-sample old-color">
+                    <div class="demo-text">加入会议</div>
+                    <button class="demo-button">确定</button>
+                    <div class="color-info">
+                        <div class="color-code">#434343</div>
+                        <div class="color-name">导航栏背景色</div>
+                    </div>
+                </div>
+                <p style="color: #f44336;">与导航栏颜色相同，缺乏层次感</p>
+            </div>
+
+            <div class="color-demo">
+                <h3>✅ 现在的颜色</h3>
+                <div class="color-sample new-color">
+                    <div class="demo-text">加入会议</div>
+                    <button class="demo-button">确定</button>
+                    <div class="color-info">
+                        <div class="color-code">#363636</div>
+                        <div class="color-name">主页面背景色</div>
+                    </div>
+                </div>
+                <p style="color: #4caf50;">与主页面背景色一致，更加统一</p>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <h3 style="margin-bottom: 20px; color: #ffffff;">颜色方案对比</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>元素</th>
+                        <th>颜色代码</th>
+                        <th>用途</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>主页面背景</td>
+                        <td><span class="highlight">#363636</span></td>
+                        <td>页面主体背景</td>
+                        <td>最深的背景色</td>
+                    </tr>
+                    <tr>
+                        <td>导航栏背景</td>
+                        <td><span class="highlight">#434343</span></td>
+                        <td>顶部导航、侧边栏</td>
+                        <td>比主背景稍亮</td>
+                    </tr>
+                    <tr>
+                        <td>模态框背景</td>
+                        <td><span class="highlight">#363636</span></td>
+                        <td>弹窗背景</td>
+                        <td>🆕 与主页面背景统一</td>
+                    </tr>
+                    <tr>
+                        <td>模态框边框</td>
+                        <td><span class="highlight">#888888</span></td>
+                        <td>模态框边框</td>
+                        <td>浅灰色，提供视觉边界</td>
+                    </tr>
+                    <tr>
+                        <td>文字颜色</td>
+                        <td><span class="highlight">#dfdfdf</span></td>
+                        <td>模态框内文字</td>
+                        <td>🆕 浅灰色，更清晰易读</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comparison-table">
+            <h3 style="margin-bottom: 20px; color: #ffffff;">设计优势</h3>
+            <ul style="color: #cccccc; line-height: 1.8;">
+                <li>✅ <strong>视觉统一性</strong>：模态框与主页面背景色一致，整体更协调</li>
+                <li>✅ <strong>层次清晰</strong>：通过边框而非背景色区分模态框边界</li>
+                <li>✅ <strong>减少视觉干扰</strong>：相同背景色减少了颜色跳跃感</li>
+                <li>✅ <strong>专业外观</strong>：统一的色彩方案提升整体专业度</li>
+                <li>✅ <strong>用户体验</strong>：颜色一致性降低认知负担</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

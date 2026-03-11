@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分表逻辑测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .result { background: #f5f5f5; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 300px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>会议聊天分表逻辑测试</h1>
+    
+    <div>
+        <h3>1. 单个会议ID测试</h3>
+        <input type="text" id="meetingIdInput" placeholder="输入会议ID" value="I1qEeyychx">
+        <button onclick="testSingleMeeting()">测试分表一致性</button>
+        <div id="singleResult" class="result">等待测试...</div>
+    </div>
+
+    <div>
+        <h3>2. 批量会议ID测试</h3>
+        <button onclick="testMultipleMeetings()">测试多个会议ID</button>
+        <div id="multipleResult" class="result">等待测试...</div>
+    </div>
+
+    <div>
+        <h3>3. 分表分布统计</h3>
+        <button onclick="generateDistribution()">生成分布统计</button>
+        <div id="distributionResult" class="result">等待统计...</div>
+    </div>
+
+    <script>
+        // JavaScript版本的MurmurHash实现（与Java版本保持一致）
+        function murmurHash(key) {
+            const data = new TextEncoder().encode(key);
+            const length = data.length;
+            const seed = 0x9747b28c;
+            const m = 0x5bd1e995;
+            const r = 24;
+
+            let h = seed ^ length;
+            const len_4 = length >> 2;
+
+            for (let i = 0; i < len_4; i++) {
+                const i_4 = i << 2;
+                let k = data[i_4 + 3];
+                k = k << 8;
+                k = k | (data[i_4 + 2] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 1] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 0] & 0xff);
+                k = Math.imul(k, m);
+                k ^= k >>> r;
+                k = Math.imul(k, m);
+                h = Math.imul(h, m);
+                h ^= k;
+            }

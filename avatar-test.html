@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头像显示测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 4px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px; width: 200px; }
+        .result { background: white; padding: 15px; border-radius: 4px; border: 1px solid #ddd; margin: 10px 0; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        
+        .avatar-test { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            margin: 10px 0; 
+        }
+        .avatar { 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            background: #e9ecef; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            color: #6c757d;
+            overflow: hidden;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-info { flex: 1; }
+        .url-test { 
+            background: #f8f9fa; 
+            padding: 10px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-size: 12px; 
+            word-break: break-all; 
+            margin: 5px 0;
+        }
+        .login-section { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>头像显示测试</h1>
+    
+    <div class="container">
+        <h3>👤 用户登录</h3>
+        <div class="login-section">
+            <input type="email" id="email" placeholder="邮箱" value="2836240651@qq.com">
+            <input type="password" id="password" placeholder="密码" value="123456">
+            <input type="text" id="checkCode" placeholder="验证码" style="width: 100px;">
+            <button onclick="getCheckCode()">获取验证码</button>
+            <button onclick="loginUser()">登录</button>
+        </div>
+        <div id="loginStatus">未登录</div>
+    </div>
+
+    <div class="container">
+        <h3>🖼️ 头像URL测试</h3>
+        <button onclick="testAvatarUrls()">测试头像URL</button>
+        <button onclick="testDirectAvatarAccess()">直接测试头像访问</button>
+        <div id="avatarTestResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="container">
+        <h3>📋 联系人头像显示</h3>
+        <button onclick="loadContactsWithAvatars()">加载联系人头像</button>
+        <div id="contactAvatarResult" class="result">等待加载...</div>
+    </div>
+
+    <div class="container">
+        <h3>🔍 调试日志</h3>
+        <button onclick="clearLog()">清空日志</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let userToken = null;
+        let userInfo = null;
+        let checkCodeKey = null;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function getCheckCode() {
+            try {
+                log('获取验证码...');
+                const response = await fetch('http://localhost:6099/api/account/checkCode', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    checkCodeKey = result.data.checkCodeKey;
+                    const checkCodeImage = result.data.checkCode;
+                    
+                    log('✅ 验证码获取成功');
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = 'data:image/png;base64,' + checkCodeImage;
+                    imgElement.style.border = '1px solid #ddd';
+                    imgElement.style.marginLeft = '10px';
+                    imgElement.id = 'checkCodeImage';
+                    
+                    const oldImg = document.getElementById('checkCodeImage');
+                    if (oldImg) oldImg.remove();
+                    
+                    document.getElementById('checkCode').parentNode.appendChild(imgElement);
+                    
+                } else {
+                    log('❌ 验证码获取失败: ' + result.info);
+                }
+            } catch (error) {
+                log(`🚨 验证码获取失败: ${error.message}`);
+            }
+        }
+
+        async function loginUser() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const checkCode = document.getElementById('checkCode').value.trim();
+            
+            if (!checkCode || !checkCodeKey) {
+                alert('请先获取验证码');
+                return;
+            }
+            
+            try {
+                log('开始登录...');
+                const response = await fetch('http://localhost:6099/api/account/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        checkCode,
+                        checkCodeKey: checkCodeKey
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success' && result.data) {
+                    log('✅ 登录成功');
+                    userToken = result.data.token;
+                    userInfo = result.data;
+                    document.getElementById('loginStatus').textContent = '已登录: ' + userInfo.nickName + ' (ID: ' + userInfo.userId + ')';
+                    document.getElementById('loginStatus').style.color = 'green';
+                    
+                    log(`用户信息: ${JSON.stringify(userInfo, null, 2)}`);
+                    log(`Token: ${userToken}`);
+                } else {
+                    log(`❌ 登录失败: ${result.info}`);
+                    document.getElementById('loginStatus').textContent = '登录失败: ' + result.info;
+                    document.getElementById('loginStatus').style.color = 'red';
+                }
+            } catch (error) {
+                log(`🚨 登录请求失败: ${error.message}`);
+                document.getElementById('loginStatus').textContent = '登录失败: ' + error.message;
+                document.getElementById('loginStatus').style.color = 'red';
+            }
+        }
+
+        async function testAvatarUrls() {
+            if (!userToken) {
+                alert('请先登录');
+                return;
+            }
+
+            const resultDiv = document.getElementById('avatarTestResult');
+            resultDiv.innerHTML = '<p>正在测试头像URL...</p>';
+            
+            try {
+                log('测试不同的头像URL格式...');
+                
+                // 测试当前用户的头像
+                const testUserId = userInfo.userId;
+                const testUrls = [
+                    `http://localhost:6099/api/file/getAvatar?userId=${testUserId}&token=${userToken}`,
+                    `http://localhost:6099/api/file/getAvatar/${testUserId}`,
+                    `http://localhost:6099/api/file/getAvatar?userId=${testUserId}`,
+                ];
+                
+                let html = '<h4>头像URL测试结果</h4>';
+                
+                for (let i = 0; i < testUrls.length; i++) {
+                    const url = testUrls[i];
+                    html += `
+                        <div class="avatar-test">
+                            <div class="avatar">
+                                <img src="${url}" alt="测试头像${i+1}" 
+                                     onload="console.log('头像${i+1}加载成功:', '${url}')" 
+                                     onerror="console.log('头像${i+1}加载失败:', '${url}'); this.style.display='none'; this.parentNode.innerHTML='❌';">
+                            </div>
+                            <div class="avatar-info">
+                                <strong>测试 ${i+1}</strong><br>
+                                <div class="url-test">${url}</div>
+                            </div>
+                        </div>
+                    `;
+                    log(`测试URL ${i+1}: ${url}`);
+                }
+                
+                resultDiv.innerHTML = html;
+                resultDiv.className = 'result success';
+                
+            } catch (error) {
+                log(`🚨 头像URL测试失败: ${error.message}`);
+                resultDiv.innerHTML = `<h4>❌ 测试失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testDirectAvatarAccess() {
+            if (!userToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('直接测试头像API访问...');
+                
+                const testUrl = `http://localhost:6099/api/file/getAvatar?userId=${userInfo.userId}&token=${userToken}`;
+                log(`测试URL: ${testUrl}`);
+                
+                const response = await fetch(testUrl);
+                log(`响应状态: ${response.status} ${response.statusText}`);
+                log(`响应头: ${JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2)}`);
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    log(`响应类型: ${blob.type}, 大小: ${blob.size} bytes`);
+                    
+                    if (blob.type.startsWith('image/')) {
+                        log('✅ 头像API访问成功，返回了图片数据');
+                    } else {
+                        log('⚠️ 头像API访问成功，但返回的不是图片数据');
+                    }
+                } else {
+                    const text = await response.text();
+                    log(`❌ 头像API访问失败: ${text}`);
+                }
+                
+            } catch (error) {
+                log(`🚨 直接头像API测试失败: ${error.message}`);
+            }
+        }
+
+        async function loadContactsWithAvatars() {
+            if (!userToken) {
+                alert('请先登录');
+                return;
+            }
+
+            try {
+                log('加载联系人列表并测试头像...');
+                const response = await fetch('http://localhost:6099/api/userContact/loadContactUser', {
+                    method: 'GET',
+                    headers: { 'token': userToken }
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('contactAvatarResult');
+                
+                if (result.status === 'success') {
+                    const contacts = result.data || [];
+                    log(`✅ 联系人列表加载成功: ${contacts.length} 个联系人`);
+                    
+                    let html = `<h4>联系人头像测试 (${contacts.length})</h4>`;
+                    
+                    if (contacts.length > 0) {
+                        contacts.forEach((contact, index) => {
+                            const avatarUrl = contact.avatar ? 
+                                `http://localhost:6099/api/file/getAvatar?userId=${contact.contactId}&token=${userToken}` : 
+                                null;
+                            
+                            html += `
+                                <div class="avatar-test">
+                                    <div class="avatar">
+                                        ${avatarUrl ? 
+                                            `<img src="${avatarUrl}" alt="${contact.nickName}头像" 
+                                                 onload="console.log('联系人${index+1}头像加载成功')" 
+                                                 onerror="console.log('联系人${index+1}头像加载失败'); this.style.display='none'; this.parentNode.innerHTML='${contact.nickName ? contact.nickName.charAt(0) : '?'}';">` : 
+                                            (contact.nickName ? contact.nickName.charAt(0) : '?')
+                                        }
+                                    </div>
+                                    <div class="avatar-info">
+                                        <strong>${contact.nickName || '未知用户'}</strong><br>
+                                        <small>ID: ${contact.contactId}</small><br>
+                                        <small>头像字段: ${contact.avatar || '无'}</small><br>
+                                        ${avatarUrl ? `<div class="url-test">${avatarUrl}</div>` : '<div class="url-test">无头像URL</div>'}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            log(`联系人${index+1}: ${contact.nickName} (${contact.contactId}) - 头像: ${contact.avatar || '无'}`);
+                            if (avatarUrl) {
+                                log(`  头像URL: ${avatarUrl}`);
+                            }
+                        });
+                    } else {
+                        html += '<div style="text-align: center; padding: 40px; color: #6c757d;">暂无联系人</div>';
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                    resultDiv.className = 'result success';
+                    
+                } else {
+                    resultDiv.innerHTML = `<h4>❌ 加载失败</h4><p>${result.info}</p>`;
+                    resultDiv.className = 'result error';
+                    log(`❌ 加载失败: ${result.info}`);
+                }
+            } catch (error) {
+                log(`🚨 加载联系人头像失败: ${error.message}`);
+                const resultDiv = document.getElementById('contactAvatarResult');
+                resultDiv.innerHTML = `<h4>❌ 请求失败</h4><p>${error.message}</p>`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        window.onload = function() {
+            log('头像显示测试工具已加载');
+            log('使用步骤：');
+            log('1. 获取验证码并登录');
+            log('2. 测试头像URL格式');
+            log('3. 直接测试头像API访问');
+            log('4. 加载联系人头像进行测试');
+        };
+    </script>
+</body>
+</html>

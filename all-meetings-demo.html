@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全部会议功能演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        /* 全部会议区域样式 */
+        .all-meetings-section {
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid #555;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            color: #dfdfdf;
+        }
+        
+        .all-meetings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .all-meetings-header:hover {
+            background-color: #434343;
+        }
+        
+        .all-meetings-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            color: #dfdfdf;
+        }
+        
+        .view-all-arrow {
+            font-size: 16px;
+            color: #999;
+            transition: all 0.3s ease;
+        }
+        
+        .all-meetings-header:hover .view-all-arrow {
+            color: #007bff;
+            transform: translateX(4px);
+        }
+        
+        .meetings-preview {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .meeting-preview-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #434343;
+            border-radius: 4px;
+            border: 1px solid #555;
+        }
+        
+        .meeting-preview-info h4 {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 0 4px 0;
+            color: #dfdfdf;
+        }
+        
+        .meeting-preview-info p {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+        }
+        
+        .empty-meetings {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #363636;
+            border-radius: 8px;
+            width: 90vw;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            border: 1px solid #888;
+            color: #dfdfdf;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #555;
+            cursor: move;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #dfdfdf;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            color: #dfdfdf;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #555;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        /* 标签页样式 */
+        .meeting-tabs {
+            display: flex;
+            border-bottom: 1px solid #555;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            color: #999;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-button:hover {
+            color: #dfdfdf;
+            background-color: #434343;
+        }
+        
+        .tab-button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        
+        /* 会议列表样式 */
+        .meeting-list {
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .meeting-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            padding: 16px;
+            background-color: #434343;
+            border-radius: 4px;
+            border: 1px solid #555;
+            transition: all 0.3s ease;
+        }
+        
+        .meeting-item:hover {
+            border-color: #007bff;
+            box-shadow: 0 2px 4px rgba(0,123,255,0.2);
+        }
+        
+        .meeting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .meeting-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            color: #dfdfdf;
+        }
+        
+        .meeting-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .meeting-status.running {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .meeting-status.finished {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .meeting-details p {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        
+        .meeting-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 120px;
+        }
+        
+        .action-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button.join {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .action-button.join:hover {
+            background-color: #218838;
+        }
+        
+        .action-button.finish {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .action-button.finish:hover {
+            background-color: #c82333;
+        }
+        
+        .action-button.details {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .action-button.details:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .demo-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .demo-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>全部会议功能演示</h1>
+        
+        <!-- 演示控制 -->
+        <div class="demo-section">
+            <h3>演示控制</h3>
+            <button class="demo-button" onclick="addSampleMeetings()">添加示例会议</button>
+            <button class="demo-button" onclick="clearMeetings()">清空会议</button>
+            <button class="demo-button" onclick="showModal()">显示全部会议模态框</button>
+        </div>
+        
+        <!-- 全部会议区域演示 -->
+        <div class="demo-section">
+            <h3>全部会议区域</h3>
+            <div class="all-meetings-section">
+                <div class="all-meetings-header" onclick="showModal()">
+                    <h3>全部会议</h3>
+                    <span class="view-all-arrow">→</span>
+                </div>
+                <div class="meetings-preview" id="meetingsPreview">
+                    <div class="empty-meetings">
+                        <p>暂无会议记录</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全部会议模态框 -->
+    <div id="allMeetingsModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>全部会议</h3>
+                <button class="modal-close" onclick="hideModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 会议类型切换标签 -->
+                <div class="meeting-tabs">
+                    <button class="tab-button active" id="historyTab" onclick="switchTab('history')">
+                        历史会议
+                    </button>
+                    <button class="tab-button" id="upcomingTab" onclick="switchTab('upcoming')">
+                        待开始会议
+                    </button>
+                </div>
+
+                <!-- 历史会议列表 -->
+                <div id="historyList" class="meeting-list">
+                    <div class="empty-meetings">
+                        <p>暂无历史会议</p>
+                    </div>
+                </div>
+
+                <!-- 待开始会议列表 -->
+                <div id="upcomingList" class="meeting-list" style="display: none;">
+                    <div class="empty-meetings">
+                        <p>暂无待开始会议</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="hideModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let meetings = {
+            history: [],
+            upcoming: []
+        };
+        let activeTab = 'history';
+
+        // 添加示例会议
+        function addSampleMeetings() {
+            meetings.history = [
+                {
+                    meetingId: 'M001',
+                    meetingNo: '123456789',
+                    meetingName: '项目讨论会议',
+                    createTime: '2026-02-01 14:30:00',
+                    endTime: '2026-02-01 16:00:00',
+                    status: 1
+                },
+                {
+                    meetingId: 'M002',
+                    meetingNo: '987654321',
+                    meetingName: '周例会',
+                    createTime: '2026-01-29 10:00:00',
+                    endTime: '2026-01-29 11:30:00',
+                    status: 1
+                }
+            ];
+            
+            meetings.upcoming = [
+                {
+                    meetingId: 'M003',
+                    meetingNo: '555666777',
+                    meetingName: '紧急会议',
+                    createTime: '2026-02-03 09:00:00',
+                    startTime: '2026-02-03 09:00:00',
+                    status: 0
+                },
+                {
+                    meetingId: 'M004',
+                    meetingNo: '111222333',
+                    meetingName: '客户演示',
+                    createTime: '2026-02-03 08:30:00',
+                    startTime: '2026-02-03 08:30:00',
+                    status: 0
+                }
+            ];
+            
+            updatePreview();
+            updateModalContent();
+        }
+
+        // 清空会议
+        function clearMeetings() {
+            meetings.history = [];
+            meetings.upcoming = [];
+            updatePreview();
+            updateModalContent();
+        }
+
+        // 更新预览
+        function updatePreview() {
+            const preview = document.getElementById('meetingsPreview');
+            const allMeetings = [...meetings.upcoming, ...meetings.history];
+            
+            if (allMeetings.length === 0) {
+                preview.innerHTML = '<div class="empty-meetings"><p>暂无会议记录</p></div>';
+                return;
+            }
+            
+            // 显示最近的3个会议
+            const recentMeetings = allMeetings.slice(0, 3);
+            preview.innerHTML = recentMeetings.map(meeting => `
+                <div class="meeting-preview-item">
+                    <div class="meeting-preview-info">
+                        <h4>${meeting.meetingName || '未命名会议'}</h4>
+                        <p>${meeting.status === 0 ? '进行中' : '已结束'}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 显示模态框
+        function showModal() {
+            document.getElementById('allMeetingsModal').style.display = 'flex';
+            updateModalContent();
+        }
+
+        // 隐藏模态框
+        function hideModal() {
+            document.getElementById('allMeetingsModal').style.display = 'none';
+        }
+
+        // 切换标签
+        function switchTab(tab) {
+            activeTab = tab;
+            
+            // 更新标签样式
+            document.getElementById('historyTab').classList.toggle('active', tab === 'history');
+            document.getElementById('upcomingTab').classList.toggle('active', tab === 'upcoming');
+            
+            // 显示对应内容
+            document.getElementById('historyList').style.display = tab === 'history' ? 'flex' : 'none';
+            document.getElementById('upcomingList').style.display = tab === 'upcoming' ? 'flex' : 'none';
+        }
+
+        // 更新模态框内容
+        function updateModalContent() {
+            updateHistoryList();
+            updateUpcomingList();
+        }
+
+        // 更新历史会议列表
+        function updateHistoryList() {
+            const historyList = document.getElementById('historyList');
+            
+            if (meetings.history.length === 0) {
+                historyList.innerHTML = '<div class="empty-meetings"><p>暂无历史会议</p></div>';
+                return;
+            }
+            
+            historyList.innerHTML = meetings.history.map(meeting => `
+                <div class="meeting-item">
+                    <div class="meeting-info">
+                        <div class="meeting-header">
+                            <h4>${meeting.meetingName || '未命名会议'}</h4>
+                            <span class="meeting-status finished">已结束</span>
+                        </div>
+                        <div class="meeting-details">
+                            <p><strong>会议号:</strong> ${meeting.meetingNo || '未知'}</p>
+                            <p><strong>会议ID:</strong> ${meeting.meetingId || '未知'}</p>
+                            <p><strong>创建时间:</strong> ${meeting.createTime}</p>
+                            <p><strong>结束时间:</strong> ${meeting.endTime}</p>
+                        </div>
+                    </div>
+                    <div class="meeting-actions">
+                        <button class="action-button details" onclick="viewDetails('${meeting.meetingId}')">查看详情</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 更新待开始会议列表
+        function updateUpcomingList() {
+            const upcomingList = document.getElementById('upcomingList');
+            
+            if (meetings.upcoming.length === 0) {
+                upcomingList.innerHTML = '<div class="empty-meetings"><p>暂无待开始会议</p></div>';
+                return;
+            }
+            
+            upcomingList.innerHTML = meetings.upcoming.map(meeting => `
+                <div class="meeting-item">
+                    <div class="meeting-info">
+                        <div class="meeting-header">
+                            <h4>${meeting.meetingName || '未命名会议'}</h4>
+                            <span class="meeting-status running">进行中</span>
+                        </div>
+                        <div class="meeting-details">
+                            <p><strong>会议号:</strong> ${meeting.meetingNo || '未知'}</p>
+                            <p><strong>会议ID:</strong> ${meeting.meetingId || '未知'}</p>
+                            <p><strong>创建时间:</strong> ${meeting.createTime}</p>
+                            <p><strong>开始时间:</strong> ${meeting.startTime}</p>
+                        </div>
+                    </div>
+                    <div class="meeting-actions">
+                        <button class="action-button join" onclick="joinMeeting('${meeting.meetingId}')">进入会议</button>
+                        <button class="action-button finish" onclick="finishMeeting('${meeting.meetingId}')">结束会议</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 查看详情
+        function viewDetails(meetingId) {
+            alert(`查看会议详情: ${meetingId}`);
+        }
+
+        // 进入会议
+        function joinMeeting(meetingId) {
+            alert(`进入会议: ${meetingId}`);
+        }
+
+        // 结束会议
+        function finishMeeting(meetingId) {
+            if (confirm('确定要结束这个会议吗？')) {
+                alert(`结束会议: ${meetingId}`);
+            }
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('allMeetingsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideModal();
+            }
+        });
+    </script>
+</body>
+</html>

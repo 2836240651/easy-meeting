@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议权限测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .meeting-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .meeting-card h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .meeting-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .meeting-info p {
+            margin: 5px 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .badge-host {
+            background-color: #28a745;
+            color: white;
+        }
+        .badge-participant {
+            background-color: #6c757d;
+            color: white;
+        }
+        .badge-running {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .badge-finished {
+            background-color: #6c757d;
+            color: white;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.success {
+            background-color: #28a745;
+        }
+        button.success:hover {
+            background-color: #218838;
+        }
+        button.danger {
+            background-color: #dc3545;
+        }
+        button.danger:hover {
+            background-color: #c82333;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success-msg {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error-msg {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>会议权限测试工具</h2>
+        <p>测试会议创建者和参与者的权限控制</p>
+
+        <div class="section">
+            <h3>当前用户信息</h3>
+            <div id="userInfo" class="result">加载中...</div>
+        </div>
+
+        <div class="section">
+            <h3>进行中的会议</h3>
+            <button onclick="loadUpcomingMeetings()">加载进行中的会议</button>
+            <div id="upcomingMeetings"></div>
+        </div>
+
+        <div class="section">
+            <h3>权限测试说明</h3>
+            <div class="result">
+<strong>权限规则：</strong>
+1. 所有用户都可以"进入会议"
+2. 只有会议创建者可以"结束会议"
+3. 前端应该根据 meeting.createUserId === currentUser.userId 来判断是否显示"结束会议"按钮
+
+<strong>测试步骤：</strong>
+1. 查看当前用户ID
+2. 加载进行中的会议列表
+3. 检查每个会议的创建者ID
+4. 验证"结束会议"按钮是否正确显示/隐藏
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        const token = localStorage.getItem('token');
+        let currentUser = null;
+
+        if (!token) {
+            alert('请先登录！');
+        }
+
+        async function apiCall(url, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'token': token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                };
+
+                if (data && method === 'POST') {
+                    const params = new URLSearchParams();
+                    Object.keys(data).forEach(key => {
+                        if (data[key] !== null && data[key] !== undefined) {
+                            params.append(key, data[key]);
+                        }
+                    });
+                    options.body = params;
+                }
+
+                const response = await fetch(url, options);
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                return { code: 500, info: '网络错误: ' + error.message };
+            }
+        }
+
+        async function loadUserInfo() {
+            const resultDiv = document.getElementById('userInfo');
+            resultDiv.textContent = '正在加载用户信息...';
+
+            const result = await apiCall(`${API_BASE}/userInfo/getUserInfo`);
+
+            if (result.code === 200) {
+                currentUser = result.data;
+                resultDiv.className = 'result success-msg';
+                resultDiv.textContent = `用户ID: ${currentUser.userId}\n昵称: ${currentUser.nickName}\n邮箱: ${currentUser.email}`;
+            } else {
+                resultDiv.className = 'result error-msg';
+                resultDiv.textContent = `加载失败: ${result.info}`;
+            }
+        }
+
+        async function loadUpcomingMeetings() {
+            const container = document.getElementById('upcomingMeetings');
+            container.innerHTML = '<div class="result">正在加载...</div>';
+
+            if (!currentUser) {
+                container.innerHTML = '<div class="result error-msg">请先加载用户信息</div>';
+                return;
+            }
+
+            const params = new URLSearchParams({ pageNo: 1, status: 0 });
+            const result = await apiCall(`${API_BASE}/meetingInfo/loadMeeting?${params}`);
+
+            if (result.code === 200) {
+                const meetings = result.data?.list || [];
+                
+                if (meetings.length === 0) {
+                    container.innerHTML = '<div class="result">暂无进行中的会议</div>';
+                    return;
+                }
+
+                let html = '';
+                meetings.forEach(meeting => {
+                    const isHost = meeting.createUserId === currentUser.userId;
+                    const roleText = isHost ? '创建者' : '参与者';
+                    const roleBadge = isHost ? 'badge-host' : 'badge-participant';
+
+                    html += `
+                        <div class="meeting-card">
+                            <h4>
+                                ${meeting.meetingName || '未命名会议'}
+                                <span class="badge ${roleBadge}">${roleText}</span>
+                                <span class="badge badge-running">进行中</span>
+                            </h4>
+                            <div class="meeting-info">
+                                <p><strong>会议号:</strong> ${meeting.meetingNo}</p>
+                                <p><strong>会议ID:</strong> ${meeting.meetingId}</p>
+                                <p><strong>创建者ID:</strong> ${meeting.createUserId}</p>
+                                <p><strong>当前用户ID:</strong> ${currentUser.userId}</p>
+                                <p><strong>是否匹配:</strong> ${isHost ? '✅ 是创建者' : '❌ 不是创建者'}</p>
+                                <p><strong>创建时间:</strong> ${meeting.createTime}</p>
+                            </div>
+                            <div>
+                                <button class="success" onclick="testJoinMeeting('${meeting.meetingId}')">
+                                    进入会议
+                                </button>
+                                ${isHost ? `
+                                    <button class="danger" onclick="testFinishMeeting('${meeting.meetingId}', '${meeting.meetingName}')">
+                                        结束会议
+                                    </button>
+                                ` : `
+                                    <button class="danger" disabled title="只有创建者可以结束会议">
+                                        结束会议（无权限）
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<div class="result error-msg">加载失败: ${result.info}</div>`;
+            }
+        }
+
+        async function testJoinMeeting(meetingId) {
+            console.log('测试进入会议:', meetingId);
+            alert(`准备进入会议: ${meetingId}\n\n在实际应用中，这里会跳转到会议页面：\n/meeting/${meetingId}`);
+        }
+
+        async function testFinishMeeting(meetingId, meetingName) {
+            if (!confirm(`确定要结束会议"${meetingName}"吗？`)) {
+                return;
+            }
+
+            console.log('测试结束会议:', meetingId);
+            
+            const result = await apiCall(`${API_BASE}/meetingInfo/finishMeeting`, 'POST', { meetingId });
+
+            if (result.code === 200) {
+                alert('会议已结束！');
+                loadUpcomingMeetings();
+            } else {
+                alert(`结束会议失败: ${result.info}`);
+            }
+        }
+
+        // 页面加载时自动加载用户信息
+        window.onload = async function() {
+            await loadUserInfo();
+            await loadUpcomingMeetings();
+        };
+    </script>
+</body>
+</html>

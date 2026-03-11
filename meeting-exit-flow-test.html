@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议退出流程测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>会议退出流程测试</h1>
+        <p>此工具用于测试"请先退出当前会议"错误的修复情况</p>
+        
+        <div class="step">
+            <h3>步骤1: 检查当前状态</h3>
+            <button onclick="checkCurrentStatus()">检查当前状态</button>
+            <div id="statusResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>步骤2: 创建测试会议</h3>
+            <button onclick="createTestMeeting()">创建测试会议</button>
+            <div id="createResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>步骤3: 结束会议</h3>
+            <button onclick="finishMeeting()">结束会议</button>
+            <div id="finishResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>步骤4: 验证状态清除</h3>
+            <button onclick="verifyCleanup()">验证状态清除</button>
+            <div id="verifyResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>步骤5: 再次创建会议（测试修复）</h3>
+            <button onclick="createAnotherMeeting()">再次创建会议</button>
+            <div id="secondCreateResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>完整流程测试</h3>
+            <button onclick="runFullTest()">运行完整测试</button>
+            <div id="fullTestResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('请先登录获取token');
+        }
+
+        async function apiCall(url, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'token': token,
+                        'Content-Type': method === 'POST' ? 'application/json' : 'application/x-www-form-urlencoded'
+                    }
+                };
+
+                if (data) {
+                    if (method === 'POST' && typeof data === 'object') {
+                        if (url.includes('quickMeeting')) {
+                            options.body = JSON.stringify(data);
+                        } else {
+                            const params = new URLSearchParams();
+                            Object.keys(data).forEach(key => {
+                                if (data[key] !== null && data[key] !== undefined) {
+                                    params.append(key, data[key]);
+                                }
+                            });
+                            options.body = params;
+                            options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                        }
+                    }
+                }
+
+                const response = await fetch(url, options);
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                return { code: 500, info: '网络错误: ' + error.message };
+            }
+        }
+
+        async function checkCurrentStatus() {
+            const resultDiv = document.getElementById('statusResult');
+            resultDiv.textContent = '正在检查当前状态...';
+            
+            try {
+                const [userInfo, currentMeeting] = await Promise.all([
+                    apiCall(`${API_BASE}/userInfo/getUserInfo`),
+                    apiCall(`${API_BASE}/meetingInfo/getCurrentMeeting`)
+                ]);
+
+                let status = '当前状态:\n';
+                status += `用户信息: ${userInfo.code === 200 ? '获取成功' : '获取失败 - ' + userInfo.info}\n`;
+                if (userInfo.code === 200) {
+                    status += `  用户ID: ${userInfo.data.userId}\n`;
+                    status += `  昵称: ${userInfo.data.nickName}\n`;
+                    status += `  当前会议ID: ${userInfo.data.currentMeetingId || '无'}\n`;
+                }
+                
+                status += `当前会议: ${currentMeeting.code === 200 ? (currentMeeting.data ? '有进行中的会议' : '无进行中的会议') : '获取失败 - ' + currentMeeting.info}\n`;
+                if (currentMeeting.code === 200 && currentMeeting.data) {
+                    status += `  会议ID: ${currentMeeting.data.meetingId}\n`;
+                    status += `  会议名称: ${currentMeeting.data.meetingName}\n`;
+                    status += `  状态: ${currentMeeting.data.status === 0 ? '进行中' : '已结束'}\n`;
+                }
+
+                resultDiv.className = 'result';
+                resultDiv.textContent = status;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '检查状态失败: ' + error.message;
+            }
+        }
+
+        async function createTestMeeting() {
+            const resultDiv = document.getElementById('createResult');
+            resultDiv.textContent = '正在创建测试会议...';
+            
+            const data = {
+                meetingNoType: 0,
+                MeetingName: '退出流程测试会议',
+                joinType: 0,
+                joinPassword: null
+            };
+
+            const result = await apiCall(`${API_BASE}/meetingInfo/quickMeeting`, 'POST', data);
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `测试会议创建成功!\n会议ID: ${result.data}`;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `创建测试会议失败: ${result.info}`;
+            }
+        }
+
+        async function finishMeeting() {
+            const resultDiv = document.getElementById('finishResult');
+            resultDiv.textContent = '正在结束会议...';
+            
+            const result = await apiCall(`${API_BASE}/meetingInfo/finishMeeting`, 'POST');
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = '会议结束成功!';
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `结束会议失败: ${result.info}`;
+            }
+        }
+
+        async function verifyCleanup() {
+            const resultDiv = document.getElementById('verifyResult');
+            resultDiv.textContent = '正在验证状态清除...';
+            
+            // 等待一秒确保状态更新
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            try {
+                const [userInfo, currentMeeting] = await Promise.all([
+                    apiCall(`${API_BASE}/userInfo/getUserInfo`),
+                    apiCall(`${API_BASE}/meetingInfo/getCurrentMeeting`)
+                ]);
+
+                let verification = '状态清除验证:\n';
+                
+                if (userInfo.code === 200) {
+                    const hasCurrentMeetingId = userInfo.data.currentMeetingId && userInfo.data.currentMeetingId !== null;
+                    verification += `Token中的currentMeetingId: ${hasCurrentMeetingId ? '未清除 ❌' : '已清除 ✅'}\n`;
+                    if (hasCurrentMeetingId) {
+                        verification += `  值: ${userInfo.data.currentMeetingId}\n`;
+                    }
+                } else {
+                    verification += `无法获取用户信息: ${userInfo.info}\n`;
+                }
+                
+                if (currentMeeting.code === 200) {
+                    const hasCurrentMeeting = currentMeeting.data && currentMeeting.data !== null;
+                    verification += `当前会议状态: ${hasCurrentMeeting ? '仍有进行中的会议 ❌' : '无进行中的会议 ✅'}\n`;
+                } else {
+                    verification += `无法获取当前会议: ${currentMeeting.info}\n`;
+                }
+
+                const isCleanedUp = (userInfo.code === 200 && (!userInfo.data.currentMeetingId || userInfo.data.currentMeetingId === null)) &&
+                                  (currentMeeting.code === 200 && !currentMeeting.data);
+
+                resultDiv.className = isCleanedUp ? 'result success' : 'result warning';
+                resultDiv.textContent = verification + `\n总体状态: ${isCleanedUp ? '清除成功 ✅' : '清除不完整 ⚠️'}`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '验证失败: ' + error.message;
+            }
+        }
+
+        async function createAnotherMeeting() {
+            const resultDiv = document.getElementById('secondCreateResult');
+            resultDiv.textContent = '正在创建第二个测试会议...';
+            
+            const data = {
+                meetingNoType: 0,
+                MeetingName: '修复验证会议',
+                joinType: 0,
+                joinPassword: null
+            };
+
+            const result = await apiCall(`${API_BASE}/meetingInfo/quickMeeting`, 'POST', data);
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `修复验证成功! ✅\n第二个会议创建成功，会议ID: ${result.data}\n这说明"请先退出当前会议"的问题已经修复!`;
+            } else {
+                if (result.info && result.info.includes('请先退出当前会议')) {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `修复失败! ❌\n仍然出现"请先退出当前会议"错误: ${result.info}\n需要进一步检查token清除逻辑`;
+                } else {
+                    resultDiv.className = 'result warning';
+                    resultDiv.textContent = `创建失败，但不是目标错误: ${result.info}`;
+                }
+            }
+        }
+
+        async function runFullTest() {
+            const resultDiv = document.getElementById('fullTestResult');
+            resultDiv.textContent = '正在运行完整测试流程...\n';
+            
+            try {
+                // 步骤1: 检查初始状态
+                resultDiv.textContent += '1. 检查初始状态...\n';
+                await checkCurrentStatus();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 步骤2: 创建会议
+                resultDiv.textContent += '2. 创建测试会议...\n';
+                const createResult = await apiCall(`${API_BASE}/meetingInfo/quickMeeting`, 'POST', {
+                    meetingNoType: 0,
+                    MeetingName: '完整流程测试会议',
+                    joinType: 0,
+                    joinPassword: null
+                });
+                
+                if (createResult.code !== 200) {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent += `创建会议失败: ${createResult.info}\n测试终止`;
+                    return;
+                }
+                
+                resultDiv.textContent += `   会议创建成功: ${createResult.data}\n`;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 步骤3: 结束会议
+                resultDiv.textContent += '3. 结束会议...\n';
+                const finishResult = await apiCall(`${API_BASE}/meetingInfo/finishMeeting`, 'POST');
+                
+                if (finishResult.code !== 200) {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent += `结束会议失败: ${finishResult.info}\n测试终止`;
+                    return;
+                }
+                
+                resultDiv.textContent += '   会议结束成功\n';
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 等待状态更新
+                
+                // 步骤4: 验证清除
+                resultDiv.textContent += '4. 验证状态清除...\n';
+                const userInfo = await apiCall(`${API_BASE}/userInfo/getUserInfo`);
+                const currentMeeting = await apiCall(`${API_BASE}/meetingInfo/getCurrentMeeting`);
+                
+                const isCleanedUp = (userInfo.code === 200 && (!userInfo.data.currentMeetingId || userInfo.data.currentMeetingId === null)) &&
+                                  (currentMeeting.code === 200 && !currentMeeting.data);
+                
+                resultDiv.textContent += `   状态清除: ${isCleanedUp ? '成功 ✅' : '失败 ❌'}\n`;
+                
+                // 步骤5: 再次创建会议
+                resultDiv.textContent += '5. 测试修复效果...\n';
+                const secondCreateResult = await apiCall(`${API_BASE}/meetingInfo/quickMeeting`, 'POST', {
+                    meetingNoType: 0,
+                    MeetingName: '修复验证会议',
+                    joinType: 0,
+                    joinPassword: null
+                });
+                
+                if (secondCreateResult.code === 200) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent += `   第二次创建成功 ✅\n\n🎉 完整测试通过！"请先退出当前会议"问题已修复！`;
+                } else if (secondCreateResult.info && secondCreateResult.info.includes('请先退出当前会议')) {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent += `   第二次创建失败 ❌\n   仍然出现目标错误: ${secondCreateResult.info}\n\n❌ 测试失败，问题未完全修复`;
+                } else {
+                    resultDiv.className = 'result warning';
+                    resultDiv.textContent += `   第二次创建失败，但不是目标错误: ${secondCreateResult.info}\n\n⚠️ 测试结果不确定`;
+                }
+                
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent += `\n测试过程中出现错误: ${error.message}`;
+            }
+        }
+
+        // 页面加载时自动检查状态
+        window.onload = function() {
+            checkCurrentStatus();
+        };
+    </script>
+</body>
+</html>

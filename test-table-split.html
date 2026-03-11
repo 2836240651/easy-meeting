@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试分表逻辑</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input {
+            padding: 8px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>会议聊天消息分表逻辑测试</h1>
+    
+    <div class="test-section">
+        <h3>测试会议ID对应的表名</h3>
+        <input type="text" id="meetingId" placeholder="输入会议ID，例如：4Q59or2mDd" value="4Q59or2mDd">
+        <button onclick="testTableName()">计算表名</button>
+        <div id="tableResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>批量测试多个会议ID</h3>
+        <button onclick="testMultipleMeetings()">测试常见会议ID</button>
+        <div id="multiResult" class="result"></div>
+    </div>
+
+    <script>
+        // MurmurHash算法实现（与Java版本一致）
+        function murmurHash(key) {
+            const data = new TextEncoder().encode(key);
+            const length = data.length;
+            const seed = 0x9747b28c;
+            const m = 0x5bd1e995;
+            const r = 24;
+
+            let h = seed ^ length;
+            const len_4 = length >> 2;
+
+            for (let i = 0; i < len_4; i++) {
+                const i_4 = i << 2;
+                let k = data[i_4 + 3];
+                k = k << 8;
+                k = k | (data[i_4 + 2] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 1] & 0xff);
+                k = k << 8;
+                k = k | (data[i_4 + 0] & 0xff);
+                k = Math.imul(k, m);
+                k ^= k >>> r;
+                k = Math.imul(k, m);
+                h = Math.imul(h, m);
+                h ^= k;
+            }
+
+            const len_m = len_4 << 2;
+            const left = length - len_m;
+
+            if (left !== 0) {
+                if (left >= 3) h ^= (data[length - 3] & 0xff) << 16;
+                if (left >= 2) h ^= (data[length - 2] & 0xff) << 8;
+                if (left >= 1) h ^= (data[length - 1] & 0xff);
+                h = Math.imul(h, m);
+            }
+
+            h ^= h >>> 13;
+            h = Math.imul(h, m);
+            h ^= h >>> 15;
+
+            return h;
+        }
+
+        // 获取表名
+        function getTableName(meetingId) {
+            const SPLIT_TABLE_COUNT = 32;
+            const hashCode = Math.abs(murmurHash(meetingId));
+            const tableNum = (hashCode % SPLIT_TABLE_COUNT) + 1;
+            const tableNumStr = String(tableNum).padStart(2, '0');
+            return `meeting_chat_message_${tableNumStr}`;
+        }
+
+        function testTableName() {
+            const meetingId = document.getElementById('meetingId').value.trim();
+            const resultDiv = document.getElementById('tableResult');
+            
+            if (!meetingId) {
+                resultDiv.innerHTML = '<span class="error">请输入会议ID</span>';
+                return;
+            }
+
+            const tableName = getTableName(meetingId);
+            const hashCode = Math.abs(murmurHash(meetingId));
+            const tableNum = (hashCode % 32) + 1;
+            
+            resultDiv.innerHTML = `
+                <div class="success">
+                    <strong>会议ID:</strong> ${meetingId}<br>
+                    <strong>Hash值:</strong> ${hashCode}<br>
+                    <strong>表编号:</strong> ${tableNum}<br>
+                    <strong>表名:</strong> ${tableName}
+                </div>
+            `;
+        }
+
+        function testMultipleMeetings() {
+            const testIds = [
+                '4Q59or2mDd',  // 当前报错的会议ID
+                'test123',
+                'meeting001',
+                'abc123xyz',
+                '1234567890'
+            ];
+
+            let html = '<table border="1" cellpadding="5" style="width:100%; border-collapse: collapse;">';
+            html += '<tr><th>会议ID</th><th>Hash值</th><th>表编号</th><th>表名</th></tr>';
+
+            testIds.forEach(id => {
+                const tableName = getTableName(id);
+                const hashCode = Math.abs(murmurHash(id));
+                const tableNum = (hashCode % 32) + 1;
+                html += `<tr>
+                    <td>${id}</td>
+                    <td>${hashCode}</td>
+                    <td>${tableNum}</td>
+                    <td><strong>${tableName}</strong></td>
+                </tr>`;
+            });
+
+            html += '</table>';
+            document.getElementById('multiResult').innerHTML = html;
+        }
+
+        // 页面加载时自动测试
+        window.onload = function() {
+            testTableName();
+        };
+    </script>
+</body>
+</html>

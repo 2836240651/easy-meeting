@@ -1,0 +1,27 @@
+directories:
+  output: dist_electron
+  buildResources: build
+appId: com.easymeeting.app
+productName: EasyMeeting
+copyright: Copyright © 2026 EasyMeeting
+files:
+  - filter:
+      - dist/**/*
+      - electron/**/*
+win:
+  target:
+    - nsis
+    - portable
+  icon: public/vite.svg
+mac:
+  target:
+    - dmg
+    - zip
+  icon: public/vite.svg
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  icon: public/vite.svg
+electronVersion: 39.2.7

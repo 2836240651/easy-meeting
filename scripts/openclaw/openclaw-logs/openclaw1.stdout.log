@@ -1,0 +1,2435 @@
+[90m2026-03-10T15:11:31.159Z[39m [36m[gateway][39m [36mfeishu_doc: Registered feishu_doc, feishu_app_scopes[39m
+[90m2026-03-10T15:11:31.163Z[39m [36m[gateway][39m [36mfeishu_chat: Registered feishu_chat tool[39m
+[90m2026-03-10T15:11:31.170Z[39m [36m[gateway][39m [36mfeishu_wiki: Registered feishu_wiki tool[39m
+[90m2026-03-10T15:11:31.173Z[39m [36m[gateway][39m [36mfeishu_drive: Registered feishu_drive tool[39m
+[90m2026-03-10T15:11:31.178Z[39m [36m[gateway][39m [36mfeishu_bitable: Registered bitable tools[39m
+[90m2026-03-10T15:11:31.333Z[39m [35m[canvas][39m [36mhost mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root C:\Users\13377\.openclaw\canvas)[39m
+[90m2026-03-10T15:11:31.456Z[39m [36m[heartbeat][39m [36mstarted[39m
+[90m2026-03-10T15:11:31.468Z[39m [32m[health-monitor][39m [36mstarted (interval: 300s, startup-grace: 60s, channel-connect-grace: 120s)[39m
+[90m2026-03-10T15:11:31.474Z[39m [36m[gateway][39m [36magent model: minimax-portal/MiniMax-M2.5[39m
+[90m2026-03-10T15:11:31.478Z[39m [36m[gateway][39m [36mlistening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 42516)[39m
+[90m2026-03-10T15:11:31.483Z[39m [36m[gateway][39m [36mlog file: C:\Users\13377\AppData\Local\Temp\openclaw\openclaw-2026-03-10.log[39m
+[90m2026-03-10T15:11:31.574Z[39m [36m[browser/server][39m [36mBrowser control listening on http://127.0.0.1:18791/ (auth=token)[39m
+[90m2026-03-10T15:11:32.526Z[39m [31m[hooks:loader][39m [36mRegistered hook: boot-md -> gateway:startup[39m
+[90m2026-03-10T15:11:32.550Z[39m [31m[hooks:loader][39m [36mRegistered hook: bootstrap-extra-files -> agent:bootstrap[39m
+[90m2026-03-10T15:11:32.599Z[39m [31m[hooks:loader][39m [36mRegistered hook: command-logger -> command[39m
+[90m2026-03-10T15:11:32.633Z[39m [31m[hooks:loader][39m [36mRegistered hook: session-memory -> command:new, command:reset[39m
+[90m2026-03-10T15:11:32.638Z[39m [33m[hooks][39m [36mloaded 4 internal hook handlers[39m
+[90m2026-03-10T15:11:32.665Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+2026-03-10T23:11:32.682+08:00 [info]: [ 'client ready' ]
+[90m2026-03-10T15:11:33.026Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T15:11:33.040Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 14 entries from disk[39m
+2026-03-10T23:11:33.043+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T15:11:33.050Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-10T23:11:33.054+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T15:11:33.062Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-10T23:11:33.293+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T15:11:33.782Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-10T15:11:33.792Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T15:11:33.795Z[39m [34m[telegram][39m [36mdnsResultOrder=ipv4first (default-node22)[39m
+[90m2026-03-10T15:15:37.987Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T15:15:37.995Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: /[39m
+[90m2026-03-10T15:15:38.009Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T15:15:46.703Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T15:16:13.377Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T15:16:13.385Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 你的openclaw端口是多少[39m
+[90m2026-03-10T15:16:13.394Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T15:16:30.192Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T15:17:40.181Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=469[39m
+[90m2026-03-10T15:21:25.547Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=471[39m
+[90m2026-03-10T15:23:29.092Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=473[39m
+[90m2026-03-10T15:28:47.447Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=476[39m
+[90m2026-03-10T15:29:09.683Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=477[39m
+[90m2026-03-10T15:39:15.792Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=480[39m
+[90m2026-03-10T15:39:40.354Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-10T15:39:41.796Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=481[39m
+[90m2026-03-10T15:42:20.052Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=483[39m
+[90m2026-03-10T15:45:16.404Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=485[39m
+[90m2026-03-10T15:46:31.521Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T15:46:31.536Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T15:46:31.542Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T15:46:31.603Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T15:46:31.609Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T15:46:31.616Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 12 entries from disk[39m
+2026-03-10T23:46:31.622+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T15:46:31.632Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-10T23:46:31.638+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T15:46:31.652Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-10T23:46:31.914+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T15:46:33.230Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-10T15:46:33.238Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T15:50:56.555Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=487[39m
+[90m2026-03-10T15:55:45.752Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=489[39m
+[90m2026-03-10T15:59:25.779Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T15:59:25.786Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 你在么[39m
+[90m2026-03-10T15:59:25.794Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T15:59:33.588Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T15:59:59.827Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=494[39m
+[90m2026-03-10T16:00:05.687Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:00:05.697Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 你去skills市场找一下有没有能让你连接我或者控制我codex的技能[39m
+[90m2026-03-10T16:00:05.705Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:01:04.898Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=495[39m
+[90m2026-03-10T16:01:27.504Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615657794655669472, messageId=om_x100b5430487710a4c4a4d150eb9218f[39m
+[90m2026-03-10T16:01:28.028Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615657794655669472[39m
+[90m2026-03-10T16:01:28.033Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:01:35.219Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=496[39m
+[90m2026-03-10T16:02:00.899Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:02:00.906Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: npm install -g @openai/code 安装这个[39m
+[90m2026-03-10T16:02:00.910Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:02:32.006Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=498[39m
+[90m2026-03-10T16:03:19.296Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:03:39.603Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:03:39.617Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 需要我的codex账户么？[39m
+[90m2026-03-10T16:03:39.623Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:03:49.788Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=501[39m
+[90m2026-03-10T16:04:05.803Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=502[39m
+[90m2026-03-10T16:04:30.440Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:04:43.395Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=503[39m
+[90m2026-03-10T16:04:51.459Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:04:51.464Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 运行登录命令[39m
+[90m2026-03-10T16:04:51.469Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:05:21.734Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:06:40.001Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:06:40.006Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 登录了[39m
+[90m2026-03-10T16:06:40.012Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:07:48.932Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=505[39m
+[90m2026-03-10T16:08:01.280Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:09:39.076Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:09:39.083Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 将沙盒改为全权限[39m
+[90m2026-03-10T16:09:39.090Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:10:34.642Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615660144533949625, messageId=om_x100b54306620f4a0c454cf63af8eda9[39m
+[90m2026-03-10T16:10:35.121Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615660144533949625[39m
+[90m2026-03-10T16:10:35.124Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:13:23.684Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:13:23.688Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 你先ls一下我的d盘，我看看有哪些目录[39m
+[90m2026-03-10T16:13:23.699Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:13:43.173Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615660956772764865, messageId=om_x100b54307a7b98a0c4f5ff5372872dd[39m
+[90m2026-03-10T16:13:43.705Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615660956772764865[39m
+[90m2026-03-10T16:13:43.712Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:16:31.577Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T16:16:31.591Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T16:16:31.597Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T16:16:31.622Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T16:16:31.624Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T16:16:31.630Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 27 entries from disk[39m
+2026-03-11T00:16:31.633+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T16:16:31.640Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T00:16:31.644+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T16:16:31.651Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T00:16:31.990+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T16:16:33.162Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-10T16:17:46.237Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:17:46.254Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: aktongbot下的项目帮我通过codex review[39m
+[90m2026-03-10T16:17:46.259Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:24:45.184Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615663792958115021, messageId=om_x100b543010dbe0a4c354c87d777c763[39m
+[90m2026-03-10T16:24:45.699Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615663792958115021[39m
+[90m2026-03-10T16:24:45.704Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T16:46:31.629Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T16:46:31.647Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T16:46:31.650Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T16:46:31.676Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T16:46:31.820Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T16:46:31.827Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 28 entries from disk[39m
+2026-03-11T00:46:31.830+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T16:46:31.834Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T00:46:31.836+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T16:46:31.844Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T00:46:32.096+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T16:46:33.268Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-10T16:47:14.724Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T16:47:14.740Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 使用mysql不要使用hibernate帮我更改一下数据库的使用[39m
+[90m2026-03-10T16:47:14.745Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T16:53:15.644Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615671141759831233, messageId=om_x100b5430863038a0c36e1359d142edd[39m
+[90m2026-03-10T16:53:16.169Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615671141759831233[39m
+[90m2026-03-10T16:53:16.174Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T17:16:31.672Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T17:16:31.688Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T17:16:31.691Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T17:16:31.716Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T17:16:31.719Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T17:16:31.725Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 29 entries from disk[39m
+2026-03-11T01:16:31.727+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T17:16:31.731Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T01:16:31.733+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T17:16:31.741Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T01:16:32.010+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T17:16:33.254Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-10T17:16:48.734Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T17:16:48.743Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 继续[39m
+[90m2026-03-10T17:16:48.746Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T17:20:46.857Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=507[39m
+[90m2026-03-10T17:22:36.217Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T17:29:31.848Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-10T17:29:31.861Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 分成多个小任务执行[39m
+[90m2026-03-10T17:29:31.866Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-10T17:39:14.101Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615682989737774279, messageId=om_x100b54313ba8d4a0c31c577e79a4cb8[39m
+[90m2026-03-10T17:39:14.634Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615682989737774279[39m
+[90m2026-03-10T17:39:14.640Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-10T17:46:31.708Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T17:46:31.714Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T17:46:31.719Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T17:46:31.740Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T17:46:31.745Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T17:46:31.750Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 33 entries from disk[39m
+2026-03-11T01:46:31.752+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T17:46:31.757Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T01:46:31.759+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T17:46:31.766Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T01:46:32.038+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T17:46:33.302Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-10T18:08:34.881Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T02:16:23.489+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-10T18:16:31.763Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+2026-03-11T02:16:51.363+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T02:16:51.454+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T02:16:51.731+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T02:16:51.762+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T02:16:51.918+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-10T18:22:14.256Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T18:22:14.262Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T18:22:14.293Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T18:22:14.298Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T18:22:14.305Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 33 entries from disk[39m
+2026-03-11T02:22:14.309+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T18:22:14.317Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T02:22:14.363+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T18:22:14.373Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T02:22:14.638+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T18:22:16.415Z[39m [34m[telegram][39m [36m[default] starting provider[39m
+[90m2026-03-10T18:22:16.420Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T18:27:56.961Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-10T18:28:27.010Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T18:33:12.632Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-10T18:33:42.676Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T18:36:26.078Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-10T18:36:56.123Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T18:43:31.800Z[39m [36m[ws][39m [36m⇄ res ✗ send 1348ms errorCode=UNAVAILABLE errorMessage=HttpError: Network request for 'sendMessage' failed! channel=telegram error=HttpError: Network request for 'sendMessage' failed! conn=2aeddf05…67a3 id=53ca4a6a…67d7[39m
+2026-03-11T02:43:31.813+08:00 [cron:02bd2390-e35d-4212-a5ca-c59fd9ee0bc7] cron announce delivery failed
+2026-03-11T02:44:55.429+08:00 [error]: [
+  AxiosError: timeout of 10000ms exceeded
+      at RedirectableRequest.handleRequestTimeout (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:908:13)
+      at RedirectableRequest.emit (node:events:519:28)
+      at Timeout._onTimeout (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:221:12)
+      at listOnTimeout (node:internal/timers:588:17)
+      at processTimers (node:internal/timers:523:7)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNABORTED',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    }
+  }
+]
+[90m2026-03-10T18:54:54.556Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-10T18:55:24.597Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-10T18:56:31.837Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T18:56:31.848Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-10T18:56:31.854Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-10T18:56:31.876Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-10T18:56:31.880Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-10T18:56:31.885Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 33 entries from disk[39m
+2026-03-11T02:56:31.887+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-10T18:56:31.892Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T02:56:31.895+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-10T18:56:31.902Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T02:56:32.287+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-10T18:56:33.952Z[39m [34m[telegram][39m [36m[default] starting provider[39m
+2026-03-11T03:07:55.521+08:00 [error]: [
+  AxiosError: timeout of 10000ms exceeded
+      at RedirectableRequest.handleRequestTimeout (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:908:13)
+      at RedirectableRequest.emit (node:events:519:28)
+      at Timeout._onTimeout (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:221:12)
+      at listOnTimeout (node:internal/timers:588:17)
+      at processTimers (node:internal/timers:523:7)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNABORTED',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    }
+  }
+]
+[90m2026-03-11T01:28:09.829Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T01:28:10.099Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T01:28:10.129Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T01:28:10.375Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+2026-03-11T09:28:10.854+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.873+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.885+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.904+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.913+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.923+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.934+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:10.941+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T01:28:13.655Z[39m [34m[telegram][39m [36m[default] starting provider[39m
+2026-03-11T09:28:18.878+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:519:28)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 0,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'post',
+      url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
+      data: '{"app_id":"cli_a92834913b78dbce","app_secret":"LNJpBHa5UbILEOnDcsCHseM0TYwAvbYR"}',
+      allowAbsoluteUrls: true
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 81,
+      _requestBodyBuffers: [Array],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T01:28:18.921Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: unknown[39m
+2026-03-11T09:28:18.953+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:18.979+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:28:19.018+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:19.045+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+[90m2026-03-11T01:28:19.211Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 33 entries from disk[39m
+2026-03-11T09:28:19.226+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T01:28:19.270Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T09:28:19.285+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T01:28:19.337Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T09:28:22.167+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:519:28)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 0,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'post',
+      url: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
+      data: '{"app_id":"cli_a92834913b78dbce","app_secret":"LNJpBHa5UbILEOnDcsCHseM0TYwAvbYR"}',
+      allowAbsoluteUrls: true
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 81,
+      _requestBodyBuffers: [Array],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+2026-03-11T09:28:22.574+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:22.580+08:00 [error]: [ '[ws]', 'connect failed' ]
+2026-03-11T09:28:22.590+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:28:22.595+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T09:28:27.309+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:27.315+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:28:31.487+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:31.493+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:28:32.106+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:32.111+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:28:32.512+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:32.521+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:28:33.154+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:33.171+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:28:35.916+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:35.921+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+[90m2026-03-11T01:28:53.709Z[39m [36m[ws][39m [36m⇄ res ✗ send 1355ms errorCode=UNAVAILABLE errorMessage=HttpError: Network request for 'sendMessage' failed! channel=telegram error=HttpError: Network request for 'sendMessage' failed! conn=58ccb2a8…d61e id=2ee194d9…bc3b[39m
+2026-03-11T09:28:53.731+08:00 [cron:02bd2390-e35d-4212-a5ca-c59fd9ee0bc7] cron announce delivery failed
+2026-03-11T09:28:55.242+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T09:28:55.248+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+[90m2026-03-11T01:29:19.014Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-11T01:29:20.306Z[39m [36m[ws][39m [36m⇄ res ✗ send 12471ms errorCode=UNAVAILABLE errorMessage=HttpError: Network request for 'sendMessage' failed! channel=telegram error=HttpError: Network request for 'sendMessage' failed! conn=6f382c44…e6da id=da6e73d2…35af[39m
+2026-03-11T09:29:20.317+08:00 [cron:44270af6-0092-43f3-93db-80edca8e5202] cron announce delivery failed
+[90m2026-03-11T01:29:46.014Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+2026-03-11T09:30:38.731+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:30:38.745+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:30:46.971+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:30:51.148+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:30:51.747+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:30:52.132+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:30:52.778+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:14.898+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:17.575+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:23.685+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:25.701+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:28.958+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:34.844+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:40.211+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:40.304+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:42.542+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:32:50.829+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T09:32:50.835+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:32:51.919+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T09:32:51.925+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:33:13.249+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:33:19.651+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:33:28.620+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:12.133+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T09:34:12.144+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:34:36.485+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:36.978+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:42.528+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:43.332+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:45.643+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:45.815+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:34:53.241+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T09:34:53.250+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:35:03.978+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T09:35:03.984+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:35:10.258+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T09:35:10.268+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T09:35:40.692+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:35:41.603+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T09:35:46.571+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T01:35:47.288Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=509[39m
+2026-03-11T09:35:47.615+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T01:38:31.660Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-11T02:00:46.735Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-11T02:00:46.743Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 在么[39m
+[90m2026-03-11T02:00:46.758Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-11T02:00:58.815Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-11T02:03:09.074Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T02:03:09.085Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T02:03:09.091Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T02:03:09.190Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T02:03:09.200Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T02:03:09.216Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 46 entries from disk[39m
+2026-03-11T10:03:09.220+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T02:03:09.232Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T10:03:09.237+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T02:03:09.258Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T10:03:09.821+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-11T02:03:10.567Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T02:03:10.577Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-11T02:22:21.053Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-11T02:33:09.129Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T02:33:09.150Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T02:33:09.156Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T02:33:09.228Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T02:33:09.542Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T02:33:09.556Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 46 entries from disk[39m
+2026-03-11T10:33:09.563+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T02:33:09.573Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T10:33:09.578+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T02:33:09.588Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T10:33:10.084+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-11T02:33:15.300Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T02:33:15.314Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-11T02:39:49.708Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T10:41:52.353+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.361+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.368+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.375+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.384+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.401+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.409+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.417+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.425+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.446+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:52.453+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:41:54.746+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.739+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.748+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.754+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.761+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.768+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.776+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.782+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.788+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.794+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:42:51.800+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:43:04.289+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:43:04.299+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:43:06.613+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:43:06.620+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:43:08.992+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:43:09.002+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:43:12.287+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:43:12.293+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:44:39.343+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:44:39.348+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:44:42.801+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:44:42.814+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:44:44.327+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:44:44.336+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:46:34.189+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:46:34.194+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T10:46:48.136+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:46:51.279+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:46:59.304+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:46:59.850+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:47:00.603+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:47:01.450+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:47:02.435+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:47:02.447+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:47:04.606+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:47:05.927+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:47:07.236+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:47:18.032+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:47:18.049+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:47:26.778+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:47:26.786+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:47:34.457+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:47:34.464+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:48:26.415+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:48:26.427+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 4 times")' ]
+2026-03-11T10:48:40.747+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:48:42.859+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:48:47.484+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T10:48:47.491+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:49:00.771+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:49:01.128+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:49:08.687+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:49:15.816+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:49:15.833+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:50:12.904+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:14.590+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:17.544+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:21.713+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:22.516+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:50:22.522+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T10:50:25.169+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:27.939+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:28.114+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:50:28.125+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:50:29.818+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:50:59.829+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:50:59.847+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:51:07.996+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:51:08.005+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:51:28.038+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:51:30.194+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:51:37.892+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:51:37.899+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:51:42.790+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:51:44.584+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:51:50.897+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:51:51.160+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:51:58.509+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T10:51:58.516+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:52:37.702+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:52:43.038+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:52:43.057+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T10:52:43.178+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:52:43.190+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:52:45.986+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:52:47.372+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:52:51.219+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:52:55.673+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:52:55.683+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:52:59.267+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:53:04.233+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T10:53:12.919+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:53:12.924+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:53:13.881+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:53:13.887+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T10:53:33.539+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:53:33.555+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:54:18.094+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:54:18.102+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 4 times")' ]
+2026-03-11T10:54:30.707+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:54:30.714+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:54:48.902+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:54:48.912+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T10:56:03.126+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T10:56:03.133+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 5 times")' ]
+2026-03-11T10:56:23.950+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T10:56:23.959+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T10:57:39.542+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T10:57:39.577+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 6 times")' ]
+[90m2026-03-11T03:03:09.192Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T03:03:09.204Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T03:03:09.211Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T03:03:09.276Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T03:03:09.284Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T03:03:09.293Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 52 entries from disk[39m
+2026-03-11T11:03:09.297+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T03:03:09.306Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T11:03:09.311+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T03:03:09.321Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T11:03:14.729+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-11T03:03:16.123Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T03:03:16.137Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-11T03:33:09.245Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T03:33:09.263Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T03:33:09.272Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T03:33:09.364Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T03:33:09.373Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T03:33:09.393Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 62 entries from disk[39m
+2026-03-11T11:33:09.398+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T03:33:09.410Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T11:33:09.416+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T03:33:09.432Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T11:33:14.456+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T11:33:14.464+08:00 [error]: [ '[ws]', 'connect failed' ]
+2026-03-11T11:33:14.473+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T11:33:14.479+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-11T03:33:14.907Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T04:26:50.123Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T04:26:50.143Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T04:26:50.176Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T04:26:50.364Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+2026-03-11T12:26:50.400+08:00 [error]: [
+  AxiosError: getaddrinfo ENOTFOUND open.feishu.cn
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ENOTFOUND',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: getaddrinfo ENOTFOUND open.feishu.cn
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+      errno: -3008,
+      code: 'ENOTFOUND',
+      syscall: 'getaddrinfo',
+      hostname: 'open.feishu.cn'
+    }
+  }
+]
+[90m2026-03-11T04:26:50.443Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: unknown[39m
+[90m2026-03-11T04:26:50.455Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 62 entries from disk[39m
+2026-03-11T12:26:50.459+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T04:26:50.472Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T12:26:50.477+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T04:26:50.491Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T12:26:50.519+08:00 [error]: [ '[ws]', 'getaddrinfo ENOTFOUND open.feishu.cn' ]
+2026-03-11T12:26:50.526+08:00 [error]: [ '[ws]', 'connect failed' ]
+2026-03-11T12:26:50.531+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:50.537+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T12:26:50.928+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:51.305+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.924+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.933+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.942+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.949+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.956+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.963+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.969+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.976+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.983+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:26:54.997+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T04:26:59.594Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+2026-03-11T12:27:01.024+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:27:01.029+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:06.485+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:27:06.491+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:09.348+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:27:12.775+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:27:12.781+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:17.032+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:27:17.038+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:24.159+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:27:24.164+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:26.329+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:27:26.335+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:29.804+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:27:29.809+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:27:38.208+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:27:38.215+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:28:59.183+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:28:59.189+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:29:01.358+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:29:01.369+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:29:04.830+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:29:04.839+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:29:08.005+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:29:08.012+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:29:13.253+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:29:13.263+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:30:39.180+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:30:39.187+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:30:39.222+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:30:39.232+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:30:48.286+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:30:48.291+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:32:14.264+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:32:14.269+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 4 times")' ]
+2026-03-11T12:32:23.305+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:32:23.311+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 4 times")' ]
+2026-03-11T12:34:14.737+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:34:14.743+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 5 times")' ]
+2026-03-11T12:34:28.027+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:29.603+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:31.458+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:32.742+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:32.787+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:33.268+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:36.631+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:40.421+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:40.589+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:34:40.595+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:34:40.639+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:44.522+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:44.888+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:34:44.897+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:34:51.396+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:34:51.404+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:34:55.640+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:56.847+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:34:59.318+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:34:59.329+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:35:03.975+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:17.721+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:35:17.728+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:35:19.859+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:35:19.867+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:35:31.614+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:32.988+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:35:32.992+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:35:35.708+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:36.031+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:41.998+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:43.853+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:48.318+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:35:48.826+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:35:48.838+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:35:50.392+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:35:50.401+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 6 times")' ]
+2026-03-11T12:36:02.211+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:36:02.217+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:36:07.810+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:36:07.818+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:36:34.346+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:36:34.358+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:36:36.436+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T12:36:36.442+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:36:54.879+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:36:54.887+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:36:55.243+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:36:55.249+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:37:04.123+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:37:05.575+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:37:07.848+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:37:08.026+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:37:08.034+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:37:09.315+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:37:09.503+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:37:18.334+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:37:18.347+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:37:23.865+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:37:23.871+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:37:37.547+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:37:37.666+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:37:43.260+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:37:43.360+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 7 times")' ]
+2026-03-11T12:37:46.915+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:37:46.921+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:38:00.692+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:38:16.504+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:38:19.931+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:38:27.649+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:38:27.655+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:38:31.633+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:38:31.640+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:38:44.874+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:38:45.043+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:38:45.049+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:38:53.387+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:38:53.397+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:38:56.829+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:38:59.535+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:38:59.549+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:39:02.385+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:39:18.919+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:39:18.925+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 8 times")' ]
+2026-03-11T12:39:21.663+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:39:22.069+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:39:50.873+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:39:59.798+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:39:59.809+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:40:05.493+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:40:05.502+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:40:20.066+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:40:20.072+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 4 times")' ]
+2026-03-11T12:40:32.690+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:40:32.697+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:41:34.844+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:41:34.850+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:41:55.094+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:41:55.336+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 5 times")' ]
+2026-03-11T12:43:12.243+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:43:12.249+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:43:33.676+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:43:33.684+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 6 times")' ]
+2026-03-11T12:44:04.224+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:04.231+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:04.244+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:04.254+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:04.262+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:04.495+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:04.902+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T04:44:05.606Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T12:44:05.875+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:06.014+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:06.826+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:07.240+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:07.932+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T12:44:19.550+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:44:19.558+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:20.485+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:44:20.491+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:24.725+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:44:24.732+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:26.813+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T12:44:26.822+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:28.044+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:44:28.051+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:28.606+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:44:28.613+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:29.485+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:44:29.493+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:44:45.522+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T12:44:45.533+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T12:45:10.680+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:45:10.696+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 7 times")' ]
+2026-03-11T12:45:55.741+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:45:55.748+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:46:08.033+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:46:08.046+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T12:46:20.599+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:46:20.606+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+[90m2026-03-11T04:46:23.075Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=512[39m
+[90m2026-03-11T04:46:39.007Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=513[39m
+2026-03-11T12:46:51.233+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:46:51.239+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 8 times")' ]
+2026-03-11T12:47:36.462+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:47:36.470+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:47:56.989+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:47:57.000+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T12:48:26.276+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T12:48:26.289+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 9 times")' ]
+2026-03-11T12:49:05.914+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+2026-03-11T12:49:35.319+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:49:35.328+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 4 times")' ]
+2026-03-11T12:50:06.749+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:50:06.759+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 10 times")' ]
+2026-03-11T12:51:43.106+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T12:51:43.113+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 11 times")' ]
+[90m2026-03-11T04:53:21.144Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-11T04:53:21.150Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 111[39m
+[90m2026-03-11T04:53:21.157Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-11T04:53:35.904Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+2026-03-11T12:53:38.286+08:00 [error]: [
+  [
+    {
+      message: 'Client network socket disconnected before secure TLS connection was established',
+      config: [Object],
+      request: {},
+      response: {}
+    }
+  ]
+]
+[90m2026-03-11T04:53:46.326Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-11T04:53:46.344Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 本地安装的claudecode怎么修改配置文件[39m
+[90m2026-03-11T04:53:46.355Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-11T04:54:16.972Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615856940938775772, messageId=om_x100b543b160c68a0c4d3a344cd3357b[39m
+[90m2026-03-11T04:54:27.314Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615856940938775772[39m
+[90m2026-03-11T04:54:27.321Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+2026-03-11T12:57:27.703+08:00 [error]: [
+  [
+    {
+      message: 'connect ETIMEDOUT 198.18.0.166:443',
+      config: [Object],
+      request: {},
+      response: {}
+    }
+  ]
+]
+[90m2026-03-11T04:57:27.712Z[39m [33m[feishu][39m [36mfailed to resolve sender name for ou_338712054cb69680405a56339a277b67: Error: connect ETIMEDOUT 198.18.0.166:443[39m
+[90m2026-03-11T04:57:27.717Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-11T04:57:27.727Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67:  C:\Windows\system32> claude config edit ╭─── Claude Code v2.1.72 ────────────────────────────────────────────────────────────────────────────────╮ │ │ Tips for[39m
+[90m2026-03-11T04:57:27.735Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+2026-03-11T12:57:35.037+08:00 [error]: [
+  [
+    {
+      message: 'Client network socket disconnected before secure TLS connection was established',
+      config: [Object],
+      request: {},
+      response: {}
+    }
+  ]
+]
+[90m2026-03-11T04:57:52.157Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615857868026416316, messageId=om_x100b543b288fa4b4c4f12b6ec098fc9[39m
+[90m2026-03-11T04:58:00.050Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615857868026416316[39m
+[90m2026-03-11T04:58:00.055Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-11T04:58:20.154Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-11T04:58:20.160Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: auth我的minimax2.5[39m
+[90m2026-03-11T04:58:20.166Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-11T04:58:51.290Z[39m [33m[feishu][39m [36mfeishu[default] Started streaming: cardId=7615858120417643727, messageId=om_x100b543b273904a8c4260e97133e847[39m
+[90m2026-03-11T04:59:00.146Z[39m [33m[feishu][39m [36mfeishu[default] Closed streaming: cardId=7615858120417643727[39m
+[90m2026-03-11T04:59:00.153Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+[90m2026-03-11T05:00:30.622Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=515[39m
+2026-03-11T13:01:03.633+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T05:01:50.142Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T05:01:50.158Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T05:01:50.166Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T05:01:50.244Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T05:01:50.251Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: unknown[39m
+[90m2026-03-11T05:01:50.264Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 69 entries from disk[39m
+2026-03-11T13:01:50.268+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T05:01:50.276Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T13:01:50.280+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T05:01:50.289Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T13:01:58.625+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-11T05:01:59.735Z[39m [34m[telegram][39m [36m[default] starting provider[39m
+[90m2026-03-11T05:01:59.755Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+2026-03-11T13:02:17.309+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T05:06:31.196Z[39m [33m[feishu][39m [36mfeishu[default]: received message from ou_338712054cb69680405a56339a277b67 in oc_18e29bd471b0742243720963cf24c360 (p2p)[39m
+[90m2026-03-11T05:06:31.204Z[39m [33m[feishu][39m [36mfeishu[default]: Feishu[default] DM from ou_338712054cb69680405a56339a277b67: 11[39m
+[90m2026-03-11T05:06:31.210Z[39m [33m[feishu][39m [36mfeishu[default]: dispatching to agent (session=agent:main:feishu:direct:ou_338712054cb69680405a56339a277b67)[39m
+[90m2026-03-11T05:06:56.667Z[39m [33m[feishu][39m [36mfeishu[default]: dispatch complete (queuedFinal=true, replies=1)[39m
+2026-03-11T13:06:59.342+08:00 [error]: [
+  [
+    {
+      message: 'Client network socket disconnected before secure TLS connection was established',
+      config: [Object],
+      request: {},
+      response: {}
+    }
+  ]
+]
+2026-03-11T13:20:21.046+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:20:31.513+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T13:20:31.520+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+[90m2026-03-11T05:20:35.821Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T13:20:40.312+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:20:52.187+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T13:20:52.202+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T13:22:11.053+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T13:22:11.064+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T13:22:45.976+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T13:22:45.986+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T13:23:04.616+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:08.591+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:11.869+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:12.856+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:13.527+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:15.197+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:16.125+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:17.232+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T13:23:17.239+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T13:23:17.851+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:19.470+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:22.058+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:22.724+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:23.232+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:25.255+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:23:26.480+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T13:23:26.487+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T13:23:38.442+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T13:23:38.460+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T13:25:16.582+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T13:25:16.597+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+[90m2026-03-11T05:31:50.169Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T05:31:59.702Z[39m [34m[telegram][39m [36m[default] starting provider[39m
+[90m2026-03-11T05:31:59.709Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-11T05:36:50.186Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T05:36:50.195Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T05:36:50.289Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T05:36:50.297Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T05:36:50.308Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 77 entries from disk[39m
+2026-03-11T13:36:50.313+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T05:36:50.322Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T13:36:50.328+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T05:36:50.339Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T13:36:55.594+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T13:41:02.253+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:41:13.949+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T05:41:16.122Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T13:41:24.155+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T13:41:24.169+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T13:42:59.203+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T13:42:59.218+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T13:49:38.739+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:55:51.461+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T13:56:12.221+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T13:56:12.229+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T13:57:47.252+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T13:57:47.261+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T13:59:22.345+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T13:59:22.365+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T14:00:31.769+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T06:01:50.223Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T06:01:55.217Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T06:01:55.235Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+2026-03-11T14:06:15.094+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T06:06:50.239Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T06:06:50.250Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T06:06:50.345Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T06:06:50.351Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T06:06:50.361Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 79 entries from disk[39m
+2026-03-11T14:06:50.367+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T06:06:50.378Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T14:06:50.383+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T06:06:50.395Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T14:06:55.407+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T14:06:55.419+08:00 [error]: [ '[ws]', 'connect failed' ]
+2026-03-11T14:06:55.428+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T14:06:55.437+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T14:08:14.373+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T14:08:25.178+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T14:08:25.189+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T14:10:02.572+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T14:10:02.591+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T14:11:37.620+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T14:11:37.628+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+[90m2026-03-11T06:17:03.575Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T14:18:59.663+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T06:28:21.653Z[39m [36m[ws][39m [36m⇄ res ✗ sessions.resolve 10ms errorCode=INVALID_REQUEST errorMessage=No session found: telegram:687315855737 conn=f8c47a98…372b id=ed3f90b8…18b3[39m
+[90m2026-03-11T06:28:21.707Z[39m [36m[ws][39m [36m⇄ res ✗ sessions.resolve 17ms errorCode=INVALID_REQUEST errorMessage=No session found: telegram:687315855737 conn=8d8d1ebc…5132 id=e4dcb4ae…ad5e[39m
+[90m2026-03-11T06:28:25.688Z[39m [36m[ws][39m [36m⇄ res ✗ sessions.resolve 5ms errorCode=INVALID_REQUEST errorMessage=No session found with label: telegram conn=5f46e1bd…3044 id=188bbbed…64bb[39m
+[90m2026-03-11T06:28:40.169Z[39m [36m[ws][39m [36m⇄ res ✗ sessions.resolve 5ms errorCode=INVALID_REQUEST errorMessage=No session found: telegram:687315855737 conn=1b5cd543…30da id=5484ca6a…71ce[39m
+[90m2026-03-11T06:28:40.209Z[39m [36m[ws][39m [36m⇄ res ✗ sessions.resolve 5ms errorCode=INVALID_REQUEST errorMessage=No session found: telegram:687315855737 conn=a52a4410…8934 id=2e90db01…9fe9[39m
+[90m2026-03-11T06:28:54.985Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-11T06:28:55.651Z[39m [36m[ws][39m [36m⇄ res ✓ send 681ms channel=telegram conn=8fab2804…174f id=1a0f1ba0…80f1[39m
+2026-03-11T14:31:06.253+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T06:31:50.281Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T06:31:56.088Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T06:32:47.334Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=519[39m
+[90m2026-03-11T06:36:50.282Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T06:36:50.288Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T06:36:50.353Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T06:36:50.359Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T06:36:50.367Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 87 entries from disk[39m
+2026-03-11T14:36:50.372+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T06:36:50.384Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T14:36:50.389+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T06:36:50.404Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T14:36:58.158+08:00 [info]: [ '[ws]', 'ws client ready' ]
+[90m2026-03-11T06:37:44.031Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=521[39m
+[90m2026-03-11T06:49:12.513Z[39m [34m[telegram][39m [36msendMessage ok chat=6873158537 message=523[39m
+[90m2026-03-11T06:50:37.179Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T14:55:02.826+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T07:01:50.329Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T07:01:58.561Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T07:01:58.577Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+[90m2026-03-11T07:06:50.337Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T07:06:50.437Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T07:06:50.516Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T07:06:50.524Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T07:06:50.533Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 89 entries from disk[39m
+2026-03-11T15:06:50.537+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T07:06:50.547Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T15:06:50.552+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T07:06:50.566Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T15:07:05.165+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T15:08:04.638+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T07:16:51.978Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T15:22:58.773+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:25:18.066+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:25:25.950+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T15:25:25.956+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:26:53.072+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:26:54.341+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:27:53.950+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:28:16.666+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T07:31:50.393Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T07:31:54.623Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T07:31:54.631Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+2026-03-11T15:33:40.059+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:33:53.346+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:34:08.960+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:36:05.187+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:40:09.271+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:40:26.857+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:40:26.861+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+[90m2026-03-11T07:41:50.413Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T07:41:50.421Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T07:41:50.496Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T07:41:50.502Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T07:41:50.525Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 89 entries from disk[39m
+2026-03-11T15:41:50.528+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T07:41:50.539Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T15:41:50.544+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T07:41:50.563Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T15:42:01.405+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T15:42:02.172+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:42:02.177+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T15:43:33.837+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:19.810+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:44:19.815+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:44:34.951+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:39.953+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:40.925+08:00 [info]: [ '[ws]', 'reconnect' ]
+[90m2026-03-11T07:44:42.325Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+2026-03-11T15:44:42.615+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:44.935+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:46.459+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:47.772+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:49.621+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:49.914+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:50.948+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:51.166+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:52.213+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:54.382+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:54.626+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:54.687+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:54.702+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:44:56.520+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:44:56.525+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:44:59.318+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:00.656+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:02.111+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:12.548+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T15:45:12.562+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:17.573+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:17.576+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:18.994+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:18.999+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:19.658+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:19.662+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:19.979+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:19.982+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:27.668+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:27.672+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:31.354+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:42.554+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:42.561+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:44.493+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:45.025+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:45.273+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:51.994+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:45:52.178+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:45:52.180+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:45:58.314+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:46:05.625+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:46:05.631+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:46:10.271+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:46:10.274+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:46:15.455+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T15:46:15.459+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:46:15.906+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T15:46:25.576+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:46:25.591+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:46:32.490+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T15:46:32.494+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T15:46:52.272+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:46:52.277+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T15:48:04.656+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T15:48:04.662+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T15:48:27.293+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T15:48:27.298+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T15:52:15.357+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+[90m2026-03-11T08:01:50.430Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T08:01:57.365Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T08:01:57.393Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+2026-03-11T16:03:57.396+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:05:09.820+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:05:14.634+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:06:08.594+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:06:21.672+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:06:35.290+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:06:35.302+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T16:06:35.707+08:00 [error]: [ '[ws]', 'timeout of 15000ms exceeded' ]
+2026-03-11T16:06:35.713+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+[90m2026-03-11T08:09:34.110Z[39m [34m[telegram][39m [36mautoSelectFamily=false (config)[39m
+[90m2026-03-11T08:11:50.437Z[39m [32m[health-monitor][39m [36m[feishu:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T08:11:50.449Z[39m [33m[feishu][39m [36mfeishu[default]: abort signal received, stopping[39m
+[90m2026-03-11T08:11:50.469Z[39m [33m[feishu][39m [36mstarting feishu[default] (mode: websocket)[39m
+[90m2026-03-11T08:11:50.471Z[39m [33m[feishu][39m [36mfeishu[default]: bot open_id resolved: ou_c024b333b148cab27600f835e32f382a[39m
+[90m2026-03-11T08:11:50.474Z[39m [33m[feishu][39m [36mfeishu[default]: dedup warmup loaded 89 entries from disk[39m
+2026-03-11T16:11:50.476+08:00 [info]: [ 'event-dispatch is ready' ]
+[90m2026-03-11T08:11:50.479Z[39m [33m[feishu][39m [36mfeishu[default]: starting WebSocket connection...[39m
+2026-03-11T16:11:50.481+08:00 [info]: [
+  '[ws]',
+  'receive events or callbacks through persistent connection only available in self-build & Feishu app, Configured in:\n' +
+    '        Developer Console(开发者后台) \n' +
+    '          ->\n' +
+    '        Events and Callbacks(事件与回调)\n' +
+    '          -> \n' +
+    '        Mode of event/callback subscription(订阅方式)\n' +
+    '          -> \n' +
+    '        Receive events/callbacks through persistent connection(使用 长连接 接收事件/回调)'
+]
+[90m2026-03-11T08:11:50.485Z[39m [33m[feishu][39m [36mfeishu[default]: WebSocket client started[39m
+2026-03-11T16:11:54.242+08:00 [info]: [ '[ws]', 'ws client ready' ]
+2026-03-11T16:16:09.917+08:00 [error]: [
+  AxiosError: Client network socket disconnected before secure TLS connection was established
+      at Function.from (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\AxiosError.js:7:24)
+      at RedirectableRequest.handleRequestError (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:866:27)
+      at RedirectableRequest.emit (node:events:531:35)
+      at ClientRequest.eventHandlers.<computed> (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:49:24)
+      at ClientRequest.emit (node:events:519:28)
+      at emitErrorEvent (node:_http_client:107:11)
+      at TLSSocket.socketErrorListener (node:_http_client:574:5)
+      at TLSSocket.emit (node:events:519:28)
+      at emitErrorNT (node:internal/streams/destroy:170:8)
+      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNRESET',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    },
+    cause: Error: Client network socket disconnected before secure TLS connection was established
+        at TLSSocket.onConnectEnd (node:_tls_wrap:1750:19)
+        at TLSSocket.emit (node:events:531:35)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      code: 'ECONNRESET',
+      path: null,
+      host: 'open.feishu.cn',
+      port: 443,
+      localAddress: undefined
+    }
+  }
+]
+2026-03-11T16:18:13.454+08:00 [error]: [
+  AxiosError: timeout of 10000ms exceeded
+      at RedirectableRequest.handleRequestTimeout (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\adapters\http.js:908:13)
+      at RedirectableRequest.emit (node:events:519:28)
+      at Timeout._onTimeout (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\follow-redirects\index.js:221:12)
+      at listOnTimeout (node:internal/timers:588:17)
+      at processTimers (node:internal/timers:523:7)
+      at Axios.request (C:\Users\13377\AppData\Roaming\npm\node_modules\openclaw\node_modules\axios\lib\core\Axios.js:46:41)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    isAxiosError: true,
+    code: 'ECONNABORTED',
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 10000,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      params: {},
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [ClientRequest],
+      _currentUrl: 'https://open.feishu.cn/open-apis/bot/v3/info',
+      _timeout: null,
+      [Symbol(shapeMode)]: true,
+      [Symbol(kCapture)]: false
+    }
+  }
+]
+2026-03-11T16:20:50.210+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:20:58.024+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:20:58.026+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T16:20:59.897+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:21:09.176+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:21:09.180+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]
+2026-03-11T16:22:35.978+08:00 [error]: [ '[ws]', 'ws connect failed' ]
+2026-03-11T16:22:35.983+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T16:22:44.201+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:22:44.206+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 2 times")' ]
+2026-03-11T16:24:11.056+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:24:11.060+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+2026-03-11T16:24:19.279+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:24:19.284+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 3 times")' ]
+[90m2026-03-11T08:31:50.468Z[39m [32m[health-monitor][39m [36m[telegram:default] health-monitor: restarting (reason: stale-socket)[39m
+[90m2026-03-11T08:31:57.939Z[39m [34m[telegram][39m [36m[default] starting provider (@AkyongBot)[39m
+[90m2026-03-11T08:31:57.949Z[39m [34m[telegram][39m [36mautoSelectFamily=true (default-node22)[39m
+2026-03-11T16:32:31.574+08:00 [info]: [ '[ws]', 'reconnect' ]
+2026-03-11T16:32:41.888+08:00 [error]: [
+  '[ws]',
+  'Client network socket disconnected before secure TLS connection was established'
+]
+2026-03-11T16:32:41.899+08:00 [info]: [ 'ws', 'unable to connect to the server after trying 1 times")' ]

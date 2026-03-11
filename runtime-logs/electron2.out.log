@@ -1,0 +1,59 @@
+
+> easymeeting-frontend@1.0.0 electron:dev
+> chcp 65001 >nul 2>&1 && set NODE_ENV=development && electron .
+
+
+权限检查: media 
+权限检查: media 
+权限检查: geolocation 
+权限检查: window-management 
+页面导航完成
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成
+页面加载完成
+成功加载 Vite 开发服务器
+权限检查: media 
+权限检查: media 
+权限检查: geolocation 
+权限检查: window-management 
+窗口获得焦点
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成
+权限检查: background-sync devtools://devtools/
+窗口失去焦点
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成
+窗口获得焦点
+窗口失去焦点
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成
+窗口获得焦点
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成
+窗口失去焦点
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成
+窗口获得焦点
+权限检查: media http://localhost:3000/
+权限检查: media http://localhost:3000/
+权限检查: geolocation http://localhost:3000/
+权限检查: window-management http://localhost:3000/
+页面内导航完成

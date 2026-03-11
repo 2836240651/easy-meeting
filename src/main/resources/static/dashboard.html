@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyMeeting - 会议管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            height: 100vh;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .sidebar h2 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar-nav .active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .top-nav {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .meeting-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .meeting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .meeting-time {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .meeting-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .meeting-desc {
+            color: #666;
+        }
+        
+        .btn-group {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <h2>EasyMeeting</h2>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="active" data-section="today">今日会议</a></li>
+                        <li><a href="#" data-section="reserve">预约会议</a></li>
+                        <li><a href="#" data-section="history">会议历史</a></li>
+                        <li><a href="#" data-section="contacts">联系人</a></li>
+                        <li><a href="#" data-section="profile">个人设置</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 主内容区 -->
+            <div class="col-md-9">
+                <div class="main-content">
+                    <!-- 顶部导航 -->
+                    <div class="top-nav">
+                        <h1>会议管理系统</h1>
+                        <div class="user-info">
+                            <span id="userName"></span>
+                            <button class="btn btn-danger" onclick="logout()">退出登录</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 今日会议 -->
+                    <div id="today-section" class="content-section active">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>今日会议</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="today-meetings">
+                                    <!-- 今日会议列表将通过JavaScript加载 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 预约会议 -->
+                    <div id="reserve-section" class="content-section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>预约会议</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="reserve-form">
+                                    <div class="mb-3">
+                                        <label for="meeting-title" class="form-label">会议标题</label>
+                                        <input type="text" class="form-control" id="meeting-title" name="title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meeting-desc" class="form-label">会议描述</label>
+                                        <textarea class="form-control" id="meeting-desc" name="description" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meeting-start" class="form-label">开始时间</label>
+                                        <input type="datetime-local" class="form-control" id="meeting-start" name="startTime" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meeting-end" class="form-label">结束时间</label>
+                                        <input type="datetime-local" class="form-control" id="meeting-end" name="endTime" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meeting-location" class="form-label">会议地点</label>
+                                        <input type="text" class="form-control" id="meeting-location" name="location">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">预约会议</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 会议历史 -->
+                    <div id="history-section" class="content-section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>会议历史</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="history-meetings">
+                                    <!-- 会议历史列表将通过JavaScript加载 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 联系人 -->
+                    <div id="contacts-section" class="content-section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>联系人</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="search-contact" placeholder="搜索联系人ID">
+                                    <button class="btn btn-primary mt-2" onclick="searchContact()">搜索</button>
+                                </div>
+                                <div id="contacts-list">
+                                    <!-- 联系人列表将通过JavaScript加载 -->
+                                </div>
+                                <div id="search-result" style="margin-top: 20px; display: none;">
+                                    <!-- 搜索结果将通过JavaScript加载 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 个人设置 -->
+                    <div id="profile-section" class="content-section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>个人设置</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="profile-form">
+                                    <div class="mb-3">
+                                        <label for="nickname" class="form-label">昵称</label>
+                                        <input type="text" class="form-control" id="nickname" name="nickName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sex" class="form-label">性别</label>
+                                        <select class="form-control" id="sex" name="sex">
+                                            <option value="1">男</option>
+                                            <option value="0">女</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="avatar" class="form-label">头像</label>
+                                        <input type="file" class="form-control" id="avatar" name="avatar">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">保存设置</button>
+                                </form>
+                                
+                                <hr>
+                                
+                                <h4>修改密码</h4>
+                                <form id="password-form">
+                                    <div class="mb-3">
+                                        <label for="new-password" class="form-label">新密码</label>
+                                        <input type="password" class="form-control" id="new-password" name="password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">修改密码</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 检查登录状态
+        function checkLogin() {
+            const token = localStorage.getItem('token');
+            const userInfo = localStorage.getItem('userInfo');
+            
+            if (!token || !userInfo) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            
+            const user = JSON.parse(userInfo);
+            document.getElementById('userName').textContent = user.nickName;
+            return true;
+        }
+        
+        // 退出登录
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'login.html';
+        }
+        
+        // 加载今日会议
+        function loadTodayMeetings() {
+            fetch('/api/meetingReserve/loadTodayMeeting', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    const container = document.getElementById('today-meetings');
+                    container.innerHTML = '';
+                    
+                    if (data.data.length === 0) {
+                        container.innerHTML = '<p class="text-center text-muted">今日暂无会议</p>';
+                        return;
+                    }
+                    
+                    data.data.forEach(meeting => {
+                        const meetingDiv = document.createElement('div');
+                        meetingDiv.className = 'meeting-item';
+                        meetingDiv.innerHTML = `
+                            <div class="meeting-time">${meeting.startTime} - ${meeting.endTime}</div>
+                            <div class="meeting-title">${meeting.title}</div>
+                            <div class="meeting-desc">${meeting.description || '无描述'}</div>
+                            <div class="meeting-desc">地点：${meeting.location || '线上会议'}</div>
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-sm">加入会议</button>
+                                <button class="btn btn-secondary btn-sm">查看详情</button>
+                            </div>
+                        `;
+                        container.appendChild(meetingDiv);
+                    });
+                }
+            });
+        }
+        
+        // 加载会议历史
+        function loadHistoryMeetings() {
+            fetch('/api/meetingReserve/loadDataList', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    const container = document.getElementById('history-meetings');
+                    container.innerHTML = '';
+                    
+                    if (data.data.list.length === 0) {
+                        container.innerHTML = '<p class="text-center text-muted">暂无会议历史</p>';
+                        return;
+                    }
+                    
+                    data.data.list.forEach(meeting => {
+                        const meetingDiv = document.createElement('div');
+                        meetingDiv.className = 'meeting-item';
+                        meetingDiv.innerHTML = `
+                            <div class="meeting-time">${meeting.startTime} - ${meeting.endTime}</div>
+                            <div class="meeting-title">${meeting.title}</div>
+                            <div class="meeting-desc">${meeting.description || '无描述'}</div>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary btn-sm">查看详情</button>
+                                <button class="btn btn-danger btn-sm">删除</button>
+                            </div>
+                        `;
+                        container.appendChild(meetingDiv);
+                    });
+                }
+            });
+        }
+        
+        // 会议预约表单提交
+        document.getElementById('reserve-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const meetingData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                startTime: formData.get('startTime'),
+                endTime: formData.get('endTime'),
+                location: formData.get('location')
+            };
+            
+            fetch('/api/meetingReserve/createMeetingReserve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify(meetingData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    alert('会议预约成功！');
+                    this.reset();
+                    loadTodayMeetings();
+                    loadHistoryMeetings();
+                } else {
+                    alert('会议预约失败：' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('预约失败:', error);
+                alert('会议预约失败，请稍后重试');
+            });
+        });
+        
+        // 个人设置表单提交
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            fetch('/api/account/updateUserInfo', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    alert('个人设置保存成功！');
+                    // 更新localStorage中的用户信息
+                    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+                    userInfo.nickName = formData.get('nickName');
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                    document.getElementById('userName').textContent = userInfo.nickName;
+                } else {
+                    alert('保存失败：' + data.message);
+                }
+            });
+        });
+        
+        // 修改密码表单提交
+        document.getElementById('password-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const passwordData = {
+                password: formData.get('password')
+            };
+            
+            fetch('/api/account/updatePassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                body: new URLSearchParams(passwordData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    alert('密码修改成功！');
+                    this.reset();
+                } else {
+                    alert('密码修改失败：' + data.message);
+                }
+            });
+        });
+        
+        // 切换内容区域
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 移除所有active类
+                document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+                
+                // 添加active类到当前点击的链接和对应区域
+                this.classList.add('active');
+                const sectionId = this.dataset.section + '-section';
+                document.getElementById(sectionId).classList.add('active');
+                
+                // 根据区域加载数据
+        if (sectionId === 'today-section') {
+            loadTodayMeetings();
+        } else if (sectionId === 'history-section') {
+            loadHistoryMeetings();
+        } else if (sectionId === 'contacts-section') {
+            loadContacts();
+        }
+            });
+        });
+        
+        // 加载联系人列表
+        function loadContacts() {
+            fetch('/api/userContact/loadContactUser', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    const container = document.getElementById('contacts-list');
+                    container.innerHTML = '';
+                    
+                    if (data.data.length === 0) {
+                        container.innerHTML = '<p class="text-center text-muted">暂无联系人</p>';
+                        return;
+                    }
+                    
+                    data.data.forEach(contact => {
+                        const contactDiv = document.createElement('div');
+                        contactDiv.className = 'meeting-item';
+                        contactDiv.innerHTML = `
+                            <div class="contact-name">${contact.userInfo.nickName}</div>
+                            <div class="contact-email">${contact.userInfo.email}</div>
+                        `;
+                        container.appendChild(contactDiv);
+                    });
+                }
+            });
+        }
+        
+        // 搜索联系人
+        function searchContact() {
+            const userId = document.getElementById('search-contact').value;
+            if (!userId) {
+                alert('请输入联系人ID');
+                return;
+            }
+            
+            fetch('/api/userContact/searchContact?userId=' + userId, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    const container = document.getElementById('search-result');
+                    container.innerHTML = '';
+                    container.style.display = 'block';
+                    
+                    if (data.data) {
+                        container.innerHTML = `
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">搜索结果</h5>
+                                    <p>昵称: ${data.data.nickName}</p>
+                                    <p>邮箱: ${data.data.email}</p>
+                                    <button class="btn btn-primary" onclick="sendContactApply('${data.data.userId}')">发送好友申请</button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = '<p class="text-center text-muted">未找到该用户</p>';
+                    }
+                }
+            });
+        }
+        
+        // 发送联系人申请
+        function sendContactApply(receiveUserId) {
+            fetch('/api/userContact/contactApply?receiveUserId=' + receiveUserId, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    alert('好友申请发送成功！');
+                    document.getElementById('search-result').style.display = 'none';
+                    document.getElementById('search-contact').value = '';
+                } else {
+                    alert('好友申请发送失败：' + data.message);
+                }
+            });
+        }
+        
+        // 页面加载时检查登录状态并加载今日会议
+        window.onload = function() {
+            if (checkLogin()) {
+                loadTodayMeetings();
+            }
+        };
+    </script>
+</body>
+</html>

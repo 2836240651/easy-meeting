@@ -1,0 +1,403 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2026-03-11 15:08:48 [INFO ][org.hibernate.validator.internal.util.Version][<clinit>][21]-> HV000001: Hibernate Validator 6.2.5.Final
+2026-03-11 15:08:48 [INFO ][com.easymeeting.EasymeetingApplication][logStarting][55]-> Starting EasymeetingApplication v1.0 using Java 1.8.0_191 on Canoeist with PID 68864 (D:\JavaPartical\easymeeting-java\target\easymeeting-1.0.jar started by 13377 in D:\JavaPartical\easymeeting-java)
+2026-03-11 15:08:48 [DEBUG][com.easymeeting.EasymeetingApplication][logStarting][56]-> Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-03-11 15:08:48 [INFO ][com.easymeeting.EasymeetingApplication][logStartupProfileInfo][632]-> No active profile set, falling back to 1 default profile: "default"
+2026-03-11 15:08:49 [INFO ][o.s.d.r.config.RepositoryConfigurationDelegate][multipleStoresDetected][262]-> Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-11 15:08:49 [INFO ][o.s.d.r.config.RepositoryConfigurationDelegate][registerRepositoriesIn][132]-> Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-11 15:08:49 [INFO ][o.s.d.r.config.RepositoryConfigurationDelegate][registerRepositoriesIn][201]-> Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/AIConversationMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/AppUpdateMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/BaseMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/BaseMapperTableSplit.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/ChatMessageMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/MeetingChatMessageMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/MeetingInfoMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/MeetingMemberMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/MeetingReserveMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/MeetingReserveMemberMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/MeetingSummaryMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/UserContactApplyMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/UserContactMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/UserInfoMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/UserNotificationMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][scanCandidateComponents][435]-> Identified candidate component class: URL [jar:file:/D:/JavaPartical/easymeeting-java/target/easymeeting-1.0.jar!/BOOT-INF/classes!/com/easymeeting/mappers/UserSettingsMapper.class]
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'AIConversationMapper' and 'com.easymeeting.mappers.AIConversationMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'AIConversationMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'appUpdateMapper' and 'com.easymeeting.mappers.AppUpdateMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'appUpdateMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'baseMapper' and 'com.easymeeting.mappers.BaseMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'baseMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'baseMapperTableSplit' and 'com.easymeeting.mappers.BaseMapperTableSplit' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'baseMapperTableSplit'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'chatMessageMapper' and 'com.easymeeting.mappers.ChatMessageMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'chatMessageMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'meetingChatMessageMapper' and 'com.easymeeting.mappers.MeetingChatMessageMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'meetingChatMessageMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'meetingInfoMapper' and 'com.easymeeting.mappers.MeetingInfoMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'meetingInfoMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'meetingMemberMapper' and 'com.easymeeting.mappers.MeetingMemberMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'meetingMemberMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'meetingReserveMapper' and 'com.easymeeting.mappers.MeetingReserveMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'meetingReserveMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'meetingReserveMemberMapper' and 'com.easymeeting.mappers.MeetingReserveMemberMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'meetingReserveMemberMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'meetingSummaryMapper' and 'com.easymeeting.mappers.MeetingSummaryMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'meetingSummaryMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'userContactApplyMapper' and 'com.easymeeting.mappers.UserContactApplyMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'userContactApplyMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'userContactMapper' and 'com.easymeeting.mappers.UserContactMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'userContactMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'userInfoMapper' and 'com.easymeeting.mappers.UserInfoMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'userInfoMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'userNotificationMapper' and 'com.easymeeting.mappers.UserNotificationMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'userNotificationMapper'.
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Creating MapperFactoryBean with name 'userSettingsMapper' and 'com.easymeeting.mappers.UserSettingsMapper' mapperInterface
+2026-03-11 15:08:49 [DEBUG][org.mybatis.spring.mapper.ClassPathMapperScanner][debug][49]-> Enabling autowire by type for MapperFactoryBean with name 'userSettingsMapper'.
+2026-03-11 15:08:50 [INFO ][o.s.boot.web.embedded.tomcat.TomcatWebServer][initialize][108]-> Tomcat initialized with port(s): 6099 (http)
+2026-03-11 15:08:50 [INFO ][org.apache.coyote.http11.Http11NioProtocol][log][173]-> Initializing ProtocolHandler ["http-nio-6099"]
+2026-03-11 15:08:50 [INFO ][org.apache.catalina.core.StandardService][log][173]-> Starting service [Tomcat]
+2026-03-11 15:08:50 [INFO ][org.apache.catalina.core.StandardEngine][log][173]-> Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-03-11 15:08:50 [INFO ][o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api]][log][173]-> Initializing Spring embedded WebApplicationContext
+2026-03-11 15:08:50 [INFO ][o.s.b.w.s.c.ServletWebServerApplicationContext][prepareWebApplicationContext][292]-> Root WebApplicationContext: initialization completed in 1989 ms
+ _ _   |_  _ _|_. ___ _ |    _ 
+| | |\/|_)(_| | |_\  |_)||_|_\ 
+     /               |         
+                        3.5.2 
+2026-03-11 15:08:52 [INFO ][org.redisson.Version][logVersion][41]-> Redisson 3.12.3
+2026-03-11 15:08:53 [INFO ][o.r.connection.pool.MasterPubSubConnectionPool][lambda$run$0][168]-> 1 connections initialized for 127.0.0.1/127.0.0.1:6379
+2026-03-11 15:08:53 [INFO ][org.redisson.connection.pool.MasterConnectionPool][lambda$run$0][168]-> 24 connections initialized for 127.0.0.1/127.0.0.1:6379
+2026-03-11 15:08:53 [WARN ][c.b.mybatisplus.core.metadata.TableInfoHelper][initTableFields][342]-> Can not find table primary key in Class: "com.easymeeting.entity.po.MeetingSummary".
+2026-03-11 15:08:53 [WARN ][c.b.mybatisplus.core.injector.DefaultSqlInjector][getMethodList][56]-> class com.easymeeting.entity.po.MeetingSummary ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-03-11 15:08:54 [INFO ][com.easymeeting.service.impl.MinioServiceImpl][ensureBucketExists][190]-> MinIO桶已存在: meetingavatar
+2026-03-11 15:08:54 [INFO ][com.easymeeting.service.impl.MinioServiceImpl][init][45]-> MinIO服务初始化成功，桶名: meetingavatar
+2026-03-11 15:08:55 [INFO ][org.apache.coyote.http11.Http11NioProtocol][log][173]-> Starting ProtocolHandler ["http-nio-6099"]
+2026-03-11 15:08:55 [INFO ][o.s.boot.web.embedded.tomcat.TomcatWebServer][start][220]-> Tomcat started on port(s): 6099 (http) with context path '/api'
+2026-03-11 15:08:55 [INFO ][com.easymeeting.EasymeetingApplication][logStarted][61]-> Started EasymeetingApplication in 6.569 seconds (JVM running for 6.897)
+2026-03-11 15:08:55 [INFO ][c.e.websocket.netty.NettyWebSocketStarter][run][89]-> netty服务启动成功端口:6098
+2026-03-11 15:08:55 [INFO ][c.e.websocket.message.MessageHandler4Redis][listenMessage][43]-> 🟡🟡🟡 Redis消息监听器已启动
+2026-03-11 15:09:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fd72f19] was not registered for synchronization because synchronization is not active
+2026-03-11 15:09:00 [WARN ][com.zaxxer.hikari.HikariConfig][validateNumerics][1084]-> HikariCPDatasource - idleTimeout is close to or more than maxLifetime, disabling it.
+2026-03-11 15:09:00 [INFO ][com.zaxxer.hikari.HikariDataSource][getConnection][110]-> HikariCPDatasource - Starting...
+2026-03-11 15:09:00 [INFO ][com.zaxxer.hikari.HikariDataSource][getConnection][123]-> HikariCPDatasource - Start completed.
+2026-03-11 15:09:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1970143066 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:09:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:09:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:09:00.005(Timestamp), 2026-03-11 15:14:00.005(Timestamp)
+2026-03-11 15:09:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4fd72f19]
+2026-03-11 15:09:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:09:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5f354658] was not registered for synchronization because synchronization is not active
+2026-03-11 15:09:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1932032411 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:09:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:09:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:09:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5f354658]
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@716bff5f] was not registered for synchronization because synchronization is not active
+2026-03-11 15:09:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@914020134 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:09:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:09:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:09:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:09:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@716bff5f]
+2026-03-11 15:09:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:09:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:10:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ad657ed] was not registered for synchronization because synchronization is not active
+2026-03-11 15:10:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1682628771 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:10:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:10:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:10:00.008(Timestamp), 2026-03-11 15:15:00.008(Timestamp)
+2026-03-11 15:10:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2ad657ed]
+2026-03-11 15:10:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:10:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ec1bce1] was not registered for synchronization because synchronization is not active
+2026-03-11 15:10:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1153781610 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:10:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:10:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:10:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@ec1bce1]
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@66df49eb] was not registered for synchronization because synchronization is not active
+2026-03-11 15:10:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1710933861 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:10:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:10:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:10:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:10:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@66df49eb]
+2026-03-11 15:10:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:10:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:11:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@33ae6fdb] was not registered for synchronization because synchronization is not active
+2026-03-11 15:11:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@483443514 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:11:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:11:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:11:00.004(Timestamp), 2026-03-11 15:16:00.004(Timestamp)
+2026-03-11 15:11:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@33ae6fdb]
+2026-03-11 15:11:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:11:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4e742ff] was not registered for synchronization because synchronization is not active
+2026-03-11 15:11:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1019210351 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:11:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:11:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:11:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4e742ff]
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6540b870] was not registered for synchronization because synchronization is not active
+2026-03-11 15:11:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@644860453 wrapping com.mysql.cj.jdbc.ConnectionImpl@7972257] will not be managed by Spring
+2026-03-11 15:11:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:11:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:11:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:11:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6540b870]
+2026-03-11 15:11:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:11:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:12:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d12a2a4] was not registered for synchronization because synchronization is not active
+2026-03-11 15:12:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1964493111 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:12:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:12:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:12:00.005(Timestamp), 2026-03-11 15:17:00.005(Timestamp)
+2026-03-11 15:12:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d12a2a4]
+2026-03-11 15:12:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:12:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3c4cbf83] was not registered for synchronization because synchronization is not active
+2026-03-11 15:12:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@2002356044 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:12:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:12:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:12:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3c4cbf83]
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@534a40a8] was not registered for synchronization because synchronization is not active
+2026-03-11 15:12:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@170085861 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:12:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:12:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:12:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:12:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@534a40a8]
+2026-03-11 15:12:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:12:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:13:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3845de63] was not registered for synchronization because synchronization is not active
+2026-03-11 15:13:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1133628481 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:13:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:13:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:13:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3845de63]
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@32d85c0b] was not registered for synchronization because synchronization is not active
+2026-03-11 15:13:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1858223627 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:13:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:13:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:13:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@32d85c0b]
+2026-03-11 15:13:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:13:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:13:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@462089b8] was not registered for synchronization because synchronization is not active
+2026-03-11 15:13:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@921218419 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:13:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:13:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:13:00.022(Timestamp), 2026-03-11 15:18:00.022(Timestamp)
+2026-03-11 15:13:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:13:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@462089b8]
+2026-03-11 15:13:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:14:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4817a9b3] was not registered for synchronization because synchronization is not active
+2026-03-11 15:14:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1574579631 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:14:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:14:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:14:00.002(Timestamp), 2026-03-11 15:19:00.002(Timestamp)
+2026-03-11 15:14:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4817a9b3]
+2026-03-11 15:14:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:14:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2da8e884] was not registered for synchronization because synchronization is not active
+2026-03-11 15:14:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1239603028 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:14:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:14:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:14:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2da8e884]
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5dd77645] was not registered for synchronization because synchronization is not active
+2026-03-11 15:14:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@38814428 wrapping com.mysql.cj.jdbc.ConnectionImpl@41453290] will not be managed by Spring
+2026-03-11 15:14:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:14:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:14:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:14:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5dd77645]
+2026-03-11 15:14:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:14:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:15:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5993fe11] was not registered for synchronization because synchronization is not active
+2026-03-11 15:15:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1062612404 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:15:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:15:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:15:00.005(Timestamp), 2026-03-11 15:20:00.005(Timestamp)
+2026-03-11 15:15:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5993fe11]
+2026-03-11 15:15:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:15:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4bf1bd08] was not registered for synchronization because synchronization is not active
+2026-03-11 15:15:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1162084943 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:15:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:15:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:15:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4bf1bd08]
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2b90115e] was not registered for synchronization because synchronization is not active
+2026-03-11 15:15:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1833951449 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:15:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:15:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:15:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:15:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2b90115e]
+2026-03-11 15:15:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:15:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:16:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@29d56db2] was not registered for synchronization because synchronization is not active
+2026-03-11 15:16:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@281014938 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:16:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:16:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:16:00.01(Timestamp), 2026-03-11 15:21:00.01(Timestamp)
+2026-03-11 15:16:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@29d56db2]
+2026-03-11 15:16:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:16:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5a46ec35] was not registered for synchronization because synchronization is not active
+2026-03-11 15:16:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1956463027 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:16:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:16:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:16:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5a46ec35]
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@342e0a8a] was not registered for synchronization because synchronization is not active
+2026-03-11 15:16:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@893423874 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:16:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:16:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:16:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:16:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@342e0a8a]
+2026-03-11 15:16:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:16:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:17:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@221903a8] was not registered for synchronization because synchronization is not active
+2026-03-11 15:17:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1465803388 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:17:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:17:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:17:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@221903a8]
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@10b09c08] was not registered for synchronization because synchronization is not active
+2026-03-11 15:17:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1341222874 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:17:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:17:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:17:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@10b09c08]
+2026-03-11 15:17:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:17:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:17:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@67efcb95] was not registered for synchronization because synchronization is not active
+2026-03-11 15:17:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1940605884 wrapping com.mysql.cj.jdbc.ConnectionImpl@348cdf8d] will not be managed by Spring
+2026-03-11 15:17:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:17:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:17:00.01(Timestamp), 2026-03-11 15:22:00.01(Timestamp)
+2026-03-11 15:17:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:17:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@67efcb95]
+2026-03-11 15:17:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:18:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19184cf3] was not registered for synchronization because synchronization is not active
+2026-03-11 15:18:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@695058983 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:18:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:18:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:18:00.012(Timestamp), 2026-03-11 15:23:00.012(Timestamp)
+2026-03-11 15:18:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19184cf3]
+2026-03-11 15:18:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:18:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52ef4b69] was not registered for synchronization because synchronization is not active
+2026-03-11 15:18:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@366266345 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:18:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:18:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:18:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@52ef4b69]
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6bca30c6] was not registered for synchronization because synchronization is not active
+2026-03-11 15:18:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1129749205 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:18:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:18:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:18:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:18:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6bca30c6]
+2026-03-11 15:18:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:18:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:19:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59fca0ac] was not registered for synchronization because synchronization is not active
+2026-03-11 15:19:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@352143827 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:19:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:19:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:19:00.012(Timestamp), 2026-03-11 15:24:00.012(Timestamp)
+2026-03-11 15:19:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59fca0ac]
+2026-03-11 15:19:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:19:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2f0766af] was not registered for synchronization because synchronization is not active
+2026-03-11 15:19:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@461605957 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:19:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:19:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:19:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2f0766af]
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64e05bb0] was not registered for synchronization because synchronization is not active
+2026-03-11 15:19:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1892051869 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:19:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:19:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:19:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:19:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64e05bb0]
+2026-03-11 15:19:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:19:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:20:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][65]-> 开始检查会议超时...
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6515dce2] was not registered for synchronization because synchronization is not active
+2026-03-11 15:20:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1083653964 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:20:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_no,m.meeting_name,m.create_time,m.create_user_id, m.join_type,m.join_password,m.start_time,m.end_time,m.status, u.nick_name as create_user_nick_name FROM meeting_info m LEFT JOIN user_info u ON m.create_user_id = u.user_id WHERE m.status = ?
+2026-03-11 15:20:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> ==> Parameters: 0(Integer)
+2026-03-11 15:20:00 [DEBUG][c.easymeeting.mappers.MeetingInfoMapper.selectList][debug][137]-> <==      Total: 1
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6515dce2]
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7dfbacdc] was not registered for synchronization because synchronization is not active
+2026-03-11 15:20:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@259437094 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:20:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==>  Preparing: select m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status from meeting_reserve m where meeting_id=?
+2026-03-11 15:20:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> ==> Parameters: 4TjmdWEByC(String)
+2026-03-11 15:20:00 [DEBUG][c.e.mappers.MeetingReserveMapper.selectByMeetingId][debug][137]-> <==      Total: 0
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7dfbacdc]
+2026-03-11 15:20:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][100]-> 会议 4TjmdWEByC 没有预约信息，使用默认时长 60 分钟
+2026-03-11 15:20:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingTimeout][129]-> 本次检查没有超时的会议
+2026-03-11 15:20:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][145]-> 开始检查会议提醒...
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Creating a new SqlSession
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54a3a8f9] was not registered for synchronization because synchronization is not active
+2026-03-11 15:20:00 [DEBUG][o.m.spring.transaction.SpringManagedTransaction][debug][49]-> JDBC Connection [HikariProxyConnection@1956537341 wrapping com.mysql.cj.jdbc.ConnectionImpl@1d941fb3] will not be managed by Spring
+2026-03-11 15:20:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==>  Preparing: SELECT m.meeting_id,m.meeting_name,m.join_type,m.join_password,m.duration, m.start_time,m.create_time,m.create_user_id,m.status FROM meeting_reserve m WHERE m.status = 0 AND m.start_time >= ? AND m.start_time <= ? ORDER BY m.start_time ASC
+2026-03-11 15:20:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> ==> Parameters: 2026-03-11 15:20:00.021(Timestamp), 2026-03-11 15:25:00.021(Timestamp)
+2026-03-11 15:20:00 [DEBUG][c.e.m.MeetingReserveMapper.selectUpcomingMeetings][debug][137]-> <==      Total: 0
+2026-03-11 15:20:00 [DEBUG][org.mybatis.spring.SqlSessionUtils][debug][49]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@54a3a8f9]
+2026-03-11 15:20:00 [DEBUG][com.easymeeting.task.MeetingTimeoutTask][checkMeetingReminder][157]-> 当前没有即将开始的会议需要提醒
+2026-03-11 15:20:16 [INFO ][com.zaxxer.hikari.HikariDataSource][close][350]-> HikariCPDatasource - Shutdown initiated...
+2026-03-11 15:20:16 [INFO ][com.zaxxer.hikari.HikariDataSource][close][352]-> HikariCPDatasource - Shutdown completed.

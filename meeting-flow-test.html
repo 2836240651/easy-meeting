@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议流程测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        .test-title {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .test-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #6c757d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .step.active .step-number {
+            background-color: #007bff;
+        }
+        .step.completed .step-number {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>会议流程测试</h1>
+        
+        <!-- 流程指示器 -->
+        <div class="step-indicator">
+            <div class="step" id="step1">
+                <div class="step-number">1</div>
+                <span>创建会议</span>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <span>获取会议ID</span>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <span>跳转会议页面</span>
+            </div>
+        </div>
+
+        <!-- 快速会议创建测试 -->
+        <div class="test-section">
+            <div class="test-title">🚀 快速会议创建测试</div>
+            <p>测试完整的快速会议创建流程</p>
+            
+            <div class="form-group">
+                <label>会议名称</label>
+                <input type="text" id="meetingName" placeholder="请输入会议名称" value="测试会议">
+            </div>
+            
+            <div class="form-group">
+                <label>会议号类型</label>
+                <select id="meetingNoType">
+                    <option value="0">使用个人会议号</option>
+                    <option value="1" selected>随机生成会议号</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>加入类型</label>
+                <select id="joinType">
+                    <option value="0">无密码</option>
+                    <option value="1" selected>设置密码</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>会议密码</label>
+                <input type="password" id="joinPassword" placeholder="请输入会议密码（最多5位）" maxlength="5" value="12345">
+            </div>
+            
+            <button class="test-button" onclick="testQuickMeetingFlow()">测试完整流程</button>
+            <button class="test-button" onclick="testCreateMeetingOnly()">仅测试创建会议</button>
+            <button class="test-button" onclick="testJoinMeetingAPI()">测试加入会议API</button>
+            
+            <div id="flow-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <!-- 路由测试 -->
+        <div class="test-section">
+            <div class="test-title">🔗 路由跳转测试</div>
+            <p>测试会议页面路由跳转功能</p>
+            
+            <button class="test-button" onclick="testRouteNavigation()">测试路由跳转</button>
+            <button class="test-button" onclick="openMeetingPageDirect()">直接打开会议页面</button>
+            
+            <div id="route-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <!-- 调试信息 -->
+        <div class="test-section">
+            <div class="test-title">🔍 调试信息</div>
+            <p>当前环境和配置信息</p>
+            
+            <button class="test-button" onclick="showDebugInfo()">显示调试信息</button>
+            
+            <div id="debug-result" class="test-result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        // 更新步骤指示器
+        function updateStepIndicator(step, status = 'active') {
+            // 重置所有步骤
+            for (let i = 1; i <= 3; i++) {
+                const stepEl = document.getElementById(`step${i}`);
+                stepEl.classList.remove('active', 'completed');
+                if (i < step) {
+                    stepEl.classList.add('completed');
+                } else if (i === step) {
+                    stepEl.classList.add(status);
+                }
+            }
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type = 'info') {
+            const resultDiv = document.getElementById(elementId);
+            resultDiv.style.display = 'block';
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.textContent = message;
+        }
+
+        // 测试完整的快速会议流程
+        async function testQuickMeetingFlow() {
+            const resultDiv = document.getElementById('flow-result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                // 步骤1: 创建会议
+                updateStepIndicator(1, 'active');
+                showResult('flow-result', '步骤1: 正在创建会议...', 'info');
+                
+                const meetingData = {
+                    meetingNoType: parseInt(document.getElementById('meetingNoType').value),
+                    MeetingName: document.getElementById('meetingName').value || '测试会议',
+                    joinType: parseInt(document.getElementById('joinType').value),
+                    joinPassword: document.getElementById('joinPassword').value
+                };
+
+                const response = await fetch('http://localhost:6099/api/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem('token') || 'test-token'
+                    },
+                    body: JSON.stringify(meetingData)
+                });
+
+                const data = await response.json();
+                console.log('创建会议响应:', data);
+
+                if (data.code === 200) {
+                    // 步骤2: 获取会议ID
+                    updateStepIndicator(2, 'completed');
+                    const meetingId = data.data;
+                    showResult('flow-result', `步骤1: ✅ 会议创建成功\n步骤2: ✅ 获取会议ID: ${meetingId}\n步骤3: 准备跳转到会议页面...`, 'success');
+                    
+                    // 步骤3: 跳转会议页面
+                    setTimeout(() => {
+                        updateStepIndicator(3, 'completed');
+                        const meetingUrl = `http://localhost:3000/#/meeting/${meetingId}`;
+                        showResult('flow-result', `步骤1: ✅ 会议创建成功\n步骤2: ✅ 获取会议ID: ${meetingId}\n步骤3: ✅ 正在跳转到会议页面...\n页面地址: ${meetingUrl}`, 'success');
+                        
+                        // 在新标签页中打开会议页面
+                        window.open(meetingUrl, '_blank');
+                    }, 1000);
+                } else {
+                    updateStepIndicator(1, 'active');
+                    showResult('flow-result', `❌ 创建会议失败\n错误代码: ${data.code}\n错误信息: ${data.info}`, 'error');
+                }
+            } catch (error) {
+                updateStepIndicator(1, 'active');
+                showResult('flow-result', `❌ 请求失败\n错误信息: ${error.message}`, 'error');
+            }
+        }
+
+        // 仅测试创建会议
+        async function testCreateMeetingOnly() {
+            try {
+                showResult('flow-result', '正在测试创建会议API...', 'info');
+                
+                const meetingData = {
+                    meetingNoType: parseInt(document.getElementById('meetingNoType').value),
+                    MeetingName: document.getElementById('meetingName').value || '测试会议',
+                    joinType: parseInt(document.getElementById('joinType').value),
+                    joinPassword: document.getElementById('joinPassword').value
+                };
+
+                const response = await fetch('http://localhost:6099/api/meetingInfo/quickMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem('token') || 'test-token'
+                    },
+                    body: JSON.stringify(meetingData)
+                });
+
+                const data = await response.json();
+                showResult('flow-result', `✅ 创建会议API测试完成\n响应状态: ${response.status}\n响应数据: ${JSON.stringify(data, null, 2)}`, 'success');
+            } catch (error) {
+                showResult('flow-result', `❌ 创建会议API测试失败\n错误信息: ${error.message}`, 'error');
+            }
+        }
+
+        // 测试加入会议API
+        async function testJoinMeetingAPI() {
+            try {
+                showResult('flow-result', '正在测试加入会议API...', 'info');
+                
+                const response = await fetch('http://localhost:6099/api/meetingInfo/joinMeeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem('token') || 'test-token'
+                    },
+                    body: JSON.stringify({ videoOpen: true })
+                });
+
+                const data = await response.json();
+                showResult('flow-result', `✅ 加入会议API测试完成\n响应状态: ${response.status}\n响应数据: ${JSON.stringify(data, null, 2)}`, 'success');
+            } catch (error) {
+                showResult('flow-result', `❌ 加入会议API测试失败\n错误信息: ${error.message}`, 'error');
+            }
+        }
+
+        // 测试路由跳转
+        function testRouteNavigation() {
+            const testMeetingId = 'test123';
+            const meetingUrl = `http://localhost:3000/#/meeting/${testMeetingId}`;
+            
+            showResult('route-result', `✅ 路由跳转测试\n目标地址: ${meetingUrl}\n正在新标签页中打开...`, 'success');
+            window.open(meetingUrl, '_blank');
+        }
+
+        // 直接打开会议页面
+        function openMeetingPageDirect() {
+            const meetingUrl = 'http://localhost:3000/#/meeting';
+            
+            showResult('route-result', `✅ 直接打开会议页面\n页面地址: ${meetingUrl}\n正在新标签页中打开...`, 'success');
+            window.open(meetingUrl, '_blank');
+        }
+
+        // 显示调试信息
+        function showDebugInfo() {
+            const token = localStorage.getItem('token');
+            const userInfo = localStorage.getItem('userInfo');
+            
+            const debugInfo = `
+🔍 调试信息:
+- 前端地址: http://localhost:3000/
+- 后端地址: http://localhost:6099/api
+- WebSocket地址: ws://localhost:6098
+- 当前Token: ${token ? '存在' : '不存在'}
+- 用户信息: ${userInfo ? '存在' : '不存在'}
+- 浏览器: ${navigator.userAgent}
+- 当前时间: ${new Date().toLocaleString()}
+
+📋 路由配置:
+- 登录页面: /#/login
+- 注册页面: /#/register  
+- 仪表板: /#/dashboard
+- 会议页面: /#/meeting/:meetingId
+
+🔧 API端点:
+- 快速会议: POST /api/meetingInfo/quickMeeting
+- 加入会议: POST /api/meetingInfo/joinMeeting
+- 获取当前会议: GET /api/meetingInfo/getCurrentMeeting
+- 获取会议成员: GET /api/meetingInfo/loadMeetingMembers
+            `;
+            
+            showResult('debug-result', debugInfo, 'info');
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('会议流程测试工具已加载');
+            updateStepIndicator(1);
+        });
+    </script>
+</body>
+</html>

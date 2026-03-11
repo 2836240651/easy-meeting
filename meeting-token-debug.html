@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议Token调试工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>会议Token调试工具</h1>
+        
+        <div class="section">
+            <h3>1. 获取当前用户Token信息</h3>
+            <button onclick="getCurrentUserInfo()">获取当前用户信息</button>
+            <div id="userInfoResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>2. 获取当前会议信息</h3>
+            <button onclick="getCurrentMeeting()">获取当前会议</button>
+            <div id="currentMeetingResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>3. 创建快速会议测试</h3>
+            <input type="text" id="meetingName" placeholder="会议名称" value="测试会议">
+            <button onclick="createQuickMeeting()">创建快速会议</button>
+            <div id="quickMeetingResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>4. 结束会议测试</h3>
+            <button onclick="finishMeeting()">结束会议</button>
+            <div id="finishMeetingResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>5. 离开会议测试</h3>
+            <button onclick="exitMeeting()">离开会议</button>
+            <div id="exitMeetingResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>6. 清除Token中的会议ID</h3>
+            <button onclick="clearMeetingId()">手动清除会议ID</button>
+            <div id="clearResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('请先登录获取token');
+        }
+
+        async function apiCall(url, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'token': token,
+                        'Content-Type': method === 'POST' ? 'application/json' : 'application/x-www-form-urlencoded'
+                    }
+                };
+
+                if (data) {
+                    if (method === 'POST' && typeof data === 'object') {
+                        if (url.includes('quickMeeting')) {
+                            options.body = JSON.stringify(data);
+                        } else {
+                            const params = new URLSearchParams();
+                            Object.keys(data).forEach(key => {
+                                if (data[key] !== null && data[key] !== undefined) {
+                                    params.append(key, data[key]);
+                                }
+                            });
+                            options.body = params;
+                            options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                        }
+                    }
+                }
+
+                console.log('API调用:', url, options);
+                const response = await fetch(url, options);
+                const result = await response.json();
+                console.log('API响应:', result);
+                return result;
+            } catch (error) {
+                console.error('API调用失败:', error);
+                return { code: 500, info: '网络错误: ' + error.message };
+            }
+        }
+
+        async function getCurrentUserInfo() {
+            const result = await apiCall(`${API_BASE}/userInfo/getUserInfo`);
+            const resultDiv = document.getElementById('userInfoResult');
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `用户信息获取成功:
+用户ID: ${result.data.userId}
+昵称: ${result.data.nickName}
+邮箱: ${result.data.email}
+当前会议ID: ${result.data.currentMeetingId || '无'}
+个人会议号: ${result.data.myMeetingNo || '无'}`;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `获取用户信息失败: ${result.info}`;
+            }
+        }
+
+        async function getCurrentMeeting() {
+            const result = await apiCall(`${API_BASE}/meetingInfo/getCurrentMeeting`);
+            const resultDiv = document.getElementById('currentMeetingResult');
+            
+            if (result.code === 200) {
+                if (result.data) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `当前会议信息:
+会议ID: ${result.data.meetingId}
+会议名称: ${result.data.meetingName}
+会议号: ${result.data.meetingNo}
+状态: ${result.data.status === 0 ? '进行中' : '已结束'}
+创建时间: ${result.data.createTime}`;
+                } else {
+                    resultDiv.className = 'result';
+                    resultDiv.textContent = '当前没有进行中的会议';
+                }
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `获取当前会议失败: ${result.info}`;
+            }
+        }
+
+        async function createQuickMeeting() {
+            const meetingName = document.getElementById('meetingName').value || '测试会议';
+            const data = {
+                meetingNoType: 0, // 使用个人会议号
+                MeetingName: meetingName,
+                joinType: 0, // 无密码
+                joinPassword: null
+            };
+
+            const result = await apiCall(`${API_BASE}/meetingInfo/quickMeeting`, 'POST', data);
+            const resultDiv = document.getElementById('quickMeetingResult');
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `快速会议创建成功:
+会议ID: ${result.data}
+请检查用户token中是否已设置currentMeetingId`;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `创建快速会议失败: ${result.info}`;
+            }
+        }
+
+        async function finishMeeting() {
+            const result = await apiCall(`${API_BASE}/meetingInfo/finishMeeting`, 'POST');
+            const resultDiv = document.getElementById('finishMeetingResult');
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `会议结束成功
+请检查用户token中的currentMeetingId是否已清除`;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `结束会议失败: ${result.info}`;
+            }
+        }
+
+        async function exitMeeting() {
+            const result = await apiCall(`${API_BASE}/meetingInfo/exitMeeting`, 'POST');
+            const resultDiv = document.getElementById('exitMeetingResult');
+            
+            if (result.code === 200) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `离开会议成功
+请检查用户token中的currentMeetingId是否已清除`;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `离开会议失败: ${result.info}`;
+            }
+        }
+
+        async function clearMeetingId() {
+            // 这个功能需要后端提供一个清除会议ID的接口
+            const resultDiv = document.getElementById('clearResult');
+            resultDiv.className = 'result';
+            resultDiv.textContent = '此功能需要后端提供专门的清除接口，或者可以通过重新登录来清除token';
+        }
+
+        // 页面加载时自动获取用户信息
+        window.onload = function() {
+            getCurrentUserInfo();
+            getCurrentMeeting();
+        };
+    </script>
+</body>
+</html>

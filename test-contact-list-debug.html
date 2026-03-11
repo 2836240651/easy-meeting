@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系人列表 API 调试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .error {
+            color: #f44336;
+        }
+        .info {
+            color: #2196F3;
+        }
+        .contact-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        .contact-item h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .contact-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>联系人列表 API 调试工具</h1>
+
+    <div class="container">
+        <h2>1. 设置 Token</h2>
+        <div class="form-group">
+            <label>Token:</label>
+            <input type="text" id="token" placeholder="请输入 token">
+        </div>
+        <button onclick="saveToken()">保存 Token</button>
+        <button onclick="loadTokenFromStorage()">从 localStorage 加载</button>
+        <div id="tokenResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2>2. 测试加载联系人列表</h2>
+        <button onclick="testLoadContactList()">加载联系人列表</button>
+        <button onclick="testLoadContactListWithDetails()">加载联系人列表（详细日志）</button>
+        <div id="contactListResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2>3. 测试加载申请数量</h2>
+        <button onclick="testLoadApplyCount()">加载申请数量</button>
+        <div id="applyCountResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2>4. 测试加载所有申请</h2>
+        <button onclick="testLoadAllApply()">加载所有申请</button>
+        <div id="allApplyResult" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:6099/api';
+        let currentToken = '';
+
+        // 保存 token
+        function saveToken() {
+            const token = document.getElementById('token').value.trim();
+            if (!token) {
+                showResult('tokenResult', '请输入 token', 'error');
+                return;
+            }
+            currentToken = token;
+            localStorage.setItem('token', token);
+            showResult('tokenResult', `Token 已保存: ${token.substring(0, 20)}...`, 'success');
+        }
+
+        // 从 localStorage 加载 token
+        function loadTokenFromStorage() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                currentToken = token;
+                document.getElementById('token').value = token;
+                showResult('tokenResult', `Token 已从 localStorage 加载: ${token.substring(0, 20)}...`, 'success');
+            } else {
+                showResult('tokenResult', 'localStorage 中没有找到 token', 'error');
+            }
+        }
+
+        // 显示结果
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = `result ${type}`;
+            element.textContent = message;
+        }
+
+        // 测试加载联系人列表
+        async function testLoadContactList() {
+            if (!currentToken) {
+                showResult('contactListResult', '请先设置 token', 'error');
+                return;
+            }
+
+            showResult('contactListResult', '正在加载联系人列表...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/userContact/loadContactUser`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    }
+                });
+
+                const data = await response.json();
+                
+                let resultHtml = `<div class="success">✅ API 调用成功</div>\n`;
+                resultHtml += `<div>HTTP 状态码: ${response.status}</div>\n`;
+                resultHtml += `<div>响应代码: ${data.code}</div>\n`;
+                resultHtml += `<div>响应信息: ${data.info}</div>\n\n`;
+                
+                if (data.code === 200 && data.data) {
+                    resultHtml += `<div class="success">联系人数量: ${data.data.length}</div>\n\n`;
+                    
+                    if (data.data.length > 0) {
+                        resultHtml += '<div><strong>联系人列表:</strong></div>';
+                        data.data.forEach((contact, index) => {
+                            resultHtml += `
+                                <div class="contact-item">
+                                    <h4>联系人 ${index + 1}</h4>
+                                    <p><strong>用户ID:</strong> ${contact.userId || '无'}</p>
+                                    <p><strong>联系人ID:</strong> ${contact.contactId || '无'}</p>
+                                    <p><strong>昵称:</strong> ${contact.nickName || '无'}</p>
+                                    <p><strong>邮箱:</strong> ${contact.email || '无'}</p>
+                                    <p><strong>性别:</strong> ${contact.sex === 1 ? '男' : contact.sex === 0 ? '女' : '未知'}</p>
+                                    <p><strong>状态:</strong> ${contact.status}</p>
+                                    <p><strong>最后离线时间:</strong> ${contact.lastOffTime || '无'}</p>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        resultHtml += '<div class="info">暂无联系人</div>';
+                    }
+                } else {
+                    resultHtml += `<div class="error">❌ 加载失败: ${data.info}</div>`;
+                }
+                
+                document.getElementById('contactListResult').innerHTML = resultHtml;
+            } catch (error) {
+                showResult('contactListResult', `❌ 请求失败: ${error.message}\n\n${error.stack}`, 'error');
+            }
+        }
+
+        // 测试加载联系人列表（详细日志）
+        async function testLoadContactListWithDetails() {
+            if (!currentToken) {
+                showResult('contactListResult', '请先设置 token', 'error');
+                return;
+            }
+
+            showResult('contactListResult', '正在加载联系人列表（详细日志）...', 'info');
+
+            try {
+                console.log('=== 开始加载联系人列表 ===');
+                console.log('Token:', currentToken);
+                console.log('API URL:', `${API_BASE_URL}/userContact/loadContactUser`);
+
+                const response = await fetch(`${API_BASE_URL}/userContact/loadContactUser`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    }
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                let resultText = `=== API 调用详情 ===\n\n`;
+                resultText += `HTTP 状态码: ${response.status}\n`;
+                resultText += `响应代码: ${data.code}\n`;
+                resultText += `响应信息: ${data.info}\n\n`;
+                resultText += `完整响应:\n${JSON.stringify(data, null, 2)}`;
+                
+                showResult('contactListResult', resultText, data.code === 200 ? 'success' : 'error');
+            } catch (error) {
+                console.error('加载联系人列表失败:', error);
+                showResult('contactListResult', `❌ 请求失败: ${error.message}\n\n${error.stack}`, 'error');
+            }
+        }
+
+        // 测试加载申请数量
+        async function testLoadApplyCount() {
+            if (!currentToken) {
+                showResult('applyCountResult', '请先设置 token', 'error');
+                return;
+            }
+
+            showResult('applyCountResult', '正在加载申请数量...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/userContact/loadContactApplyDealWithCount`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    }
+                });
+
+                const data = await response.json();
+                
+                let resultText = `HTTP 状态码: ${response.status}\n`;
+                resultText += `响应代码: ${data.code}\n`;
+                resultText += `响应信息: ${data.info}\n`;
+                resultText += `申请数量: ${data.data}\n\n`;
+                resultText += `完整响应:\n${JSON.stringify(data, null, 2)}`;
+                
+                showResult('applyCountResult', resultText, data.code === 200 ? 'success' : 'error');
+            } catch (error) {
+                showResult('applyCountResult', `❌ 请求失败: ${error.message}\n\n${error.stack}`, 'error');
+            }
+        }
+
+        // 测试加载所有申请
+        async function testLoadAllApply() {
+            if (!currentToken) {
+                showResult('allApplyResult', '请先设置 token', 'error');
+                return;
+            }
+
+            showResult('allApplyResult', '正在加载所有申请...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/userContact/loadAllContactApply`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': currentToken
+                    }
+                });
+
+                const data = await response.json();
+                
+                let resultText = `HTTP 状态码: ${response.status}\n`;
+                resultText += `响应代码: ${data.code}\n`;
+                resultText += `响应信息: ${data.info}\n`;
+                
+                if (data.code === 200 && data.data) {
+                    resultText += `申请数量: ${data.data.length}\n\n`;
+                    resultText += `完整响应:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultText += `\n完整响应:\n${JSON.stringify(data, null, 2)}`;
+                }
+                
+                showResult('allApplyResult', resultText, data.code === 200 ? 'success' : 'error');
+            } catch (error) {
+                showResult('allApplyResult', `❌ 请求失败: ${error.message}\n\n${error.stack}`, 'error');
+            }
+        }
+
+        // 页面加载时自动从 localStorage 加载 token
+        window.onload = function() {
+            loadTokenFromStorage();
+        };
+    </script>
+</body>
+</html>
