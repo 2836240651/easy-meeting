@@ -26,8 +26,19 @@
 权限检查: window-management http://localhost:3001/
 页面内导航完成
 权限检查: background-sync devtools://devtools/
-[65648:0311/150639.279:ERROR:CONSOLE:1] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
-[65648:0311/150639.279:ERROR:CONSOLE:1] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+窗口获得焦点
 权限检查: media http://localhost:3001/
 权限检查: media http://localhost:3001/
 权限检查: geolocation http://localhost:3001/
@@ -38,22 +49,127 @@
 权限检查: geolocation http://localhost:3001/
 权限检查: window-management http://localhost:3001/
 页面内导航完成
-[65648:0311/150656.134:ERROR:content\browser\gpu\gpu_process_host.cc:999] GPU process exited unexpectedly: exit_code=34
-窗口失去焦点
-窗口获得焦点
-窗口失去焦点
-窗口失去焦点
-窗口获得焦点
-窗口失去焦点
-窗口获得焦点
-窗口失去焦点
-窗口获得焦点
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
 窗口失去焦点
 窗口失去焦点
 窗口获得焦点
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+页面导航完成
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+页面加载完成
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限检查: speaker-selection http://localhost:3001/
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限请求: media
+权限检查: media http://localhost:3001/
 窗口失去焦点
 窗口获得焦点
 窗口失去焦点
-Terminate batch job (Y/N)? D:\JavaPartical\easymeeting-java\frontend\node_modules\electron\dist\electron.exe exited with signal SIGINT
-
-^C
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成
+窗口获得焦点
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限检查: speaker-selection http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限检查: speaker-selection http://localhost:3001/
+窗口失去焦点
+窗口获得焦点
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限检查: speaker-selection http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/meeting/Y1TYSTYj5d
+权限检查: speaker-selection http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+窗口失去焦点
+窗口获得焦点
+主进程: 收到获取屏幕源请求 { types: [ 'screen', 'window' ] }
+主进程: 找到 19 个屏幕/窗口源
+权限请求: media
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+窗口失去焦点
+窗口获得焦点
+权限检查: media http://localhost:3001/
+权限检查: media http://localhost:3001/
+权限检查: geolocation http://localhost:3001/
+权限检查: window-management http://localhost:3001/
+页面内导航完成

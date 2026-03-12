@@ -1,12 +1,310 @@
-(node:48796) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(node:47724) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-At least one <template> or <script> is required in a single file component. D:/JavaPartical/easymeeting-java/frontend/src/components/AIAssistant.vue
-[2m10:47:10[22m [31m[1m[vite][22m[39m [31mInternal server error: At least one <template> or <script> is required in a single file component. D:/JavaPartical/easymeeting-java/frontend/src/components/AIAssistant.vue[39m
+[2m21:11:54[22m [31m[1m[vite][22m[39m [31mhttp proxy error at /api/account/loadSystemSetting:[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+[2m21:11:54[22m [31m[1m[vite][22m[39m [31mhttp proxy error at /api/account/checkCode:[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+[2m21:11:59[22m [31m[1m[vite][22m[39m [31mhttp proxy error at /api/account/loadSystemSetting:[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+[2m21:11:59[22m [31m[1m[vite][22m[39m [31mhttp proxy error at /api/account/checkCode:[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+[2m22:16:50[22m [31m[1m[vite][22m[39m [31mhttp proxy error at /api/userContact/loadContactApplyDealWithCount:[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at afterConnectMultiple (node:net:1715:7)
+[2m23:27:32[22m [31m[1m[vite][22m[39m [31mInternal server error: D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2837:5: Unknown word return[39m
   Plugin: [35mvite:vue[39m
-  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/components/AIAssistant.vue[39m
-      at Object.parse$1 [as parse] (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1894:7)
-      at createDescriptor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:86:43)
-      at transformMain (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2331:34)
-      at TransformContext.transform (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2881:16)
-      at Object.transform (file:///D:/JavaPartical/easymeeting-java/frontend/node_modules/vite/dist/node/chunks/dep-827b23df.js:44356:62)
-      at async loadAndTransform (file:///D:/JavaPartical/easymeeting-java/frontend/node_modules/vite/dist/node/chunks/dep-827b23df.js:55088:29)
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:5981:5
+[33m  5980|      return
+  5981|    }
+  5982|  
+     |   ^
+  5983|    const statusEntries = await Promise.all(
+  5984|      meetingIds.map(async (meetingId) => {[39m
+      at Input.error (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\input.js:135:16)
+      at Parser.unknownWord (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:595:22)
+      at Parser.other (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:437:12)
+      at Parser.parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:472:16)
+      at parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parse.js:11:12)
+      at new LazyResult (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\lazy-result.js:165:16)
+      at Processor.process (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\processor.js:53:14)
+      at doCompileStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19542:36)
+      at Object.compileStyleAsync (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19462:10)
+      at transformStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2703:41)
+[2m23:27:32[22m [31m[1m[vite][22m[39m [31mInternal server error: D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2837:5: Unknown word return[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:5981:5
+[33m  5980|      return
+  5981|    }
+  5982|  
+     |   ^
+  5983|    const statusEntries = await Promise.all(
+  5984|      meetingIds.map(async (meetingId) => {[39m
+      at Input.error (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\input.js:135:16)
+      at Parser.unknownWord (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:595:22)
+      at Parser.other (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:437:12)
+      at Parser.parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:472:16)
+      at parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parse.js:11:12)
+      at new LazyResult (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\lazy-result.js:165:16)
+      at Processor.process (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\processor.js:53:14)
+      at doCompileStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19542:36)
+      at Object.compileStyleAsync (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19462:10)
+      at transformStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2703:41)
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2837:5: Unknown word return
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2837:5: Unknown word return
+[2m23:27:43[22m [31m[1m[vite][22m[39m [31mInternal server error: D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:5994:5
+[33m  5993|      return
+  5994|    }
+  5995|  
+     |   ^
+  5996|    const statusEntries = await Promise.all(
+  5997|      meetingIds.map(async (meetingId) => {[39m
+      at Input.error (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\input.js:135:16)
+      at Parser.unknownWord (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:595:22)
+      at Parser.other (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:437:12)
+      at Parser.parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:472:16)
+      at parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parse.js:11:12)
+      at new LazyResult (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\lazy-result.js:165:16)
+      at Processor.process (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\processor.js:53:14)
+      at doCompileStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19542:36)
+      at Object.compileStyleAsync (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19462:10)
+      at transformStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2703:41)
+[2m23:27:43[22m [31m[1m[vite][22m[39m [31mInternal server error: D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:5994:5
+[33m  5993|      return
+  5994|    }
+  5995|  
+     |   ^
+  5996|    const statusEntries = await Promise.all(
+  5997|      meetingIds.map(async (meetingId) => {[39m
+      at Input.error (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\input.js:135:16)
+      at Parser.unknownWord (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:595:22)
+      at Parser.other (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:437:12)
+      at Parser.parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:472:16)
+      at parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parse.js:11:12)
+      at new LazyResult (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\lazy-result.js:165:16)
+      at Processor.process (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\processor.js:53:14)
+      at doCompileStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19542:36)
+      at Object.compileStyleAsync (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19462:10)
+      at transformStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2703:41)
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return
+[2m23:31:14[22m [31m[1m[vite][22m[39m [31mInternal server error: D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:6023:5
+[33m  6022|      return
+  6023|    }
+  6024|  
+     |   ^
+  6025|    const statusEntries = await Promise.all(
+  6026|      meetingIds.map(async (meetingId) => {[39m
+      at Input.error (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\input.js:135:16)
+      at Parser.unknownWord (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:595:22)
+      at Parser.other (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:437:12)
+      at Parser.parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:472:16)
+      at parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parse.js:11:12)
+      at new LazyResult (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\lazy-result.js:165:16)
+      at Processor.process (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\processor.js:53:14)
+      at doCompileStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19542:36)
+      at Object.compileStyleAsync (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19462:10)
+      at transformStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2703:41)
+[2m23:31:14[22m [31m[1m[vite][22m[39m [31mInternal server error: D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:6023:5
+[33m  6022|      return
+  6023|    }
+  6024|  
+     |   ^
+  6025|    const statusEntries = await Promise.all(
+  6026|      meetingIds.map(async (meetingId) => {[39m
+      at Input.error (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\input.js:135:16)
+      at Parser.unknownWord (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:595:22)
+      at Parser.other (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:437:12)
+      at Parser.parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parser.js:472:16)
+      at parse (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\parse.js:11:12)
+      at new LazyResult (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\lazy-result.js:165:16)
+      at Processor.process (D:\JavaPartical\easymeeting-java\frontend\node_modules\postcss\lib\processor.js:53:14)
+      at doCompileStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19542:36)
+      at Object.compileStyleAsync (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:19462:10)
+      at transformStyle (D:\JavaPartical\easymeeting-java\frontend\node_modules\@vitejs\plugin-vue\dist\index.cjs:2703:41)
+[2m23:31:14[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unterminated comment. (813:0)
+
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue
+1852|  }
+1853|  
+1854|  // 标记通知为已读
+   |              ^
+1855|  /* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+   |  ^
+1856|    const meetingIds = [...new Set([39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:813:0
+[33m  551|                <h4 class="pending-section-title">待处理的好友申请</h4>
+  552|                <div 
+  553|                  v-for="notification in pendingNotificationList.filter(n => n.notificationType === 1)" 
+     |                                                                                   ^
+  554|                  :key="notification.notificationId"
+  555|                  class="notification-item"[39m
+      at constructor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at Parser.raise (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at Parser.skipBlockComment (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5790:18)
+      at Parser.skipSpace (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5858:38)
+      at Parser.nextToken (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5775:10)
+      at Parser.next (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5692:10)
+      at Parser.parseBlockOrModuleBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at Parser.parseBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13299:10)
+      at Parser.parseBlock (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13287:10)
+      at Parser.parseFunctionBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:12090:24)
+[2m23:31:14[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unterminated comment. (813:0)
+
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue
+1852|  }
+1853|  
+1854|  // 标记通知为已读
+   |              ^
+1855|  /* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+   |  ^
+1856|    const meetingIds = [...new Set([39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:813:0
+[33m  551|                <h4 class="pending-section-title">待处理的好友申请</h4>
+  552|                <div 
+  553|                  v-for="notification in pendingNotificationList.filter(n => n.notificationType === 1)" 
+     |                                                                                   ^
+  554|                  :key="notification.notificationId"
+  555|                  class="notification-item"[39m
+      at constructor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at Parser.raise (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at Parser.skipBlockComment (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5790:18)
+      at Parser.skipSpace (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5858:38)
+      at Parser.nextToken (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5775:10)
+      at Parser.next (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5692:10)
+      at Parser.parseBlockOrModuleBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at Parser.parseBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13299:10)
+      at Parser.parseBlock (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13287:10)
+      at Parser.parseFunctionBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:12090:24)
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return
+[2m23:32:34[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unterminated comment. (813:0)
+
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue
+1852|  }
+1853|  
+1854|  // 标记通知为已读
+   |              ^
+1855|  /* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+   |  ^
+1856|    const meetingIds = [...new Set([39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:813:0
+[33m  551|                <h4 class="pending-section-title">待处理的好友申请</h4>
+  552|                <div 
+  553|                  v-for="notification in pendingNotificationList.filter(n => n.notificationType === 1)" 
+     |                                                                                   ^
+  554|                  :key="notification.notificationId"
+  555|                  class="notification-item"[39m
+      at constructor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at Parser.raise (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at Parser.skipBlockComment (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5790:18)
+      at Parser.skipSpace (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5858:38)
+      at Parser.nextToken (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5775:10)
+      at Parser.next (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5692:10)
+      at Parser.parseBlockOrModuleBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at Parser.parseBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13299:10)
+      at Parser.parseBlock (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13287:10)
+      at Parser.parseFunctionBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:12090:24)
+[2m23:32:34[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unterminated comment. (813:0)
+
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue
+1852|  }
+1853|  
+1854|  // 标记通知为已读
+   |              ^
+1855|  /* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+   |  ^
+1856|    const meetingIds = [...new Set([39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:813:0
+[33m  551|                <h4 class="pending-section-title">待处理的好友申请</h4>
+  552|                <div 
+  553|                  v-for="notification in pendingNotificationList.filter(n => n.notificationType === 1)" 
+     |                                                                                   ^
+  554|                  :key="notification.notificationId"
+  555|                  class="notification-item"[39m
+      at constructor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at Parser.raise (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at Parser.skipBlockComment (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5790:18)
+      at Parser.skipSpace (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5858:38)
+      at Parser.nextToken (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5775:10)
+      at Parser.next (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5692:10)
+      at Parser.parseBlockOrModuleBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at Parser.parseBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13299:10)
+      at Parser.parseBlock (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13287:10)
+      at Parser.parseFunctionBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:12090:24)
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue:2845:5: Unknown word return
+[2m23:33:09[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unterminated comment. (813:0)
+
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue
+1852|  }
+1853|  
+1854|  // 标记通知为已读
+   |              ^
+1855|  /* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+   |  ^
+1856|    const meetingIds = [...new Set([39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:813:0
+[33m  551|                <h4 class="pending-section-title">待处理的好友申请</h4>
+  552|                <div 
+  553|                  v-for="notification in pendingNotificationList.filter(n => n.notificationType === 1)" 
+     |                                                                                   ^
+  554|                  :key="notification.notificationId"
+  555|                  class="notification-item"[39m
+      at constructor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at Parser.raise (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at Parser.skipBlockComment (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5790:18)
+      at Parser.skipSpace (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5858:38)
+      at Parser.nextToken (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5775:10)
+      at Parser.next (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5692:10)
+      at Parser.parseBlockOrModuleBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at Parser.parseBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13299:10)
+      at Parser.parseBlock (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13287:10)
+      at Parser.parseFunctionBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:12090:24)
+[2m23:33:09[22m [31m[1m[vite][22m[39m [31mInternal server error: [vue/compiler-sfc] Unterminated comment. (813:0)
+
+D:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue
+1852|  }
+1853|  
+1854|  // 标记通知为已读
+   |              ^
+1855|  /* const refreshInstantInviteMeetingStatuses = async (notifications = []) => {
+   |  ^
+1856|    const meetingIds = [...new Set([39m
+  Plugin: [35mvite:vue[39m
+  File: [36mD:/JavaPartical/easymeeting-java/frontend/src/views/Dashboard.vue[39m:813:0
+[33m  551|                <h4 class="pending-section-title">待处理的好友申请</h4>
+  552|                <div 
+  553|                  v-for="notification in pendingNotificationList.filter(n => n.notificationType === 1)" 
+     |                                                                                   ^
+  554|                  :key="notification.notificationId"
+  555|                  class="notification-item"[39m
+      at constructor (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at Parser.raise (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at Parser.skipBlockComment (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5790:18)
+      at Parser.skipSpace (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5858:38)
+      at Parser.nextToken (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5775:10)
+      at Parser.next (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:5692:10)
+      at Parser.parseBlockOrModuleBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at Parser.parseBlockBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13299:10)
+      at Parser.parseBlock (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:13287:10)
+      at Parser.parseFunctionBody (D:\JavaPartical\easymeeting-java\frontend\node_modules\@babel\parser\lib\index.js:12090:24)
+^C^C

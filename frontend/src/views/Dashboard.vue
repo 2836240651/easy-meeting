@@ -2326,7 +2326,7 @@ const finishCurrentMeeting = async () => {
   
   try {
     console.log('结束当前会议:', currentMeeting.value.meetingId)
-    const response = await meetingService.finishMeeting()
+    const response = await meetingService.finishMeeting(currentMeeting.value.meetingId)
     console.log('结束会议响应:', response.data)
     
     if (response.data.code === 200) {

@@ -254,6 +254,18 @@ public class MeetingInfoController extends ABaseController{
 		if (StringUtils.isEmpty(targetMeetingId)) {
 			targetMeetingId = tokenUserInfo.getCurrentMeetingId();
 		}
+		if (StringUtils.isEmpty(targetMeetingId)) {
+			MeetingInfoQuery query = new MeetingInfoQuery();
+			query.setStatus(MeetingStatusEnum.RUNING.getStatus());
+			query.setUserId(tokenUserInfo.getUserId());
+			query.setOrderBy("create_time desc");
+			query.setPageNo(1);
+			query.setPageSize(1);
+			PaginationResultVO<MeetingInfo> result = this.meetingInfoService.findListByPage(query);
+			if (result != null && result.getList() != null && !result.getList().isEmpty()) {
+				targetMeetingId = result.getList().get(0).getMeetingId();
+			}
+		}
 		
 		if (StringUtils.isEmpty(targetMeetingId)) {
 			return getFailResponseVO("褰撳墠娌℃湁杩涜涓殑浼氳");

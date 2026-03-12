@@ -9,6 +9,9 @@
         <button class="meeting-info-btn" @click="showMeetingInfo">
           <span class="meeting-info-text">会议详情</span>
         </button>
+        <button class="meeting-info-btn invite-header-btn" @click="inviteParticipants">
+          <span class="meeting-info-text">邀请成员</span>
+        </button>
       </div>
 
       <!-- 右上角：窗口控制按钮 -->
@@ -340,19 +343,19 @@
               <h4>常规设置</h4>
               <div class="setting-option">
                 <label>
-                  <input type="checkbox" v-model="settings.autoMute">
+                  <input type="checkbox" v-model="settings.autoMute" @change="handleAutoMuteSettingChange">
                   加入会议时自动静音
                 </label>
               </div>
               <div class="setting-option">
                 <label>
-                  <input type="checkbox" v-model="settings.autoVideo">
+                  <input type="checkbox" v-model="settings.autoVideo" @change="handleAutoVideoSettingChange">
                   加入会议时自动开启视频
                 </label>
               </div>
               <div class="setting-option">
                 <label>
-                  <input type="checkbox" v-model="settings.showNotifications">
+                  <input type="checkbox" v-model="settings.showNotifications" @change="handleNotificationSettingChange">
                   显示会议通知
                 </label>
               </div>
@@ -851,6 +854,59 @@ const cameraUnavailableShortTitle = computed(() => {
 // 设置相关
 const activeSettingsTab = ref('general')
 const settings = ref({
+  autoMute: !settingsManager.shouldDefaultAudioOn(),
+  autoVideo: settingsManager.shouldDefaultVideoOn(),
+  showNotifications: settingsManager.shouldShowDesktopNotification()
+})
+let settingsManagerUnsubscribe = null
+
+const syncMeetingSettings = (newSettings = settingsManager.getAll()) => {
+  settings.value = {
+    autoMute: !Boolean(newSettings.defaultAudioOn),
+    autoVideo: Boolean(newSettings.defaultVideoOn),
+    showNotifications: Boolean(newSettings.desktopNotification || newSettings.soundNotification)
+  }
+  autoVideoPreference.value = Boolean(newSettings.defaultVideoOn)
+}
+
+const persistMeetingSettings = (overrides) => {
+  const mergedSettings = {
+    ...settingsManager.getAll(),
+    ...overrides
+  }
+  settingsManager.saveSettings(mergedSettings)
+  syncMeetingSettings(mergedSettings)
+}
+
+const handleAutoMuteSettingChange = () => {
+  const shouldMuteOnJoin = settings.value.autoMute
+
+  persistMeetingSettings({
+    defaultAudioOn: !shouldMuteOnJoin
+  })
+
+  ElMessage.success('入会音频偏好已保存')
+}
+
+const handleAutoVideoSettingChange = () => {
+  const shouldEnableVideoOnJoin = settings.value.autoVideo
+
+  persistMeetingSettings({
+    defaultVideoOn: shouldEnableVideoOnJoin
+  })
+
+  ElMessage.success('入会视频偏好已保存')
+}
+
+const handleNotificationSettingChange = () => {
+  persistMeetingSettings({
+    desktopNotification: settings.value.showNotifications,
+    soundNotification: settings.value.showNotifications
+  })
+
+  ElMessage.success('通知偏好已保存')
+}
+const legacyMeetingSettings = ref({
   autoMute: false,
   autoVideo: false,  // 默认不自动开启视频
   showNotifications: true
@@ -1860,8 +1916,8 @@ const toggleMute = async () => {
   try {
     console.log('🎤 切换静音状态，当前:', isMuted.value)
     
-    // 如果要解除静音但没有本地流，先获取音频流
-    if (!isMuted.value && !localStream.value) {
+    // 如果当前处于静音且没有本地流，先获取音频流再解除静音
+    if (isMuted.value && !localStream.value) {
       console.log('🎤 没有本地流，先获取音频流')
       await getAudioStream()
       return
@@ -1980,6 +2036,9 @@ const getUserMediaWithAudio = async () => {
     localStream.value = stream
     clearCameraUnavailableState()
     clearCameraUnavailableState()
+    stream.getAudioTracks().forEach(track => {
+      track.enabled = !isMuted.value
+    })
     
     // 更新本地视频显示
     if (isVideoOn.value && localVideo.value) {
@@ -3321,7 +3380,7 @@ const endMeeting = async () => {
   if (confirm('确定要结束会议吗？')) {
     try {
       // 调用后端API结束会议
-      const response = await meetingService.finishMeeting()
+      const response = await meetingService.finishMeeting(meetingId.value)
       console.log('结束会议成功:', response)
       
       // 确保后端响应成功
@@ -3761,6 +3820,10 @@ if (typeof window !== 'undefined') {
 }
 
 onMounted(async () => {
+  syncMeetingSettings()
+  settingsManagerUnsubscribe = settingsManager.onChange((newSettings) => {
+    syncMeetingSettings(newSettings)
+  })
   await loadUserInfo()
   
   // 检查是否从即时会议邀请跳转过来（有 meetingNo 和 password 参数）
@@ -3852,6 +3915,8 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
+  settingsManagerUnsubscribe?.()
+  settingsManagerUnsubscribe = null
   // 停止会议时长计时器
   stopMeetingDurationTimer()
   
@@ -3960,6 +4025,16 @@ onUnmounted(() => {
 .meeting-info-btn:hover {
   background-color: rgba(153, 153, 153, 0.2);
   border-color: #999999;
+}
+
+.invite-header-btn {
+  background-color: rgba(20, 184, 166, 0.18);
+  border-color: rgba(45, 212, 191, 0.38);
+}
+
+.invite-header-btn:hover {
+  background-color: rgba(20, 184, 166, 0.28);
+  border-color: rgba(45, 212, 191, 0.58);
 }
 
 /* 顶部栏中的会议时长显示 */

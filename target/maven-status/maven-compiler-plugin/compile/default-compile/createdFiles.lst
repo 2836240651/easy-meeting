@@ -128,6 +128,7 @@ com\easymeeting\entity\dto\MeetingJoinDto.class
 com\easymeeting\controller\AppUpdateController.class
 com\easymeeting\entity\dto\MeetingExitDto.class
 com\easymeeting\utils\SnowFlakeUtils.class
+com\easymeeting\service\impl\MeetingInviteMailService.class
 com\easymeeting\mappers\MeetingMemberMapper.class
 com\easymeeting\config\AIConfig.class
 com\easymeeting\controller\ABaseController.class

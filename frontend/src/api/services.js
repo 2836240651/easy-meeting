@@ -187,10 +187,10 @@ export const systemService = {
 
 // 用户设置 API
 export const settingsService = {
-  getUserSettings: () => api.get('/api/settings/get'),
-  saveUserSettings: (settings) => api.post('/api/settings/save', settings),
+  getUserSettings: () => api.get('/settings/get'),
+  saveUserSettings: (settings) => api.post('/settings/save', settings),
   changePassword: (oldPassword, newPassword) =>
-    api.post('/api/settings/changePassword', { oldPassword, newPassword })
+    api.post('/settings/changePassword', { oldPassword, newPassword })
 }
 
 // 便捷方法导出
